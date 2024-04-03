@@ -8,8 +8,9 @@ import {
   View,
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseConfig from "../../firebase.config"; // Importe sua configuração do Firebase
+import { Auth } from "firebase/auth";
 
 export default function CadastroUsuario() {
   const [nome, setNome] = useState("");

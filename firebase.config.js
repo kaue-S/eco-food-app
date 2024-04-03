@@ -17,4 +17,4 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // Obter a instância do serviço de autenticação
-export const auth = getAuth(firebaseApp);
+export default auth = getAuth(firebaseApp);
