@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splashscreen.png",
+      "image": "./assets/images/splashsEcoFood3.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
