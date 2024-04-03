@@ -9,33 +9,66 @@ import {
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import firebaseConfig from "../../firebase.config"; // Importe sua configuração do Firebase
-import { Auth } from "firebase/auth";
+import { auth } from "../../firebase.config";
 
-export default function CadastroUsuario() {
+
+export default function CadastroUsuario({navigation}) {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
   const cadastrar = async () => {
-    if (!nome || !email || !senha) {
-      Alert.alert("Atenção", "Preencha nome, email e senha");
+    if (!email || !senha || !nome) {
+      Alert.alert("Atenção!", "Preencha nome, e-mail e senha!");
       return;
     }
 
     try {
-      const auth = getAuth(); // Obter uma instância de autenticação do Firebase
       const contaUsuario = await createUserWithEmailAndPassword(
-        // Criar usuário com email e senha
         auth,
         email,
         senha
       );
-      console.log("Conta criada:", contaUsuario);
+
+      if (contaUsuario.user) {
+        await updateProfile(auth.currentUser, { displayName: nome });
+        console.log(contaUsuario.user.displayName);
+      }
+
+      Alert.alert("Cadastro", "Seu cadastro foi concluído com sucesso!", [
+        {
+          style: "cancel",
+          text: "Ficar aqui mesmo",
+          onPress: () => {
+            return;
+          },
+        },
+        {
+          style: "default",
+          text: "Ir para a área logada",
+          onPress: () => navigation.replace("AreaLogada"),
+        },
+      ]);
     } catch (error) {
-      console.error("Erro ao criar conta:", error);
+      // console.error(error.code);
+      let mensagem;
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          mensagem = "E-mail já cadastrado!";
+          break;
+        case "auth/weak-password":
+          mensagem = "Senha fraca (mínimo de 6 caracteres)";
+          break;
+        case "auth/invalid-email":
+          mensagem = "Endereço de e-mail inválido!";
+          break;
+        default:
+          mensagem = "Houve um erro, tente mais tarde!";
+          break;
+      }
+      Alert.alert("Ops!", mensagem);
     }
-  };
+  }
 
   return (
     <SafeContainer>
