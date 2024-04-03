@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+
+import { StyleSheet, Text, View, SafeAreaView, StatusBar  } from "react-native";
 import CadastroUsuario from "./src/screens/CadastroUsuario";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,13 +11,17 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar />
+      <StatusBar barStyle={"light-content"}/>
       <NavigationContainer>
-        {/* <Stack.Navigator>
-
-        </Stack.Navigator> */}
-          <Inicial />
-          <CadastroUsuario />
+        <Stack.Navigator initialRouteName="Inicial">
+          <Stack.Screen name="Inicial" component={Inicial} options={{headerShown: false}}/>
+          <Stack.Screen name="Cadastro" component={CadastroUsuario} options={{
+            title: "Crie sua conta",
+            headerStyle: {backgroundColor: "green"},
+            headerTintColor: "#fff",
+          }}/>
+          
+        </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
   );
