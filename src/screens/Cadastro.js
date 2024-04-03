@@ -4,9 +4,9 @@ import SafeContainer from "../components/SafeContainer";
 
 export default function Cadastro() {
   return (
-    <SafeContainer>
+    <View>
       <Text>Cadastro</Text>
-    </SafeContainer>
+    </View>
   );
 }
 
