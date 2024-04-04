@@ -11,8 +11,7 @@ import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase.config";
 
-
-export default function CadastroUsuario({navigation}) {
+export default function CadastroUsuario({ navigation }) {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -46,7 +45,7 @@ export default function CadastroUsuario({navigation}) {
         {
           style: "default",
           text: "Ir para a área logada",
-          onPress: () => navigation.replace("AreaLogada"),
+          onPress: () => navigation.replace("Home"),
         },
       ]);
     } catch (error) {
@@ -68,7 +67,7 @@ export default function CadastroUsuario({navigation}) {
       }
       Alert.alert("Ops!", mensagem);
     }
-  }
+  };
 
   return (
     <SafeContainer>
