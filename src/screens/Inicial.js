@@ -5,6 +5,7 @@ export default function Inicial({ navigation }) {
   return (
     <SafeContainer>
       <View style={styles.container}>
+        <Text>teste a e o u </Text>
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.botaoCadastrar}

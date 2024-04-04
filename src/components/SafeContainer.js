@@ -10,7 +10,7 @@ SplashScreen.preventAutoHideAsync();
 export default function SafeContainer({ children }) {
   const [fontsLoaded, fontError] = useFonts({
     Barlow: require("../../assets/fonts/Barlow-Regular.ttf"),
-    NotoSans: require("../../assets/fonts/Comfortaa-Regular.ttf"),
+    Comfortaa: require("../../assets/fonts/Comfortaa-Regular.ttf"),
   });
 
   const aoAtualizarLayout = useCallback(async () => {
