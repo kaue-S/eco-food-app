@@ -5,10 +5,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
-import { Fontisto } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Fontisto } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase.config";
@@ -75,23 +75,26 @@ export default function CadastroUsuario({ navigation }) {
     <SafeContainer>
       <View style={styles.formulario}>
         <View style={styles.campoCadastro}>
-
-        <TextInput
-          placeholder="Nome Completo"
-          style={styles.input}
-          keyboardType="default"
-          onChangeText={(valor) => setNome(valor)}
-
-        />
+          <TextInput
+            placeholder="Nome Completo"
+            style={styles.input}
+            keyboardType="default"
+            onChangeText={(valor) => setNome(valor)}
+          />
         </View>
         <View style={styles.campoCadastro}>
-        <TextInput
-          placeholder="E-mail"
-          style={styles.input}
-          keyboardType="email-address"
-          onChangeText={(valor) => setEmail(valor)}
-        />
-          <MaterialIcons style={styles.iconeInput} name="email" size={24} color="black" />
+          <TextInput
+            placeholder="E-mail"
+            style={styles.input}
+            keyboardType="email-address"
+            onChangeText={(valor) => setEmail(valor)}
+          />
+          <MaterialIcons
+            style={styles.iconeInput}
+            name="email"
+            size={24}
+            color="black"
+          />
         </View>
 
         <View style={styles.campoCadastro}>
@@ -102,7 +105,12 @@ export default function CadastroUsuario({ navigation }) {
             secureTextEntry
             onChangeText={(valor) => setSenha(valor)}
           />
-          <Fontisto style={styles.iconeInput} name="locked" size={24} color="black" />
+          <Fontisto
+            style={styles.iconeInput}
+            name="locked"
+            size={24}
+            color="black"
+          />
         </View>
         <TouchableOpacity
           style={styles.botaoCadastro}
@@ -127,13 +135,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderWidth: 1,
     borderRadius: 10,
-   },  
+  },
 
   input: {
     height: 50,
     padding: 8,
-    borderWidth: 1,
-    
+    width: "90%",
   },
 
   iconeInput: {
