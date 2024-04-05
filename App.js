@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Inicial from "./src/screens/Inicial";
 import LoginUsuario from "./src/screens/LoginUsuario";
 import Home from "./src/screens/Home";
+import { ScreenStackHeaderLeftView } from "react-native-screens";
 // import {  } from "react-native-safe-area-context";
 
 const Stack = createNativeStackNavigator();
@@ -38,7 +39,11 @@ export default function App() {
               headerTintColor: "#fff",
             }}
           />
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
