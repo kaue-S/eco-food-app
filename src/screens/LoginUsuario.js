@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
-import { auth } from "../../firebase.config";
 
 export default function LoginUsuario({ navigation }) {
   const [email, setEmail] = useState("");
