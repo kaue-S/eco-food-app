@@ -5,8 +5,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
+import { Fontisto } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase.config";
@@ -72,25 +74,36 @@ export default function CadastroUsuario({ navigation }) {
   return (
     <SafeContainer>
       <View style={styles.formulario}>
+        <View style={styles.campoCadastro}>
+
         <TextInput
           placeholder="Nome Completo"
           style={styles.input}
           keyboardType="default"
           onChangeText={(valor) => setNome(valor)}
+
         />
+        </View>
+        <View style={styles.campoCadastro}>
         <TextInput
           placeholder="E-mail"
           style={styles.input}
           keyboardType="email-address"
           onChangeText={(valor) => setEmail(valor)}
         />
-        <TextInput
-          placeholder="Senha"
-          style={styles.input}
-          keyboardType="default"
-          secureTextEntry
-          onChangeText={(valor) => setSenha(valor)}
-        />
+          <MaterialIcons style={styles.iconeInput} name="email" size={24} color="black" />
+        </View>
+
+        <View style={styles.campoCadastro}>
+          <TextInput
+            placeholder="Senha"
+            style={styles.input}
+            keyboardType="default"
+            secureTextEntry
+            onChangeText={(valor) => setSenha(valor)}
+          />
+          <Fontisto style={styles.iconeInput} name="locked" size={24} color="black" />
+        </View>
         <TouchableOpacity
           style={styles.botaoCadastro}
           onPress={cadastrar}
@@ -108,11 +121,23 @@ const styles = StyleSheet.create({
     gap: 15,
   },
 
-  input: {
+  campoCadastro: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     borderWidth: 1,
+    borderRadius: 10,
+   },  
+
+  input: {
     height: 50,
     padding: 8,
-    borderRadius: 10,
+    borderWidth: 1,
+    
+  },
+
+  iconeInput: {
+    marginRight: 10,
   },
 
   botaoCadastro: {
