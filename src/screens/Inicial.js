@@ -15,7 +15,14 @@ export default function Inicial({ navigation }) {
         >
           <Text style={styles.textoBotao}>cadastrar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.botaoLogin} activeOpacity={0.8}>
+
+        <TouchableOpacity
+          style={styles.botaoLogin}
+          activeOpacity={0.7}
+          onPress={() => {
+            navigation.navigate("LoginUsuario");
+          }}
+        >
           <Text style={styles.textoBotao}>login</Text>
         </TouchableOpacity>
       </View>

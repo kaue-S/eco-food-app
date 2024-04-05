@@ -6,14 +6,16 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth } from "../../firebase.config";
 
 export default function LoginUsuario({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const Logar = async () => {
     try {
@@ -22,14 +24,22 @@ export default function LoginUsuario({ navigation }) {
         return;
       }
 
-      // Após o login bem-sucedido, você pode navegar para outra tela, por exemplo:
+      setLoading(true);
+
+      const authInstance = getAuth();
+      await signInWithEmailAndPassword(authInstance, email, senha);
       navigation.navigate("Home");
     } catch (error) {
-      console.error("Erro ao fazer login:", error.message);
-      Alert.alert(
-        "Erro",
-        "Não foi possível fazer login. Verifique suas credenciais e tente novamente."
-      );
+      let errorMessage = "O e-mail ou a senha está incorreto.";
+      if (
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/user-not-found"
+      ) {
+        errorMessage = "O e-mail ou a senha está incorreto.";
+      }
+      Alert.alert("Erro", errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,8 +63,13 @@ export default function LoginUsuario({ navigation }) {
           style={styles.botaoLogin}
           onPress={Logar}
           activeOpacity={0.8}
+          disabled={loading}
         >
-          <Text style={styles.textoBotao}>Login</Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text style={styles.textoBotao}>Login</Text>
+          )}
         </TouchableOpacity>
       </View>
     </SafeContainer>
@@ -85,5 +100,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textTransform: "uppercase",
     fontWeight: "bold",
+    color: "#fff",
   },
 });
