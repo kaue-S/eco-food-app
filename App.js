@@ -6,6 +6,7 @@ import Inicial from "./src/screens/Inicial";
 import LoginUsuario from "./src/screens/LoginUsuario";
 import Home from "./src/screens/Home";
 import { ScreenStackHeaderLeftView } from "react-native-screens";
+import Carrinho from "./src/screens/Carrinho";
 // import {  } from "react-native-safe-area-context";
 
 const Stack = createNativeStackNavigator();
@@ -42,6 +43,11 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={Home}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Carrinho"
+            component={Carrinho}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

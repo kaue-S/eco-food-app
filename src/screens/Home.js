@@ -1,5 +1,11 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 
 export default function Home({ navigation }) {
   return (
@@ -11,6 +17,12 @@ export default function Home({ navigation }) {
       >
         <Text style={styles.buttonText}>Sair</Text>
       </TouchableOpacity>
+      <Pressable
+        style={styles.button}
+        onPress={() => navigation.navigate("Carrinho")}
+      >
+        <Text style={styles.buttonText}>Carrinho</Text>
+      </Pressable>
     </View>
   );
 }
