@@ -1,18 +1,98 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  Alert,
+  Image,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function Produto({ produto }) {
+  const [aparecerModal, setAparecerModal] = useState(false);
+  const [quantidadeNoCarrinho, setQuantidadeNoCarrinho] = useState(0);
+
   const navigation = useNavigation();
+  const verProduto = () => {
+    setAparecerModal(true);
+  };
+  const cancelar = () => {
+    setAparecerModal(false);
+    setQuantidadeNoCarrinho(0);
+    return;
+  };
+
+  const tirarQuantidade = () => {
+    if (quantidadeNoCarrinho <= 0) {
+      return;
+    } else {
+      setQuantidadeNoCarrinho(quantidadeNoCarrinho - 1);
+    }
+  };
+  const addQuantidade = () => {
+    if (quantidadeNoCarrinho === produto.quantidade) {
+      return;
+    } else {
+      setQuantidadeNoCarrinho(quantidadeNoCarrinho + 1);
+    }
+  };
+
   return (
-    <Pressable onPress={() => navigation.navigate("AddCarrinho", { produto })}>
-      <Image
-        style={estilos.imagemProduto}
-        source={{ uri: `${produto.foto}` }}
-      />
-      <Text>{produto.nome}</Text>
-      <Text>Preço: {produto.preco}</Text>
-    </Pressable>
+    <>
+      <Pressable key={produto.id} onPress={verProduto}>
+        <Image
+          style={estilos.imagemProduto}
+          source={{ uri: `${produto.foto}` }}
+        />
+        <Text>{produto.nome}</Text>
+        <Text>Preço: R$ {produto.preco} </Text>
+      </Pressable>
+      <Modal
+        style={estilos.modal}
+        animationType="slide"
+        visible={aparecerModal}
+        transparent={true}
+      >
+        <View style={estilos.viewModal}>
+          <Pressable onPress={cancelar} style={estilos.fecharModal}>
+            <AntDesign name="closecircle" size={24} color="black" />
+          </Pressable>
+          <Image
+            style={estilos.imagemProduto}
+            source={{ uri: `${produto.foto}` }}
+          />
+          <Text>{produto.nome}</Text>
+          <Text>Preço: R$ {produto.preco} </Text>
+          <Text>mercado: {produto.mercado}</Text>
+
+          <View style={estilos.viewBotoes}>
+            <Text>quantidade:</Text>
+            <View style={estilos.viewBotoes}>
+              <Pressable
+                style={estilos.botaoCancelar}
+                onPress={tirarQuantidade}
+              >
+                <Text>-</Text>
+              </Pressable>
+
+              <Text>{quantidadeNoCarrinho}</Text>
+
+              <Pressable style={estilos.botaoCancelar} onPress={addQuantidade}>
+                <Text>+</Text>
+              </Pressable>
+            </View>
+          </View>
+          <View>
+            <Pressable style={estilos.botaoCancelar} onPress={cancelar}>
+              <Text>Adicionar ao Carrinho</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 }
 
@@ -20,5 +100,29 @@ const estilos = StyleSheet.create({
   imagemProduto: {
     width: 100,
     height: 100,
+  },
+  botaoCancelar: {
+    backgroundColor: "red",
+    padding: 18,
+    margin: 12,
+  },
+  viewModal: {
+    backgroundColor: "#F29199",
+    padding: 20,
+    borderRadius: 10,
+    justifyContent: "center",
+    elevation: 5,
+    marginTop: 200,
+  },
+  modal: {
+    flex: 1,
+  },
+  viewBotoes: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  fecharModal: {
+    margin: 12,
   },
 });
