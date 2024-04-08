@@ -22,12 +22,15 @@ export default function Inicial({ navigation }) {
   return (
     <SafeContainer onLayout={onLayoutRootView}>
       <View style={styles.container}>
-        <View style={styles.blocoLogo}>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/images/LogoECOFOOD.png")}
-          />
+        <Image
+          style={styles.logo}
+          source={require("../../assets/images/LogoECOFOOD.png")}
+        />
+        <View style={styles.frase}>
+          <Text style={styles.textofrase}>Que bom ter você conosco</Text>
+          <Text style={styles.textofrase}> Vamos poupar alimentos!</Text>
         </View>
+
         <Pressable
           style={styles.botaoCadastrar}
           onPress={() => {
@@ -42,7 +45,7 @@ export default function Inicial({ navigation }) {
             navigation.navigate("LoginUsuario");
           }}
         >
-          <Text style={styles.textoBotao}>Login</Text>
+          <Text style={styles.textoBotao}>Entrar</Text>
         </Pressable>
       </View>
     </SafeContainer>
@@ -52,23 +55,29 @@ export default function Inicial({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    gap: 25,
   },
-
-  blocoLogo: {
-    marginBottom: 10,
+  frase: {
+    marginBottom: "15%",
+  },
+  textofrase: {
+    fontFamily: "Comfortaa",
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#466060",
   },
 
   logo: {
-    width: 250,
-    height: 250,
+    marginTop: "30%",
+    width: 300,
+    height: 300,
     resizeMode: "contain",
   },
 
   botaoCadastrar: {
     height: 50,
-    width: 200,
+    width: "65%",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -78,7 +87,7 @@ const styles = StyleSheet.create({
 
   botaoLogin: {
     height: 50,
-    width: 200,
+    width: "65%",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
