@@ -7,6 +7,7 @@ import LoginUsuario from "./src/screens/LoginUsuario";
 import Home from "./src/screens/Home";
 import { ScreenStackHeaderLeftView } from "react-native-screens";
 import Carrinho from "./src/screens/Carrinho";
+import AddCarrinho from "./src/screens/AddCarrinho";
 // import {  } from "react-native-safe-area-context";
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +50,11 @@ export default function App() {
             name="Carrinho"
             component={Carrinho}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AddCarrinho"
+            component={AddCarrinho}
+            options={{ headerShown: true }}
           />
         </Stack.Navigator>
       </NavigationContainer>

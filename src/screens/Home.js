@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
+import arrayProdutos from "../api/arrayDeProdutos";
+import Produto from "../components/Produto";
 
 export default function Home({ navigation }) {
   return (
@@ -23,6 +25,12 @@ export default function Home({ navigation }) {
       >
         <Text style={styles.buttonText}>Carrinho</Text>
       </Pressable>
+
+      <View style={styles.viewProdutos}>
+        {arrayProdutos.map((itemProduto) => {
+          return <Produto produto={itemProduto} />;
+        })}
+      </View>
     </View>
   );
 }
