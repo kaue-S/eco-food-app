@@ -14,6 +14,7 @@ import { AntDesign } from "@expo/vector-icons";
 export default function Produto({ produto }) {
   const [aparecerModal, setAparecerModal] = useState(false);
   const [quantidadeNoCarrinho, setQuantidadeNoCarrinho] = useState(0);
+  const [totalCompra, setTotalCompra] = useState(0);
 
   const navigation = useNavigation();
   const verProduto = () => {
@@ -22,6 +23,7 @@ export default function Produto({ produto }) {
   const cancelar = () => {
     setAparecerModal(false);
     setQuantidadeNoCarrinho(0);
+    setTotalCompra(0);
     return;
   };
 
@@ -30,6 +32,9 @@ export default function Produto({ produto }) {
       return;
     } else {
       setQuantidadeNoCarrinho(quantidadeNoCarrinho - 1);
+      if (totalCompra !== 0) {
+        setTotalCompra(totalCompra - produto.preco);
+      }
     }
   };
   const addQuantidade = () => {
@@ -37,6 +42,11 @@ export default function Produto({ produto }) {
       return;
     } else {
       setQuantidadeNoCarrinho(quantidadeNoCarrinho + 1);
+      if (quantidadeNoCarrinho === 0 || quantidadeNoCarrinho === 4) {
+        setTotalCompra(produto.preco);
+      } else if (quantidadeNoCarrinho > 1) {
+        setTotalCompra(quantidadeNoCarrinho * produto.preco);
+      }
     }
   };
 
@@ -86,6 +96,9 @@ export default function Produto({ produto }) {
             </View>
           </View>
           <View>
+            <Text>Total: {totalCompra} </Text>
+          </View>
+          <View>
             <Pressable style={estilos.botaoCancelar} onPress={cancelar}>
               <Text>Adicionar ao Carrinho</Text>
             </Pressable>
@@ -124,5 +137,6 @@ const estilos = StyleSheet.create({
   },
   fecharModal: {
     margin: 12,
+    padding: 12,
   },
 });
