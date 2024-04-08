@@ -1,9 +1,26 @@
-import { TouchableOpacity, View, StyleSheet, Text, Image } from "react-native";
+import React, { useCallback } from "react";
+import { View, StyleSheet, Text, Image, Pressable } from "react-native";
 import SafeContainer from "../components/SafeContainer";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 export default function Inicial({ navigation }) {
+  const [fontsLoaded, fontError] = useFonts({
+    Comfortaa: require("../../assets/fonts/Comfortaa-Regular.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded && !fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded || fontError) {
+    return null;
+  }
+
   return (
-    <SafeContainer>
+    <SafeContainer onLayout={onLayoutRootView}>
       <View style={styles.container}>
         <View style={styles.blocoLogo}>
           <Image
@@ -11,25 +28,22 @@ export default function Inicial({ navigation }) {
             source={require("../../assets/images/LogoECOFOOD.png")}
           />
         </View>
-        <TouchableOpacity
-          activeOpacity={0.9}
+        <Pressable
           style={styles.botaoCadastrar}
           onPress={() => {
             navigation.navigate("Cadastro");
           }}
         >
-          <Text style={styles.textoBotao}>cadastrar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
+          <Text style={styles.textoBotao}>Cadastrar</Text>
+        </Pressable>
+        <Pressable
           style={styles.botaoLogin}
-          activeOpacity={0.9}
           onPress={() => {
             navigation.navigate("LoginUsuario");
           }}
         >
-          <Text style={styles.textoBotao}>login</Text>
-        </TouchableOpacity>
+          <Text style={styles.textoBotao}>Login</Text>
+        </Pressable>
       </View>
     </SafeContainer>
   );
@@ -37,14 +51,13 @@ export default function Inicial({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 15,
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
   },
 
   blocoLogo: {
-    justifyContent: "center",
-    alignItems: "center",
+    marginBottom: 10,
   },
 
   logo: {
@@ -53,30 +66,29 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
 
-  titulo: {
-    fontSize: 40,
-  },
-
   botaoCadastrar: {
     height: 50,
+    width: 200,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "green",
+    backgroundColor: "#a8cf45",
+    marginBottom: 10,
   },
 
   botaoLogin: {
     height: 50,
+    width: 200,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "blue",
+    backgroundColor: "#eca457",
+    marginBottom: 10,
   },
 
   textoBotao: {
-    fontSize: 16,
-    textTransform: "uppercase",
-    fontWeight: "bold",
-    color: "white",
+    fontSize: 18,
+    color: "#466060",
+    fontFamily: "Comfortaa",
   },
 });
