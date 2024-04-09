@@ -51,6 +51,7 @@ const arrayProdutos = [
       },
     },
     contem: "Glutém, aveia, trigo, cevada,protéina do leite",
+    desconto: 0.5,
   },
   {
     id: 2,
@@ -62,39 +63,48 @@ const arrayProdutos = [
     mercado_id: 2,
     tabelaNutricional: {
       calorias: {
+        nome: " Calorias (valor energético)",
         quantidade: "46.95 kcal",
         vd: "2.35%",
       },
       carboidratos_liquidos: {
+        nome: "Carboidratos líquidos",
         quantidade: "8.55 g",
         vd: "-",
       },
       carboidratos: {
+        nome: "Carboidratos",
         quantidade: "8.55 g",
         vd: "2.85%",
       },
       proteinas: {
+        nome: "Proteínas",
         quantidade: "1.16 g",
         vd: "0.39%",
       },
       gorduras_totais: {
+        nome: "Gorduras totais",
         quantidade: "1.01 g",
         vd: "1.83%",
       },
       gorduras_saturadas: {
+        nome: "Gorduras saturadas",
         quantidade: "0.63 g",
         vd: "2.86%",
       },
       fibra_alimentar: {
+        nome: "Fibra alimentar",
         quantidade: "0.00 g",
         vd: "0.00%",
       },
       sodio: {
+        nome: "Sódio",
         quantidade: "14.10 mg",
         vd: "0.59%",
       },
     },
     contem: "Glutém, aveia, trigo, cevada,protéina do leite",
+    desconto: 0.25,
   },
   {
     id: 3,
@@ -106,39 +116,48 @@ const arrayProdutos = [
     mercado_id: 3,
     tabelaNutricional: {
       calorias: {
+        nome: " Calorias (valor energético)",
         quantidade: "46.95 kcal",
         vd: "2.35%",
       },
       carboidratos_liquidos: {
+        nome: "Carboidratos líquidos",
         quantidade: "8.55 g",
         vd: "-",
       },
       carboidratos: {
+        nome: "Carboidratos",
         quantidade: "8.55 g",
         vd: "2.85%",
       },
       proteinas: {
+        nome: "Proteínas",
         quantidade: "1.16 g",
         vd: "0.39%",
       },
       gorduras_totais: {
+        nome: "Gorduras totais",
         quantidade: "1.01 g",
         vd: "1.83%",
       },
       gorduras_saturadas: {
+        nome: "Gorduras saturadas",
         quantidade: "0.63 g",
         vd: "2.86%",
       },
       fibra_alimentar: {
+        nome: "Fibra alimentar",
         quantidade: "0.00 g",
         vd: "0.00%",
       },
       sodio: {
+        nome: "Sódio",
         quantidade: "14.10 mg",
         vd: "0.59%",
       },
     },
     contem: "Glutém, aveia, trigo, cevada,protéina do leite",
+    desconto: 0.48,
   },
   {
     id: 4,
@@ -150,39 +169,48 @@ const arrayProdutos = [
     mercado_id: 4,
     tabelaNutricional: {
       calorias: {
+        nome: " Calorias (valor energético)",
         quantidade: "46.95 kcal",
         vd: "2.35%",
       },
       carboidratos_liquidos: {
+        nome: "Carboidratos líquidos",
         quantidade: "8.55 g",
         vd: "-",
       },
       carboidratos: {
+        nome: "Carboidratos",
         quantidade: "8.55 g",
         vd: "2.85%",
       },
       proteinas: {
+        nome: "Proteínas",
         quantidade: "1.16 g",
         vd: "0.39%",
       },
       gorduras_totais: {
+        nome: "Gorduras totais",
         quantidade: "1.01 g",
         vd: "1.83%",
       },
       gorduras_saturadas: {
+        nome: "Gorduras saturadas",
         quantidade: "0.63 g",
         vd: "2.86%",
       },
       fibra_alimentar: {
+        nome: "Fibra alimentar",
         quantidade: "0.00 g",
         vd: "0.00%",
       },
       sodio: {
+        nome: "Sódio",
         quantidade: "14.10 mg",
         vd: "0.59%",
       },
     },
     contem: "agrotóxicos",
+    desconto: 0.12,
   },
 ]; // fim do array de objetos produtos
 

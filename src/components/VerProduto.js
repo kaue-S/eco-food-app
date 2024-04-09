@@ -57,7 +57,14 @@ export default function VerProduto({ produto }) {
         source={{ uri: `${produto.foto}` }}
       />
       <Text>{produto.nome}</Text>
-      <Text>Preço: R$ {produto.preco} </Text>
+      <Text>
+        Preço:{" "}
+        {produto.preco.toLocaleString("pt-br", {
+          style: "currency",
+          currency: "BRL",
+          minimumFractionDigits: 2,
+        })}
+      </Text>
       <Text>mercado: {comerciante[0].nome}</Text>
 
       {verDetalhes && (
@@ -96,7 +103,14 @@ export default function VerProduto({ produto }) {
         </View>
       </View>
       <View>
-        <Text>Total: {totalCompra} </Text>
+        <Text>
+          Total:
+          {totalCompra.toLocaleString("pt-br", {
+            style: "currency",
+            currency: "BRL",
+            minimumFractionDigits: 2,
+          })}
+        </Text>
       </View>
       <View>
         <Pressable style={estilos.botaoCancelar}>
