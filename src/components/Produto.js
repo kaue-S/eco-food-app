@@ -37,6 +37,7 @@ export default function Produto({ produto }) {
       setTotalCompra(novaQuantidade * produto.preco);
     }
   };
+
   const addQuantidade = () => {
     if (quantidadeNoCarrinho >= produto.quantidade) {
       return;
