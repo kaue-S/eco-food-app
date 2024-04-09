@@ -28,25 +28,22 @@ export default function Produto({ produto }) {
   };
 
   const tirarQuantidade = () => {
-    if (quantidadeNoCarrinho <= 0) {
-      return;
+    if (quantidadeNoCarrinho < 1) {
+      return setTotalCompra(0);
     } else {
-      setQuantidadeNoCarrinho(quantidadeNoCarrinho - 1);
-      if (totalCompra !== 0) {
-        setTotalCompra(totalCompra - produto.preco);
-      }
+      let novaQuantidade = quantidadeNoCarrinho - 1;
+      setQuantidadeNoCarrinho(novaQuantidade);
+
+      setTotalCompra(novaQuantidade * produto.preco);
     }
   };
   const addQuantidade = () => {
-    if (quantidadeNoCarrinho === produto.quantidade) {
+    if (quantidadeNoCarrinho >= produto.quantidade) {
       return;
     } else {
-      setQuantidadeNoCarrinho(quantidadeNoCarrinho + 1);
-      if (quantidadeNoCarrinho === 0 || quantidadeNoCarrinho === 4) {
-        setTotalCompra(produto.preco);
-      } else if (quantidadeNoCarrinho > 1) {
-        setTotalCompra(quantidadeNoCarrinho * produto.preco);
-      }
+      let novaQuantidade = quantidadeNoCarrinho + 1;
+      setQuantidadeNoCarrinho(novaQuantidade);
+      setTotalCompra(novaQuantidade * produto.preco);
     }
   };
 
