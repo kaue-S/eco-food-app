@@ -1,5 +1,6 @@
 import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
+import arrayComerciante from "../api/arrayDeComerciante";
 
 export default function VerProduto({ produto }) {
   const [quantidadeNoCarrinho, setQuantidadeNoCarrinho] = useState(0);
@@ -25,6 +26,11 @@ export default function VerProduto({ produto }) {
     }
   };
 
+  const comerciante = arrayComerciante.filter((comercio) => {
+    return comercio.id === produto.mercado_id;
+  });
+
+  console.log(comerciante[0]);
   return (
     <View style={estilos.viewModal}>
       <Image
@@ -33,7 +39,7 @@ export default function VerProduto({ produto }) {
       />
       <Text>{produto.nome}</Text>
       <Text>Preço: R$ {produto.preco} </Text>
-      <Text>mercado: {produto.mercado}</Text>
+      <Text>mercado: {comerciante[0].nome}</Text>
 
       <View style={estilos.viewBotoes}>
         <Text>quantidade:</Text>
