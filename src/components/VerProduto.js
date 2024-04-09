@@ -1,6 +1,15 @@
-import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import arrayComerciante from "../api/arrayDeComerciante";
+import TabelaNutricional from "./TabelaNutricional";
 
 export default function VerProduto({ produto }) {
   const [quantidadeNoCarrinho, setQuantidadeNoCarrinho] = useState(0);
@@ -33,6 +42,14 @@ export default function VerProduto({ produto }) {
 
   /* Analisando o que vem do filter */
   console.log(comerciante);
+
+  const verInformascoes = () => {
+    return setVerDetalhes(true);
+  };
+  const esconderInformascoes = () => {
+    return setVerDetalhes(false);
+  };
+
   return (
     <View style={estilos.viewModal}>
       <Image
@@ -42,13 +59,27 @@ export default function VerProduto({ produto }) {
       <Text>{produto.nome}</Text>
       <Text>Preço: R$ {produto.preco} </Text>
       <Text>mercado: {comerciante[0].nome}</Text>
-      <Pressable>
-        <Text>Mais Detalhes</Text>
-      </Pressable>
 
-      <View>
-        <Text>Contém: {produto.contem}</Text>
-      </View>
+      {verDetalhes && (
+        <Pressable onPress={esconderInformascoes}>
+          <Text>Menos Detalhes</Text>
+        </Pressable>
+      )}
+
+      {!verDetalhes && (
+        <Pressable onPress={verInformascoes}>
+          <Text>Mais Detalhes</Text>
+        </Pressable>
+      )}
+
+      {verDetalhes && (
+        <View style={estilos.maisDetalhes}>
+          <ScrollView>
+            <Text>Contém: {produto.contem}</Text>
+            <TabelaNutricional tabela={produto.tabelaNutricional} />
+          </ScrollView>
+        </View>
+      )}
 
       <View style={estilos.viewBotoes}>
         <Text>quantidade:</Text>
@@ -101,5 +132,8 @@ const estilos = StyleSheet.create({
   fecharModal: {
     margin: 12,
     padding: 12,
+  },
+  maisDetalhes: {
+    flex: 1,
   },
 });
