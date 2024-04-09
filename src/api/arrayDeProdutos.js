@@ -1,4 +1,4 @@
-/* Criando um array de produtos fake */
+/* Criando um array de objetos de produtos fake */
 const arrayProdutos = [
   {
     id: 1,
@@ -36,6 +36,6 @@ const arrayProdutos = [
     filtro: "fruta",
     mercado: "Mourão",
   },
-];
+]; // fim do array de objetos produtos
 
 export default arrayProdutos;

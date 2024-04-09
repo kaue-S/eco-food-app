@@ -3,6 +3,7 @@ import {
   Image,
   Modal,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -10,11 +11,10 @@ import {
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
+import VerProduto from "./VerProduto";
 
 export default function Produto({ produto }) {
   const [aparecerModal, setAparecerModal] = useState(false);
-  const [quantidadeNoCarrinho, setQuantidadeNoCarrinho] = useState(0);
-  const [totalCompra, setTotalCompra] = useState(0);
 
   const navigation = useNavigation();
   const verProduto = () => {
@@ -22,29 +22,7 @@ export default function Produto({ produto }) {
   };
   const cancelar = () => {
     setAparecerModal(false);
-    setQuantidadeNoCarrinho(0);
-    setTotalCompra(0);
     return;
-  };
-
-  const tirarQuantidade = () => {
-    if (quantidadeNoCarrinho < 1) {
-      return setTotalCompra(0);
-    } else {
-      let novaQuantidade = quantidadeNoCarrinho - 1;
-      setQuantidadeNoCarrinho(novaQuantidade);
-
-      setTotalCompra(novaQuantidade * produto.preco);
-    }
-  };
-  const addQuantidade = () => {
-    if (quantidadeNoCarrinho >= produto.quantidade) {
-      return;
-    } else {
-      let novaQuantidade = quantidadeNoCarrinho + 1;
-      setQuantidadeNoCarrinho(novaQuantidade);
-      setTotalCompra(novaQuantidade * produto.preco);
-    }
   };
 
   return (
@@ -63,44 +41,14 @@ export default function Produto({ produto }) {
         visible={aparecerModal}
         transparent={true}
       >
-        <View style={estilos.viewModal}>
-          <Pressable onPress={cancelar} style={estilos.fecharModal}>
-            <AntDesign name="closecircle" size={24} color="black" />
-          </Pressable>
-          <Image
-            style={estilos.imagemProduto}
-            source={{ uri: `${produto.foto}` }}
-          />
-          <Text>{produto.nome}</Text>
-          <Text>Preço: R$ {produto.preco} </Text>
-          <Text>mercado: {produto.mercado}</Text>
-
-          <View style={estilos.viewBotoes}>
-            <Text>quantidade:</Text>
-            <View style={estilos.viewBotoes}>
-              <Pressable
-                style={estilos.botaoCancelar}
-                onPress={tirarQuantidade}
-              >
-                <Text>-</Text>
-              </Pressable>
-
-              <Text>{quantidadeNoCarrinho}</Text>
-
-              <Pressable style={estilos.botaoCancelar} onPress={addQuantidade}>
-                <Text>+</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View>
-            <Text>Total: {totalCompra} </Text>
-          </View>
-          <View>
-            <Pressable style={estilos.botaoCancelar} onPress={cancelar}>
-              <Text>Adicionar ao Carrinho</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={estilos.viewModal}>
+            <Pressable onPress={cancelar} style={estilos.fecharModal}>
+              <AntDesign name="closecircle" size={24} color="black" />
             </Pressable>
+            <VerProduto produto={produto} />
           </View>
-        </View>
+        </ScrollView>
       </Modal>
     </>
   );
