@@ -5,6 +5,7 @@ import arrayComerciante from "../api/arrayDeComerciante";
 export default function VerProduto({ produto }) {
   const [quantidadeNoCarrinho, setQuantidadeNoCarrinho] = useState(0);
   const [totalCompra, setTotalCompra] = useState(0);
+  const [verDetalhes, setVerDetalhes] = useState(false);
 
   const tirarQuantidade = () => {
     if (quantidadeNoCarrinho < 1) {
@@ -30,7 +31,8 @@ export default function VerProduto({ produto }) {
     return comercio.id === produto.mercado_id;
   });
 
-  console.log(comerciante[0]);
+  /* Analisando o que vem do filter */
+  console.log(comerciante);
   return (
     <View style={estilos.viewModal}>
       <Image
@@ -40,6 +42,13 @@ export default function VerProduto({ produto }) {
       <Text>{produto.nome}</Text>
       <Text>Preço: R$ {produto.preco} </Text>
       <Text>mercado: {comerciante[0].nome}</Text>
+      <Pressable>
+        <Text>Mais Detalhes</Text>
+      </Pressable>
+
+      <View>
+        <Text>Contém: {produto.contem}</Text>
+      </View>
 
       <View style={estilos.viewBotoes}>
         <Text>quantidade:</Text>
