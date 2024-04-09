@@ -7,8 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Fontisto } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase.config";
@@ -89,12 +87,6 @@ export default function CadastroUsuario({ navigation }) {
             keyboardType="email-address"
             onChangeText={(valor) => setEmail(valor)}
           />
-          <MaterialIcons
-            style={styles.iconeInput}
-            name="email"
-            size={24}
-            color="black"
-          />
         </View>
 
         <View style={styles.campoCadastro}>
@@ -104,12 +96,6 @@ export default function CadastroUsuario({ navigation }) {
             keyboardType="default"
             secureTextEntry
             onChangeText={(valor) => setSenha(valor)}
-          />
-          <Fontisto
-            style={styles.iconeInput}
-            name="locked"
-            size={24}
-            color="black"
           />
         </View>
         <TouchableOpacity
