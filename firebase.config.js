@@ -23,6 +23,6 @@ const auth = initializeAuth(app, {
 });
 
 //Iniciação banco de dados
-const database = getDatabase(app);
+const db = getDatabase(app);
 
-export {auth, database};
+export {auth, db};
