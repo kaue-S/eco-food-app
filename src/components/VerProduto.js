@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import arrayComerciante from "../api/arrayDeComerciante";
 import TabelaNutricional from "./TabelaNutricional";
+import { formataPreco } from "../functions/funcoes";
 
 export default function VerProduto({ produto }) {
   const [quantidadeNoCarrinho, setQuantidadeNoCarrinho] = useState(0);
@@ -41,7 +42,7 @@ export default function VerProduto({ produto }) {
   });
 
   /* Analisando o que vem do filter */
-  console.log(comerciante);
+  // console.log(comerciante);
 
   const verInformascoes = () => {
     return setVerDetalhes(true);
@@ -58,23 +59,19 @@ export default function VerProduto({ produto }) {
       />
       <Text>{produto.nome}</Text>
       <Text>
-        Preço:{" "}
-        {produto.preco.toLocaleString("pt-br", {
-          style: "currency",
-          currency: "BRL",
-          minimumFractionDigits: 2,
-        })}
+        Preço:
+        {formataPreco(produto.preco)}
       </Text>
       <Text>mercado: {comerciante[0].nome}</Text>
 
       {verDetalhes && (
-        <Pressable onPress={esconderInformascoes}>
+        <Pressable style={estilos.botaoCancelar} onPress={esconderInformascoes}>
           <Text>Menos Detalhes</Text>
         </Pressable>
       )}
 
       {!verDetalhes && (
-        <Pressable onPress={verInformascoes}>
+        <Pressable style={estilos.botaoCancelar} onPress={verInformascoes}>
           <Text>Mais Detalhes</Text>
         </Pressable>
       )}
@@ -82,7 +79,7 @@ export default function VerProduto({ produto }) {
       {verDetalhes && (
         <View style={estilos.maisDetalhes}>
           <ScrollView>
-            <Text>Contém: {produto.contem}</Text>
+            <Text>Contém: {produto.descricao}</Text>
             <TabelaNutricional tabela={produto.tabelaNutricional} />
           </ScrollView>
         </View>
@@ -105,11 +102,7 @@ export default function VerProduto({ produto }) {
       <View>
         <Text>
           Total:
-          {totalCompra.toLocaleString("pt-br", {
-            style: "currency",
-            currency: "BRL",
-            minimumFractionDigits: 2,
-          })}
+          {formataPreco(totalCompra)}
         </Text>
       </View>
       <View>

@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import VerProduto from "./VerProduto";
+import { formataPreco } from "../functions/funcoes";
 
 export default function Produto({ produto }) {
   const [aparecerModal, setAparecerModal] = useState(false);
@@ -33,7 +34,7 @@ export default function Produto({ produto }) {
           source={{ uri: `${produto.foto}` }}
         />
         <Text>{produto.nome}</Text>
-        <Text>Preço: R$ {produto.preco} </Text>
+        <Text>Preço: {formataPreco(produto.preco)} </Text>
       </Pressable>
       <Modal
         style={estilos.modal}

@@ -50,8 +50,7 @@ const arrayProdutos = [
         vd: "0.59%",
       },
     },
-    contem: "Glutém, aveia, trigo, cevada,protéina do leite",
-    desconto: 0.5,
+    descricao: "Glutém, aveia, trigo, cevada,protéina do leite",
   },
   {
     id: 2,
@@ -103,8 +102,7 @@ const arrayProdutos = [
         vd: "0.59%",
       },
     },
-    contem: "Glutém, aveia, trigo, cevada,protéina do leite",
-    desconto: 0.25,
+    descricao: "Glutém, aveia, trigo, cevada,protéina do leite",
   },
   {
     id: 3,
@@ -156,8 +154,7 @@ const arrayProdutos = [
         vd: "0.59%",
       },
     },
-    contem: "Glutém, aveia, trigo, cevada,protéina do leite",
-    desconto: 0.48,
+    descricao: "Glutém, aveia, trigo, cevada,protéina do leite",
   },
   {
     id: 4,
@@ -209,8 +206,7 @@ const arrayProdutos = [
         vd: "0.59%",
       },
     },
-    contem: "agrotóxicos",
-    desconto: 0.12,
+    descricao: "agrotóxicos",
   },
 ]; // fim do array de objetos produtos
 
