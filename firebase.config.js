@@ -18,6 +18,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Configurando o recurso de autenticação para uso em outras partes
-export const auth = initializeAuth(app, {
+const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
+
+//Iniciação banco de dados
+const database = getDatabase(app);
+
+export {auth, database};
