@@ -8,6 +8,7 @@ import {
   Pressable,
 } from "react-native";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../../firebase.config";
 
 export default function EsqueciSenha() {
   const [email, setEmail] = useState("");
@@ -18,6 +19,7 @@ export default function EsqueciSenha() {
       await sendPasswordResetEmail(auth, email);
       setEnviado(true);
     } catch (error) {
+      console.error("Erro ao enviar e-mail de redefinição de senha:", error);
       Alert.alert(
         "Erro",
         "Ocorreu um erro ao enviar o e-mail de redefinição de senha."
