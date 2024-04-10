@@ -77,7 +77,8 @@ export default function LoginUsuario({ navigation }) {
 
 const styles = StyleSheet.create({
   formulario: {
-    gap: 15,
+    gap: 30,
+    alignItems: "center",
   },
 
   input: {
@@ -85,20 +86,21 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 8,
     borderRadius: 10,
+    width: "80%",
   },
 
   botaoLogin: {
+    height: 50,
+    width: "65%",
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "blue",
-    borderRadius: 10,
-    height: 50,
+    backgroundColor: "#eca457",
   },
 
   textoBotao: {
-    fontSize: 16,
-    textTransform: "uppercase",
-    fontWeight: "bold",
-    color: "#fff",
+    fontSize: 18,
+    color: "#466060",
+    fontFamily: "Comfortaa",
   },
 });

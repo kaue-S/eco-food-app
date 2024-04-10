@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Alert,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -98,13 +99,14 @@ export default function CadastroUsuario({ navigation }) {
             onChangeText={(valor) => setSenha(valor)}
           />
         </View>
-        <TouchableOpacity
+
+        <Pressable
           style={styles.botaoCadastro}
           onPress={cadastrar}
           activeOpacity={0.8}
         >
           <Text style={styles.textoBotao}>cadastrar</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </SafeContainer>
   );
@@ -112,7 +114,8 @@ export default function CadastroUsuario({ navigation }) {
 
 const styles = StyleSheet.create({
   formulario: {
-    gap: 15,
+    gap: 30,
+    alignItems: "center",
   },
 
   campoCadastro: {
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     padding: 8,
-    width: "90%",
+    width: "80%",
   },
 
   iconeInput: {
@@ -134,16 +137,17 @@ const styles = StyleSheet.create({
   },
 
   botaoCadastro: {
+    height: 50,
+    width: "65%",
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "blue",
-    borderRadius: 10,
-    height: 50,
+    backgroundColor: "#a8cf45",
   },
 
   textoBotao: {
-    fontSize: 16,
-    textTransform: "uppercase",
-    fontWeight: "bold",
+    fontSize: 18,
+    color: "#466060",
+    fontFamily: "Comfortaa",
   },
 });

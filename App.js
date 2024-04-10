@@ -26,8 +26,9 @@ export default function App() {
             component={CadastroUsuario}
             options={{
               title: "Crie sua conta",
-              headerStyle: { backgroundColor: "green" },
-              headerTintColor: "#fff",
+              headerStyle: { backgroundColor: "#a8cf45" },
+              headerTintColor: "#466060",
+              headerTitleAlign: "center",
             }}
           />
           <Stack.Screen
@@ -35,8 +36,9 @@ export default function App() {
             component={LoginUsuario}
             options={{
               title: "Faça seu Login",
-              headerStyle: { backgroundColor: "green" },
-              headerTintColor: "#fff",
+              headerStyle: { backgroundColor: "#eca457" },
+              headerTintColor: "#466060",
+              headerTitleAlign: "center",
             }}
           />
           <Stack.Screen
