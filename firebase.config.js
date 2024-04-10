@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
 
 // Importando recursos da biblioteca de Autenticação
 import { initializeAuth, getReactNativePersistence } from "firebase/auth";
