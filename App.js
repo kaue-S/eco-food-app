@@ -7,6 +7,7 @@ import LoginUsuario from "./src/screens/LoginUsuario";
 import Home from "./src/screens/Home";
 import Carrinho from "./src/screens/Carrinho";
 import AddCarrinho from "./src/screens/AddCarrinho";
+import EsqueciSenha from "./src/screens/EsqueciSenha";
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +56,16 @@ export default function App() {
             name="AddCarrinho"
             component={AddCarrinho}
             options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="EsqueciSenha"
+            component={EsqueciSenha}
+            options={{
+              title: "Redefinir senha",
+              headerStyle: { backgroundColor: "#eca457" },
+              headerTintColor: "#466060",
+              headerTitleAlign: "center",
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

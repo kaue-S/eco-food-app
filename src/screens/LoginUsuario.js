@@ -4,9 +4,9 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
@@ -58,7 +58,7 @@ export default function LoginUsuario({ navigation }) {
           secureTextEntry
           onChangeText={(valor) => setSenha(valor)}
         />
-        <TouchableOpacity
+        <Pressable
           style={styles.botaoLogin}
           onPress={Logar}
           activeOpacity={0.8}
@@ -69,7 +69,13 @@ export default function LoginUsuario({ navigation }) {
           ) : (
             <Text style={styles.textoBotao}>Login</Text>
           )}
-        </TouchableOpacity>
+        </Pressable>
+        <Pressable
+          style={styles.esqueciSenha}
+          onPress={() => navigation.navigate("EsqueciSenha")}
+        >
+          <Text style={styles.textoSenha}>Esqueci minha senha!</Text>
+        </Pressable>
       </View>
     </SafeContainer>
   );
@@ -99,8 +105,21 @@ const styles = StyleSheet.create({
   },
 
   textoBotao: {
-    fontSize: 18,
+    fontSize: 14,
     color: "#466060",
     fontFamily: "Comfortaa",
+  },
+  textoSenha: {
+    fontSize: 14,
+    color: "#466060",
+    fontFamily: "Comfortaa",
+    textDecorationLine: "underline",
+  },
+  esqueciSenha: {
+    height: 30,
+    width: "65%",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
