@@ -62,7 +62,8 @@ export default function VerProduto({ produto }) {
         Preço:
         {formataPreco(produto.preco)}
       </Text>
-      <Text>mercado: {comerciante[0].nome}</Text>
+      <Text>fornecedor: {comerciante[0].nome}</Text>
+      <Text>estabelecimento: {comerciante[0].tipoComercio}</Text>
 
       {verDetalhes && (
         <Pressable style={estilos.botaoCancelar} onPress={esconderInformascoes}>

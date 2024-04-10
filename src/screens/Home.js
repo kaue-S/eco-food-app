@@ -22,7 +22,7 @@ export default function Home({ navigation }) {
           <Text style={styles.buttonText}>Sair</Text>
         </TouchableOpacity>
         <View>
-          <Text style={styles.text}>Destaques</Text>
+          <Text style={styles.text}>Tudo</Text>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -31,6 +31,22 @@ export default function Home({ navigation }) {
             {arrayProdutos.map((itemProduto) => {
               return <Produto key={itemProduto.id} produto={itemProduto} />;
             })}
+          </ScrollView>
+        </View>
+        <View>
+          <Text style={styles.text}>Destaques</Text>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.viewProdutos}
+          >
+            {arrayProdutos
+              .filter((itemProduto) => {
+                return itemProduto.destaque == "sim";
+              })
+              .map((itemProduto) => {
+                return <Produto key={itemProduto.id} produto={itemProduto} />;
+              })}
           </ScrollView>
         </View>
         <Pressable

@@ -51,6 +51,7 @@ const arrayProdutos = [
       },
     },
     descricao: "Glutém, aveia, trigo, cevada,protéina do leite",
+    destaque: "não",
   },
   {
     id: 2,
@@ -103,6 +104,7 @@ const arrayProdutos = [
       },
     },
     descricao: "Glutém, aveia, trigo, cevada,protéina do leite",
+    destaque: "não",
   },
   {
     id: 3,
@@ -155,11 +157,12 @@ const arrayProdutos = [
       },
     },
     descricao: "Glutém, aveia, trigo, cevada,protéina do leite",
+    destaque: "sim",
   },
   {
     id: 4,
     nome: "Goiaba",
-    preco: 2.25,
+    preco: 2.5,
     quantidade: 3,
     foto: "https://upload.wikimedia.org/wikipedia/commons/8/81/Goiaba-fruta.jpg",
     filtro: "fruta",
@@ -207,6 +210,7 @@ const arrayProdutos = [
       },
     },
     descricao: "agrotóxicos",
+    destaque: "sim",
   },
 ]; // fim do array de objetos produtos
 
