@@ -24,8 +24,8 @@ export default function CadastroUsuario({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   const cadastrar = async () => {
-    if (!email || !senha || !nome) {  
-      Alert.alert("Atenção!", "Preencha nome, e-mail e senha!");
+    if (!email || !senha || !nome || !cpf || !numero || !rua) {  
+      Alert.alert("Atenção!", "Preencha preencha todos os campos!");
       return;
     }
 
@@ -127,10 +127,10 @@ export default function CadastroUsuario({ navigation }) {
           </View>
         </View>
         <View>
-          <Text style={styles.tituloInput}>numero:</Text>
+          <Text style={styles.tituloInput}>Numero:</Text>
           <View style={styles.campoCadastro}>
             <TextInput
-              placeholder="Ex: Rua coatá"
+              placeholder="Ex: 123 casa 3"
               placeholderTextColor={"#a0a0a0"}
               style={styles.input}
               keyboardType="numeric"
@@ -184,13 +184,16 @@ const styles = StyleSheet.create({
   formulario: {
     gap: 20,
     alignItems: "center",
+    
   },
 
   campoCadastro: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: "green",
+    shadowColor: "black",
     borderRadius: 10,
   },
 
@@ -223,5 +226,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#466060",
     fontFamily: "Comfortaa",
+    fontWeight: "500",
+    
+    paddingBottom: 5,
   },
 });
