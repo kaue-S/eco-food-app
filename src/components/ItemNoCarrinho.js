@@ -32,33 +32,83 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
   return (
     <>
       <Pressable
-        style={estilos.cardCarrinho}
+        style={estilosItemProduto.cardCarrinho}
         key={produto.id}
         onPress={verProduto}
       >
-        <Image
-          style={estilos.imagemProduto}
-          source={{ uri: `${produto.foto}` }}
-        />
-        <Text>{produto.nome}</Text>
-        <Text>quantidade: {quantidade} </Text>
-        <Text>total: {formataPreco(valor)} </Text>
+        <View style={estilosItemProduto.cardProduto}>
+          <Image
+            style={estilosItemProduto.imagemProduto}
+            source={{ uri: `${produto.foto}` }}
+          />
+          <View style={estilosItemProduto.infosCardProduto}>
+            <Text>{produto.nome}</Text>
+            <Text>quantidade: {quantidade} </Text>
+            <Text>total: {formataPreco(valor)} </Text>
+          </View>
+        </View>
       </Pressable>
       <Modal
-        style={estilos.modal}
+        style={estilosItemProduto.modal}
         animationType="slide"
         visible={aparecerModal}
         transparent={true}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={estilos.viewModal}>
-            <Pressable onPress={cancelar} style={estilos.BtnFecharModal}>
-              <View style={estilos.fecharModal}>
+          <View style={estilosItemProduto.viewModal}>
+            <Pressable
+              onPress={cancelar}
+              style={estilosItemProduto.BtnFecharModal}
+            >
+              <View style={estilosItemProduto.fecharModal}>
                 <AntDesign name="closecircle" size={24} color="black" />
-                <Text style={estilos.tiuloModal}> Produto No Carrinho </Text>
+                <Text style={estilosItemProduto.tituloModal}>
+                  Produto No Carrinho
+                </Text>
               </View>
             </Pressable>
-            <Text>Fornecedor: {comerciante[0].nome}</Text>
+            <View>
+              <Text style={estilosItemProduto.tituloProduto}>
+                {produto.nome}
+              </Text>
+              <View style={estilosItemProduto.infos}>
+                <Image
+                  style={estilosItemProduto.imagemProduto}
+                  source={{ uri: `${produto.foto}` }}
+                />
+                <View style={estilosItemProduto.infoProduto}>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Valor: {formataPreco(produto.preco)}
+                  </Text>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Quantidade: {quantidade}
+                  </Text>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Total: {formataPreco(valor)}
+                  </Text>
+                </View>
+              </View>
+
+              <Text style={estilosItemProduto.tituloProduto}>Fornecedor</Text>
+
+              <View style={estilosItemProduto.infos}>
+                <Image
+                  style={estilosItemProduto.imagemComerciante}
+                  source={{ uri: `${comerciante[0].logo}` }}
+                />
+                <View>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Nome: {comerciante[0].nome}
+                  </Text>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Estabelecimento: {comerciante[0].filtro}
+                  </Text>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Local: {comerciante[0].local}
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
         </ScrollView>
       </Modal>
@@ -66,10 +116,14 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilosItemProduto = StyleSheet.create({
   imagemProduto: {
     width: 100,
     height: 100,
+  },
+  imagemComerciante: {
+    width: 45,
+    height: 45,
   },
   botaoCancelar: {
     backgroundColor: "red",
@@ -99,10 +153,45 @@ const estilos = StyleSheet.create({
   },
   BtnFecharModal: {
     borderBottomWidth: 1,
-    marginBottom: 8,
+    marginBottom: 18,
   },
-  tiuloModal: {
+  tituloModal: {
     textAlign: "center",
     fontWeight: "bold",
+  },
+  tituloProduto: {
+    fontWeight: "bold",
+    fontSize: 24,
+    fontFamily: "Comfortaa",
+  },
+  infos: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    marginVertical: 16,
+    gap: 10,
+  },
+  infoProduto: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 12,
+    width: 250,
+  },
+  textoValores: {
+    fontSize: 16,
+    fontWeight: "450",
+    marginVertical: 4,
+  },
+  infosCardProduto: {},
+  cardProduto: {
+    flexDirection: "row",
+    backgroundColor: "#F29",
+    padding: 24,
+    marginVertical: 12,
+    justifyContent: "space-evenly",
+    alignItems: "flex-start",
+    gap: 12,
   },
 });

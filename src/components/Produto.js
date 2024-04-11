@@ -42,8 +42,11 @@ export default function Produto({ produto }) {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={estilos.viewModal}>
-            <Pressable onPress={cancelar} style={estilos.fecharModal}>
-              <AntDesign name="closecircle" size={24} color="black" />
+            <Pressable onPress={cancelar} style={estilos.BtnFecharModal}>
+              <View style={estilos.fecharModal}>
+                <AntDesign name="closecircle" size={24} color="black" />
+                <Text style={estilos.tituloModal}>Produto</Text>
+              </View>
             </Pressable>
             <VerProduto produto={produto} />
           </View>
@@ -80,7 +83,16 @@ const estilos = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   fecharModal: {
-    margin: 12,
+    marginVertical: 8,
     padding: 12,
+    justifyContent: "space-around",
+  },
+  BtnFecharModal: {
+    borderBottomWidth: 1,
+    marginBottom: 18,
+  },
+  tituloModal: {
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });
