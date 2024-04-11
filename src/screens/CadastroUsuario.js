@@ -62,7 +62,7 @@ export default function CadastroUsuario({ navigation }) {
       }
 
       Alert.alert("Cadastro", "Seu cadastro foi concluído com sucesso!");
-      navigation.replace("Home");
+      
       
     } catch (error) {
       // console.error(error.code);
@@ -84,7 +84,7 @@ export default function CadastroUsuario({ navigation }) {
       Alert.alert("Ops!", mensagem);
 
     } finally {setLoading(false)}
-    
+    navigation.replace("Home");
   };
 
   return (
