@@ -173,7 +173,7 @@ export default function CadastroUsuario({ navigation }) {
           {loading ? (<ActivityIndicator size="small" color="#fff"/>) : (
              <Text style={styles.textoBotao}>cadastrar</Text>
           )}
-         <Text> oi oi oi</Text>
+         
         </Pressable>
       </View>
     </SafeContainer>
