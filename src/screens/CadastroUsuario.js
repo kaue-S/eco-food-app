@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Pressable,
   StyleSheet,
@@ -13,9 +14,14 @@ import {getDatabase, ref, set } from "firebase/database";
 import { auth, db } from "../../firebase.config";
 
 export default function CadastroUsuario({ navigation }) {
+  const [cpf, setCpf] = useState("");
+  const [rua, setRua] = useState("");
+  const [numero, setNumero] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const cadastrar = async () => {
     if (!email || !senha || !nome) {  
@@ -29,6 +35,8 @@ export default function CadastroUsuario({ navigation }) {
         email,
         senha
       );
+      
+      setLoading(true);
 
       if (contaUsuario.user) {
         await updateProfile(auth.currentUser, { displayName: nome });
@@ -37,27 +45,25 @@ export default function CadastroUsuario({ navigation }) {
         const db = getDatabase();
         const userRef = ref(db, 'usuarios/' + contaUsuario.user.uid);
 
+        const endereco = {
+          Rua: rua,
+          numero: numero
+        };
+
         await set(userRef, {
             nome: nome,
-            email: email
+            email: email,
+            cpf: cpf,
+            endereco: endereco
             // outros dados que você deseja salvar
         });
+
+
       }
 
-      Alert.alert("Cadastro", "Seu cadastro foi concluído com sucesso!", [
-        {
-          style: "cancel",
-          text: "Ficar aqui mesmo",
-          onPress: () => {
-            return;
-          },
-        },
-        {
-          style: "default",
-          text: "Ir para a área logada",
-          onPress: () => navigation.replace("Home"),
-        },
-      ]);
+      Alert.alert("Cadastro", "Seu cadastro foi concluído com sucesso!");
+      navigation.replace("Home");
+      
     } catch (error) {
       // console.error(error.code);
       let mensagem;
@@ -76,37 +82,87 @@ export default function CadastroUsuario({ navigation }) {
           break;
       }
       Alert.alert("Ops!", mensagem);
-    }
+
+    } finally {setLoading(false)}
+    
   };
 
   return (
     <SafeContainer>
       <View style={styles.formulario}>
-        <View style={styles.campoCadastro}>
-          <TextInput
-            placeholder="Nome Completo"
-            style={styles.input}
-            keyboardType="default"
-            onChangeText={(valor) => setNome(valor)}
-          />
+        <View>
+          <Text style={styles.tituloInput}>Nome:</Text>
+          <View style={styles.campoCadastro}>
+            <TextInput
+              placeholder="Nome Completo"
+              placeholderTextColor={"#a0a0a0"}
+              style={styles.input}
+              keyboardType="default"
+              onChangeText={(valor) => setNome(valor)}
+            />
+          </View>
         </View>
+        <View>
+          <Text style={styles.tituloInput}>CPF:</Text>
+          <View style={styles.campoCadastro}>
+            <TextInput
+              placeholder="Numeros aleatórios"
+              placeholderTextColor={"#a0a0a0"}
+              style={styles.input}
+              keyboardType="numeric"
+              onChangeText={(valor) => setCpf(valor)}
+            />
+          </View>
+        </View>
+        <View>
+          <Text style={styles.tituloInput}>Endereço:</Text>
+          <View style={styles.campoCadastro}>
+            <TextInput
+              placeholder="Ex: Rua coatá"
+              placeholderTextColor={"#a0a0a0"}
+              style={styles.input}
+              keyboardType="default"
+              onChangeText={(valor) => setRua(valor)}
+            />
+          </View>
+        </View>
+        <View>
+          <Text style={styles.tituloInput}>numero:</Text>
+          <View style={styles.campoCadastro}>
+            <TextInput
+              placeholder="Ex: Rua coatá"
+              placeholderTextColor={"#a0a0a0"}
+              style={styles.input}
+              keyboardType="numeric"
+              onChangeText={(valor) => setNumero(valor)}
+            />
+          </View>
+        </View>
+        <View>
+          <Text style={styles.tituloInput}>E-mail:</Text>
         <View style={styles.campoCadastro}>
           <TextInput
             placeholder="E-mail"
+            placeholderTextColor={"#a0a0a0"}
             style={styles.input}
             keyboardType="email-address"
             onChangeText={(valor) => setEmail(valor)}
           />
         </View>
-
+        </View>
+        
+        <View>
+          <Text style={styles.tituloInput}>Senha:</Text>
         <View style={styles.campoCadastro}>
           <TextInput
             placeholder="Senha"
+            placeholderTextColor={"#a0a0a0"}
             style={styles.input}
             keyboardType="default"
             secureTextEntry
             onChangeText={(valor) => setSenha(valor)}
           />
+        </View>
         </View>
 
         <Pressable
@@ -114,7 +170,10 @@ export default function CadastroUsuario({ navigation }) {
           onPress={cadastrar}
           activeOpacity={0.8}
         >
-          <Text style={styles.textoBotao}>cadastrar</Text>
+          {loading ? (<ActivityIndicator size="small" color="#fff"/>) : (
+             <Text style={styles.textoBotao}>cadastrar</Text>
+          )}
+         
         </Pressable>
       </View>
     </SafeContainer>
@@ -123,7 +182,7 @@ export default function CadastroUsuario({ navigation }) {
 
 const styles = StyleSheet.create({
   formulario: {
-    gap: 30,
+    gap: 20,
     alignItems: "center",
   },
 
@@ -139,6 +198,12 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 8,
     width: "80%",
+  },
+
+
+  tituloInput: {
+    marginLeft: 10,
+    fontSize: 18,
   },
 
   iconeInput: {
