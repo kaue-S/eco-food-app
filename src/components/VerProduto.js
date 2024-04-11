@@ -73,7 +73,7 @@ export default function VerProduto({ produto }) {
       });
 
       await AsyncStorage.setItem(
-        "@listacarrinhos",
+        "@listacarrinho",
         JSON.stringify(listaProdutos)
       );
 

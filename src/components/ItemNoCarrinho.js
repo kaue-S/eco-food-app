@@ -1,5 +1,4 @@
 import {
-  Alert,
   Image,
   Modal,
   Pressable,
@@ -10,10 +9,10 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import VerProduto from "./VerProduto";
 import { formataPreco } from "../functions/funcoes";
+import arrayComerciante from "../api/arrayDeComerciante";
 
-export default function Produto({ produto }) {
+export default function ItemNoCarrinho({ produto, valor, quantidade }) {
   const [aparecerModal, setAparecerModal] = useState(false);
 
   const verProduto = () => {
@@ -24,15 +23,26 @@ export default function Produto({ produto }) {
     return;
   };
 
+  const comerciante = arrayComerciante.filter((comercio) => {
+    return comercio.id === produto.mercado_id;
+  });
+
+  console.log(comerciante);
+
   return (
     <>
-      <Pressable key={produto.id} onPress={verProduto}>
+      <Pressable
+        style={estilos.cardCarrinho}
+        key={produto.id}
+        onPress={verProduto}
+      >
         <Image
           style={estilos.imagemProduto}
           source={{ uri: `${produto.foto}` }}
         />
         <Text>{produto.nome}</Text>
-        <Text>Preço: {formataPreco(produto.preco)} </Text>
+        <Text>quantidade: {quantidade} </Text>
+        <Text>total: {formataPreco(valor)} </Text>
       </Pressable>
       <Modal
         style={estilos.modal}
@@ -42,10 +52,13 @@ export default function Produto({ produto }) {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={estilos.viewModal}>
-            <Pressable onPress={cancelar} style={estilos.fecharModal}>
-              <AntDesign name="closecircle" size={24} color="black" />
+            <Pressable onPress={cancelar} style={estilos.BtnFecharModal}>
+              <View style={estilos.fecharModal}>
+                <AntDesign name="closecircle" size={24} color="black" />
+                <Text style={estilos.tiuloModal}> Produto No Carrinho </Text>
+              </View>
             </Pressable>
-            <VerProduto produto={produto} />
+            <Text>Fornecedor: {comerciante[0].nome}</Text>
           </View>
         </ScrollView>
       </Modal>
@@ -80,7 +93,16 @@ const estilos = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   fecharModal: {
-    margin: 12,
+    marginVertical: 8,
     padding: 12,
+    justifyContent: "space-around",
+  },
+  BtnFecharModal: {
+    borderBottomWidth: 1,
+    marginBottom: 8,
+  },
+  tiuloModal: {
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });
