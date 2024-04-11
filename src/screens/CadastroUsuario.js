@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { ref, set } from "firebase/database";
 import { auth, db } from "../../firebase.config";
 
 export default function CadastroUsuario({ navigation }) {
@@ -17,7 +18,7 @@ export default function CadastroUsuario({ navigation }) {
   const [senha, setSenha] = useState("");
 
   const cadastrar = async () => {
-    if (!email || !senha || !nome) {
+    if (!email || !senha || !nome) {  
       Alert.alert("Atenção!", "Preencha nome, e-mail e senha!");
       return;
     }
