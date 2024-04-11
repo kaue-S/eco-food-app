@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { ref, set } from "firebase/database";
+import {getDatabase, ref, set } from "firebase/database";
 import { auth, db } from "../../firebase.config";
 
 export default function CadastroUsuario({ navigation }) {
@@ -33,6 +33,15 @@ export default function CadastroUsuario({ navigation }) {
       if (contaUsuario.user) {
         await updateProfile(auth.currentUser, { displayName: nome });
         console.log(contaUsuario.user.displayName);
+
+        const db = getDatabase();
+        const userRef = ref(db, 'usuarios/' + contaUsuario.user.uid);
+
+        await set(userRef, {
+            nome: nome,
+            email: email
+            // outros dados que você deseja salvar
+        });
       }
 
       Alert.alert("Cadastro", "Seu cadastro foi concluído com sucesso!", [
