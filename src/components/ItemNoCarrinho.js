@@ -193,5 +193,6 @@ const estilosItemProduto = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "flex-start",
     gap: 12,
+    alignItems: "center",
   },
 });
