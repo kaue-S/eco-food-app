@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginUsuario({ navigation }) {
   const [email, setEmail] = useState("");
@@ -29,12 +30,12 @@ export default function LoginUsuario({ navigation }) {
       await signInWithEmailAndPassword(authInstance, email, senha);
       navigation.navigate("Home");
     } catch (error) {
-      let errorMessage = "O e-mail ou a senha está incorreto.";
+      let errorMessage = "E-mail ou senha incorreto.";
       if (
         error.code === "auth/wrong-password" ||
         error.code === "auth/user-not-found"
       ) {
-        errorMessage = "O e-mail ou a senha está incorreto.";
+        errorMessage = "E-mail ou senha incorretos.";
       }
       Alert.alert("Erro", errorMessage);
     } finally {
