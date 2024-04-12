@@ -14,7 +14,7 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text style={styles.text}>Bem-vindo à página Home!</Text>
+        <Text style={styles.text}>Bem-vindo a página Home!</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.goBack()}
@@ -54,16 +54,22 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    marginBottom: 20,
+    marginBottom: 50,
+    marginTop:20,
+    marginLeft: 15,
+    fontFamily: "Comfortaa",
   },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: "#a8cf45",
     padding: 10,
     borderRadius: 5,
   },
   buttonText: {
-    color: "white",
-    fontSize: 16,
+    color: "#466060",
+    //fontFamily: "Comfortaa",
+    fontSize: 22,
+    fontWeight: "bold",
+    
   },
   viewProdutos: {
     justifyContent: "space-between",

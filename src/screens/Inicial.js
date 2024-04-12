@@ -37,7 +37,7 @@ export default function Inicial({ navigation }) {
             navigation.navigate("Cadastro");
           }}
         >
-          <Text style={styles.textoBotao}>Cadastrar</Text>
+          <Text style={styles.textoBotao}>Cadastre-se</Text>
         </Pressable>
         <Pressable
           style={styles.botaoLogin}
@@ -45,7 +45,7 @@ export default function Inicial({ navigation }) {
             navigation.navigate("LoginUsuario");
           }}
         >
-          <Text style={styles.textoBotao}>Entrar</Text>
+          <Text style={styles.textoBotao}>Acesse sua conta</Text>
         </Pressable>
       </View>
     </SafeContainer>
@@ -100,4 +100,5 @@ const styles = StyleSheet.create({
     color: "#466060",
     fontFamily: "Comfortaa",
   },
+  
 });
