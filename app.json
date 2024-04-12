@@ -18,13 +18,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/LogoECOFOOD.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/images/LogoECOFOOD.png",
-      "backgroundColor": "#ffffff"
+      "favicon": "./assets/favicon.png"
     },
     "plugins": ["expo-font"]
   }

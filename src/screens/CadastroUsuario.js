@@ -1,31 +1,26 @@
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
-  Pressable,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
+import { Fontisto } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import {getDatabase, ref, set } from "firebase/database";
-import { auth, db } from "../../firebase.config";
+import { auth } from "../../firebase.config";
 
 export default function CadastroUsuario({ navigation }) {
-  const [cpf, setCpf] = useState("");
-  const [rua, setRua] = useState("");
-  const [numero, setNumero] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  const [loading, setLoading] = useState(false);
-
   const cadastrar = async () => {
-    if (!email || !senha || !nome || !cpf || !numero || !rua) {  
-      Alert.alert("Atenção!", "Preencha preencha todos os campos!");
+    if (!email || !senha || !nome) {
+      Alert.alert("Atenção!", "Preencha nome, e-mail e senha!");
       return;
     }
 
@@ -35,35 +30,26 @@ export default function CadastroUsuario({ navigation }) {
         email,
         senha
       );
-      
-      setLoading(true);
 
       if (contaUsuario.user) {
         await updateProfile(auth.currentUser, { displayName: nome });
         console.log(contaUsuario.user.displayName);
-
-        const db = getDatabase();
-        const userRef = ref(db, 'usuarios/' + contaUsuario.user.uid);
-
-        const endereco = {
-          Rua: rua,
-          numero: numero
-        };
-
-        await set(userRef, {
-            nome: nome,
-            email: email,
-            cpf: cpf,
-            endereco: endereco
-            // outros dados que você deseja salvar
-        });
-
-
       }
 
-      Alert.alert("Cadastro", "Seu cadastro foi concluído com sucesso!");
-      
-      
+      Alert.alert("Cadastro", "Seu cadastro foi concluído com sucesso!", [
+        {
+          style: "cancel",
+          text: "Ficar aqui mesmo",
+          onPress: () => {
+            return;
+          },
+        },
+        {
+          style: "default",
+          text: "Ir para a área logada",
+          onPress: () => navigation.replace("Home"),
+        },
+      ]);
     } catch (error) {
       // console.error(error.code);
       let mensagem;
@@ -82,99 +68,57 @@ export default function CadastroUsuario({ navigation }) {
           break;
       }
       Alert.alert("Ops!", mensagem);
-
-    } finally {setLoading(false)}
-    navigation.replace("Home");
+    }
   };
 
   return (
     <SafeContainer>
       <View style={styles.formulario}>
-        <View>
-          <Text style={styles.tituloInput}>Nome:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Nome Completo"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="default"
-              onChangeText={(valor) => setNome(valor)}
-            />
-          </View>
+        <View style={styles.campoCadastro}>
+          <TextInput
+            placeholder="Nome Completo"
+            style={styles.input}
+            keyboardType="default"
+            onChangeText={(valor) => setNome(valor)}
+          />
         </View>
-        <View>
-          <Text style={styles.tituloInput}>CPF:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Numeros aleatórios"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="numeric"
-              onChangeText={(valor) => setCpf(valor)}
-            />
-          </View>
-        </View>
-        <View>
-          <Text style={styles.tituloInput}>Endereço:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Ex: Rua coatá"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="default"
-              onChangeText={(valor) => setRua(valor)}
-            />
-          </View>
-        </View>
-        <View>
-          <Text style={styles.tituloInput}>Numero:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Ex: 123 casa 3"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="numeric"
-              onChangeText={(valor) => setNumero(valor)}
-            />
-          </View>
-        </View>
-        <View>
-          <Text style={styles.tituloInput}>E-mail:</Text>
         <View style={styles.campoCadastro}>
           <TextInput
             placeholder="E-mail"
-            placeholderTextColor={"#a0a0a0"}
             style={styles.input}
             keyboardType="email-address"
             onChangeText={(valor) => setEmail(valor)}
           />
+          <MaterialIcons
+            style={styles.iconeInput}
+            name="email"
+            size={24}
+            color="black"
+          />
         </View>
-        </View>
-        
-        <View>
-          <Text style={styles.tituloInput}>Senha:</Text>
+
         <View style={styles.campoCadastro}>
           <TextInput
             placeholder="Senha"
-            placeholderTextColor={"#a0a0a0"}
             style={styles.input}
             keyboardType="default"
             secureTextEntry
             onChangeText={(valor) => setSenha(valor)}
           />
+          <Fontisto
+            style={styles.iconeInput}
+            name="locked"
+            size={24}
+            color="black"
+          />
         </View>
-        </View>
-
-        <Pressable
+        <TouchableOpacity
           style={styles.botaoCadastro}
           onPress={cadastrar}
           activeOpacity={0.8}
         >
-          {loading ? (<ActivityIndicator size="small" color="#fff"/>) : (
-             <Text style={styles.textoBotao}>cadastrar</Text>
-          )}
-         
-        </Pressable>
+          <Text style={styles.textoBotao}>cadastrar</Text>
+        </TouchableOpacity>
       </View>
     </SafeContainer>
   );
@@ -182,31 +126,21 @@ export default function CadastroUsuario({ navigation }) {
 
 const styles = StyleSheet.create({
   formulario: {
-    gap: 20,
-    alignItems: "center",
-    
+    gap: 15,
   },
 
   campoCadastro: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderWidth: 2,
-    borderColor: "green",
-    shadowColor: "black",
+    borderWidth: 1,
     borderRadius: 10,
   },
 
   input: {
     height: 50,
     padding: 8,
-    width: "80%",
-  },
-
-
-  tituloInput: {
-    marginLeft: 10,
-    fontSize: 18,
+    width: "90%",
   },
 
   iconeInput: {
@@ -214,20 +148,16 @@ const styles = StyleSheet.create({
   },
 
   botaoCadastro: {
-    height: 50,
-    width: "65%",
-    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#a8cf45",
+    backgroundColor: "blue",
+    borderRadius: 10,
+    height: 50,
   },
 
   textoBotao: {
-    fontSize: 18,
-    color: "#466060",
-    fontFamily: "Comfortaa",
-    fontWeight: "500",
-    
-    paddingBottom: 5,
+    fontSize: 16,
+    textTransform: "uppercase",
+    fontWeight: "bold",
   },
 });

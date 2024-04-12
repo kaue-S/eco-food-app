@@ -7,8 +7,6 @@ import LoginUsuario from "./src/screens/LoginUsuario";
 import Home from "./src/screens/Home";
 import Carrinho from "./src/screens/Carrinho";
 import AddCarrinho from "./src/screens/AddCarrinho";
-import EsqueciSenha from "./src/screens/EsqueciSenha";
-import Perfil from "./src/screens/Perfil";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,9 +26,8 @@ export default function App() {
             component={CadastroUsuario}
             options={{
               title: "Crie sua conta",
-              headerStyle: { backgroundColor: "#a8cf45" },
-              headerTintColor: "#466060",
-              headerTitleAlign: "center",
+              headerStyle: { backgroundColor: "green" },
+              headerTintColor: "#fff",
             }}
           />
           <Stack.Screen
@@ -38,9 +35,8 @@ export default function App() {
             component={LoginUsuario}
             options={{
               title: "Faça seu Login",
-              headerStyle: { backgroundColor: "#eca457" },
-              headerTintColor: "#466060",
-              headerTitleAlign: "center",
+              headerStyle: { backgroundColor: "green" },
+              headerTintColor: "#fff",
             }}
           />
           <Stack.Screen
@@ -57,26 +53,6 @@ export default function App() {
             name="AddCarrinho"
             component={AddCarrinho}
             options={{ headerShown: true }}
-          />
-          <Stack.Screen
-            name="EsqueciSenha"
-            component={EsqueciSenha}
-            options={{
-              title: "Redefinir senha",
-              headerStyle: { backgroundColor: "#eca457" },
-              headerTintColor: "#466060",
-              headerTitleAlign: "center",
-            }}
-          />
-          <Stack.Screen
-            name="Perfil"
-            component={Perfil}
-            options={{
-              title: "Perfil",
-              headerStyle: { backgroundColor: "#a8cf45" },
-              headerTintColor: "#466060",
-              headerTitleAlign: "center",
-            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
