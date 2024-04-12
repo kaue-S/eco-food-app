@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  Alert,
+  Vibration,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ItemNoCarrinho from "../components/ItemNoCarrinho";
 import { formataPreco } from "../functions/funcoes";
+import { FontAwesome6 } from "@expo/vector-icons";
+import { set } from "firebase/database";
 
 export default function Carrinho({ navigation }) {
   /* Criando lista de produtos no carrinho para poder 
@@ -20,7 +30,7 @@ export default function Carrinho({ navigation }) {
 
         if (dados) {
           setListaProdutosNoCarrinho(JSON.parse(dados));
-          console.log(dados);
+          // console.log(dados);
         }
       } catch (error) {
         console.log("Erro ao carregar os dados:  " + error);
@@ -54,6 +64,56 @@ export default function Carrinho({ navigation }) {
     calculartoltal();
   }, [listaProdutosNoCarrinho]);
 
+  const excluirProduto = async (produtoIndex) => {
+    Alert.alert("Excluir", "Tem certeza que deseja excluir esse prodtudo", [
+      { text: "cancelar", style: "cancel" },
+      {
+        text: "excluir produto",
+        onPress: async () => {
+          try {
+            const novaListaDeProdutos = listaProdutosNoCarrinho.filter(
+              (produto) =>
+                listaProdutosNoCarrinho.indexOf(produto) !== produtoIndex
+            );
+
+            /* logs de verificação dos dados 
+       console.log(produtoIndex);
+      console.log(novaListaDeProdutos); */
+
+            await AsyncStorage.setItem(
+              "@listacarrinho",
+              JSON.stringify(novaListaDeProdutos)
+            );
+
+            setListaProdutosNoCarrinho(novaListaDeProdutos);
+          } catch (error) {
+            console.log("Erro ao Excluir: ", error);
+          }
+        },
+      },
+    ]);
+
+    Vibration.vibrate(300);
+  };
+
+  const comprarProdutos = async () => {
+    Alert.alert("Finalizar Compra", "Uhul você está salvando o mundo ", [
+      { text: "cancelar", style: "cancel" },
+      {
+        text: "comprar",
+        style: "destructive",
+        onPress: async () => {
+          await AsyncStorage.removeItem("@listacarrinho");
+
+          setListaProdutosNoCarrinho([]);
+          Vibration.vibrate(300);
+          Alert.alert("Eco legado", "Uhul agora você é um combatente");
+        },
+      },
+    ]);
+    Vibration.vibrate(300);
+  };
+
   return (
     <View style={estilosCarrinho.container}>
       <Text style={estilosCarrinho.text}>Carrinho</Text>
@@ -62,15 +122,24 @@ export default function Carrinho({ navigation }) {
         <ScrollView>
           {listaProdutosNoCarrinho.map((itemProduto) => {
             return (
-              <View style={estilosCarrinho.cardDoCarrinho}>
+              <View
+                key={listaProdutosNoCarrinho.indexOf(itemProduto)}
+                style={estilosCarrinho.cardDoCarrinho}
+              >
                 <ItemNoCarrinho
                   produto={itemProduto.produto}
                   valor={itemProduto.totalCompra}
                   quantidade={itemProduto.quantidadeNoCarrinho}
-                  key={itemProduto.index}
                 />
-                <Pressable>
-                  <Text> Excluir </Text>
+                <Pressable
+                  onPress={() =>
+                    excluirProduto(listaProdutosNoCarrinho.indexOf(itemProduto))
+                  }
+                  style={estilosCarrinho.btnExcluir}
+                >
+                  <Text>
+                    <FontAwesome6 name="trash" size={16} color="#f7f7f7" />
+                  </Text>
                 </Pressable>
               </View>
             );
@@ -78,9 +147,9 @@ export default function Carrinho({ navigation }) {
         </ScrollView>
       )}
       <View style={estilosCarrinho.areaComprar}>
-        <Text>Total: {formataPreco(totalNoCarrinho)}</Text>
         <Text>Quantidade: {listaProdutosNoCarrinho.length} </Text>
-        <Pressable style={estilosCarrinho.button}>
+        <Text>Total: {formataPreco(totalNoCarrinho)}</Text>
+        <Pressable onPress={comprarProdutos} style={estilosCarrinho.button}>
           <Text style={estilosCarrinho.buttonText}>Comprar</Text>
         </Pressable>
       </View>
@@ -113,9 +182,15 @@ const estilosCarrinho = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
+    marginHorizontal: 12,
   },
   areaComprar: {
     padding: 18,
     elevation: 5,
+  },
+  btnExcluir: {
+    backgroundColor: "red",
+    padding: 16,
+    borderRadius: 50,
   },
 });

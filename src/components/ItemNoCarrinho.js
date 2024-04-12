@@ -36,13 +36,14 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
         key={produto.id}
         onPress={verProduto}
       >
+        <Text style={estilosItemProduto.tituloCard}>{produto.nome}</Text>
         <View style={estilosItemProduto.cardProduto}>
           <Image
             style={estilosItemProduto.imagemProduto}
             source={{ uri: `${produto.foto}` }}
           />
           <View style={estilosItemProduto.infosCardProduto}>
-            <Text>{produto.nome}</Text>
+            <Text>{comerciante[0].nome}</Text>
             <Text>quantidade: {quantidade} </Text>
             <Text>total: {formataPreco(valor)} </Text>
           </View>
@@ -194,5 +195,10 @@ const estilosItemProduto = StyleSheet.create({
     alignItems: "flex-start",
     gap: 12,
     alignItems: "center",
+  },
+  tituloCard: {
+    fontWeight: "bold",
+    fontFamily: "Comfortaa",
+    fontSize: 16,
   },
 });
