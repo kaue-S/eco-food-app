@@ -8,14 +8,4 @@ function formataPreco(preco) {
   return precoFormatado;
 }
 
-/* i = variavel para guardar valores no 
-reduce */
-function somarValores(preco) {
-  let soma = preco.reduce((i, itepreco) => {
-    i + itepreco.valor, 0;
-  });
-
-  return soma;
-}
-
-export { formataPreco, somarValores };
+export { formataPreco };

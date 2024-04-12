@@ -181,7 +181,7 @@ const estilosItemProduto = StyleSheet.create({
   },
   textoValores: {
     fontSize: 16,
-    fontWeight: "450",
+    fontWeight: "400",
     marginVertical: 4,
   },
   infosCardProduto: {},

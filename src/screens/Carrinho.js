@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ItemNoCarrinho from "../components/ItemNoCarrinho";
-import { formataPreco, somarValores } from "../functions/funcoes";
+import { formataPreco } from "../functions/funcoes";
 
 export default function Carrinho({ navigation }) {
   /* Criando lista de produtos no carrinho para poder 
   obter os dados vindos do async storage */
 
   const [listaProdutosNoCarrinho, setListaProdutosNoCarrinho] = useState([]);
+  const [totalNoCarrinho, setTotalNoCarrinho] = useState(0);
 
   /* Quando o usuário entrar nesta tela o useEffect() será acionado
   apenas uma vez */
@@ -32,6 +33,26 @@ export default function Carrinho({ navigation }) {
 
     produtos_no_carrinho();
   }, []);
+
+  useEffect(() => {
+    async function calculartoltal() {
+      try {
+        const soma = listaProdutosNoCarrinho.reduce(
+          (acumalador, itemProduto) => acumalador + itemProduto.totalCompra,
+          0
+        );
+        setTotalNoCarrinho(soma);
+      } catch (error) {
+        console.log("Erro ao carregar a soma do total:  " + error);
+        Alert.alert(
+          "Erro",
+          "Erro ao carregar os dados tente novamente mais tarde"
+        );
+      }
+    }
+
+    calculartoltal();
+  }, [listaProdutosNoCarrinho]);
 
   return (
     <View style={estilosCarrinho.container}>
@@ -57,8 +78,8 @@ export default function Carrinho({ navigation }) {
         </ScrollView>
       )}
       <View style={estilosCarrinho.areaComprar}>
-        <Text>a</Text>
-        <Text>Items No Carrinho</Text>
+        <Text>Total: {formataPreco(totalNoCarrinho)}</Text>
+        <Text>Quantidade: {listaProdutosNoCarrinho.length} </Text>
         <Pressable style={estilosCarrinho.button}>
           <Text style={estilosCarrinho.buttonText}>Comprar</Text>
         </Pressable>
