@@ -7,41 +7,41 @@ export default function Perfil() {
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const buscarDadosUsuario = async () => {
-      const db = getDatabase();
-      /* const reference = ref(db, `usuarios/${usuarioAtual.uid}`); */
+  // useEffect(() => {
+  //   const buscarDadosUsuario = async () => {
+  //     const db = getDatabase();
+  //     /* const reference = ref(db, `usuarios/${usuarioAtual.uid}`); */
 
-      try {
-        const usuarioAtual = auth.currentUser;
-        if (usuarioAtual) {
-          const usuarioRef = ref(db, `usuarios/${usuarioAtual.uid}`);
-          usuarioRef.on("value", (snapshot) => {
-            const dadosUsuario = snapshot.val();
-            setUsuario(dadosUsuario);
-            setLoading(false);
-          });
-        } else {
-          Alert.alert("Erro", "Usuário não está autenticado.");
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar dados do usuário:", error);
-        Alert.alert("Erro", "Ocorreu um erro ao buscar os dados do usuário.");
-        setLoading(false);
-      }
-    };
+  //     try {
+  //       const usuarioAtual = auth.currentUser;
+  //       if (usuarioAtual) {
+  //         const usuarioRef = ref(db, `usuarios/${usuarioAtual.uid}`);
+  //         usuarioRef.on("value", (snapshot) => {
+  //           const dadosUsuario = snapshot.val();
+  //           setUsuario(dadosUsuario);
+  //           setLoading(false);
+  //         });
+  //       } else {
+  //         Alert.alert("Erro", "Usuário não está autenticado.");
+  //         setLoading(false);
+  //       }
+  //     } catch (error) {
+  //       console.error("Erro ao buscar dados do usuário:", error);
+  //       Alert.alert("Erro", "Ocorreu um erro ao buscar os dados do usuário.");
+  //       setLoading(false);
+  //     }
+  //   };
 
-    buscarDadosUsuario();
-  }, []);
+  //   buscarDadosUsuario();
+  // }, []);
 
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <ActivityIndicator size="large" color="#0000ff" />
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={styles.container}>
