@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import {getDatabase, ref, set } from "firebase/database";
 import { auth, db } from "../../firebase.config";
 
 export default function CadastroUsuario({ navigation }) {
@@ -24,7 +24,7 @@ export default function CadastroUsuario({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   const cadastrar = async () => {
-    if (!email || !senha || !nome || !cpf || !numero || !rua) {
+    if (!email || !senha || !nome || !cpf || !numero || !rua) {  
       Alert.alert("Atenção!", "Preencha preencha todos os campos!");
       return;
     }
@@ -35,7 +35,7 @@ export default function CadastroUsuario({ navigation }) {
         email,
         senha
       );
-
+      
       setLoading(true);
 
       if (contaUsuario.user) {
@@ -43,25 +43,27 @@ export default function CadastroUsuario({ navigation }) {
         console.log(contaUsuario.user.displayName);
 
         const db = getDatabase();
-        const userRef = ref(db, "usuarios/" + contaUsuario.user.uid);
+        const userRef = ref(db, 'usuarios/' + contaUsuario.user.uid);
 
         const endereco = {
           Rua: rua,
-          numero: numero,
+          numero: numero
         };
 
         await set(userRef, {
-          nome: nome,
-          email: email,
-          cpf: cpf,
-          endereco: endereco,
-          // outros dados que você deseja salvar
+            nome: nome,
+            email: email,
+            cpf: cpf,
+            endereco: endereco
+            // outros dados que você deseja salvar
         });
+
+
       }
 
       Alert.alert("Cadastro", "Seu cadastro foi concluído com sucesso!");
-
-      navigation.replace("Home");
+      
+      
     } catch (error) {
       // console.error(error.code);
       let mensagem;
@@ -80,9 +82,9 @@ export default function CadastroUsuario({ navigation }) {
           break;
       }
       Alert.alert("Ops!", mensagem);
-    } finally {
-      setLoading(false);
-    }
+
+    } finally {setLoading(false)}
+    navigation.replace("Home");
   };
 
   return (
@@ -138,29 +140,29 @@ export default function CadastroUsuario({ navigation }) {
         </View>
         <View>
           <Text style={styles.tituloInput}>E-mail:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="E-mail"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="email-address"
-              onChangeText={(valor) => setEmail(valor)}
-            />
-          </View>
+        <View style={styles.campoCadastro}>
+          <TextInput
+            placeholder="E-mail"
+            placeholderTextColor={"#a0a0a0"}
+            style={styles.input}
+            keyboardType="email-address"
+            onChangeText={(valor) => setEmail(valor)}
+          />
         </View>
-
+        </View>
+        
         <View>
           <Text style={styles.tituloInput}>Senha:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Senha"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="default"
-              secureTextEntry
-              onChangeText={(valor) => setSenha(valor)}
-            />
-          </View>
+        <View style={styles.campoCadastro}>
+          <TextInput
+            placeholder="Senha"
+            placeholderTextColor={"#a0a0a0"}
+            style={styles.input}
+            keyboardType="default"
+            secureTextEntry
+            onChangeText={(valor) => setSenha(valor)}
+          />
+        </View>
         </View>
 
         <Pressable
@@ -168,11 +170,10 @@ export default function CadastroUsuario({ navigation }) {
           onPress={cadastrar}
           activeOpacity={0.8}
         >
-          {loading ? (
-            <ActivityIndicator size="small" color="#fff" />
-          ) : (
-            <Text style={styles.textoBotao}>cadastrar</Text>
+          {loading ? (<ActivityIndicator size="small" color="#fff"/>) : (
+             <Text style={styles.textoBotao}>cadastrar</Text>
           )}
+         
         </Pressable>
       </View>
     </SafeContainer>
@@ -183,6 +184,7 @@ const styles = StyleSheet.create({
   formulario: {
     gap: 20,
     alignItems: "center",
+    
   },
 
   campoCadastro: {
@@ -200,6 +202,7 @@ const styles = StyleSheet.create({
     padding: 8,
     width: "80%",
   },
+
 
   tituloInput: {
     marginLeft: 10,
@@ -224,7 +227,7 @@ const styles = StyleSheet.create({
     color: "#466060",
     fontFamily: "Comfortaa",
     fontWeight: "500",
-
+    
     paddingBottom: 5,
   },
 });
