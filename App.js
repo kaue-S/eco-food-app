@@ -8,6 +8,7 @@ import Home from "./src/screens/Home";
 import Carrinho from "./src/screens/Carrinho";
 import AddCarrinho from "./src/screens/AddCarrinho";
 import EsqueciSenha from "./src/screens/EsqueciSenha";
+import Perfil from "./src/screens/Perfil";
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +64,16 @@ export default function App() {
             options={{
               title: "Redefinir senha",
               headerStyle: { backgroundColor: "#eca457" },
+              headerTintColor: "#466060",
+              headerTitleAlign: "center",
+            }}
+          />
+          <Stack.Screen
+            name="Perfil"
+            component={Perfil}
+            options={{
+              title: "Perfil",
+              headerStyle: { backgroundColor: "#a8cf45" },
               headerTintColor: "#466060",
               headerTitleAlign: "center",
             }}

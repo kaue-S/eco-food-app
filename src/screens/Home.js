@@ -39,6 +39,12 @@ export default function Home({ navigation }) {
         >
           <Text style={styles.buttonText}>Carrinho</Text>
         </Pressable>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate("Perfil")}
+        >
+          <Text style={styles.buttonText}>Perfil</Text>
+        </Pressable>
       </ScrollView>
     </View>
   );

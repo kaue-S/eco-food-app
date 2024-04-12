@@ -11,7 +11,7 @@ const firebaseConfig = {
   projectId: "eco-food-app",
   storageBucket: "eco-food-app.appspot.com",
   messagingSenderId: "93024734440",
-  appId: "1:93024734440:web:4a7ca7de38e3f739404d5d"
+  appId: "1:93024734440:web:4a7ca7de38e3f739404d5d",
 };
 
 // Initialize Firebase
@@ -25,4 +25,4 @@ const auth = initializeAuth(app, {
 //Iniciação banco de dados
 const db = getDatabase(app);
 
-export {auth, db};
+export { auth, db };
