@@ -4,9 +4,9 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
@@ -58,7 +58,7 @@ export default function LoginUsuario({ navigation }) {
           secureTextEntry
           onChangeText={(valor) => setSenha(valor)}
         />
-        <TouchableOpacity
+        <Pressable
           style={styles.botaoLogin}
           onPress={Logar}
           activeOpacity={0.8}
@@ -69,7 +69,13 @@ export default function LoginUsuario({ navigation }) {
           ) : (
             <Text style={styles.textoBotao}>Login</Text>
           )}
-        </TouchableOpacity>
+        </Pressable>
+        <Pressable
+          style={styles.esqueciSenha}
+          onPress={() => navigation.navigate("EsqueciSenha")}
+        >
+          <Text style={styles.textoSenha}>Esqueci minha senha!</Text>
+        </Pressable>
       </View>
     </SafeContainer>
   );
@@ -77,7 +83,8 @@ export default function LoginUsuario({ navigation }) {
 
 const styles = StyleSheet.create({
   formulario: {
-    gap: 15,
+    gap: 30,
+    alignItems: "center",
   },
 
   input: {
@@ -85,20 +92,34 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 8,
     borderRadius: 10,
+    width: "80%",
   },
 
   botaoLogin: {
+    height: 50,
+    width: "65%",
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "blue",
-    borderRadius: 10,
-    height: 50,
+    backgroundColor: "#eca457",
   },
 
   textoBotao: {
-    fontSize: 16,
-    textTransform: "uppercase",
-    fontWeight: "bold",
-    color: "#fff",
+    fontSize: 14,
+    color: "#466060",
+    fontFamily: "Comfortaa",
+  },
+  textoSenha: {
+    fontSize: 14,
+    color: "#466060",
+    fontFamily: "Comfortaa",
+    textDecorationLine: "underline",
+  },
+  esqueciSenha: {
+    height: 30,
+    width: "65%",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
