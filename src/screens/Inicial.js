@@ -28,7 +28,7 @@ export default function Inicial({ navigation }) {
 
   return (
     <SafeContainer onLayout={onLayoutRootView}>
-      <View>
+      <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <Image

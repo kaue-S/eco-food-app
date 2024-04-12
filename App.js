@@ -12,7 +12,8 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
+    <>
+      {/* <SafeAreaView style={styles.container}> */}
       <StatusBar barStyle={"light-content"} />
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Inicial">
@@ -56,7 +57,8 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </SafeAreaView>
+      {/* </SafeAreaView> */}
+    </>
   );
 }
 
