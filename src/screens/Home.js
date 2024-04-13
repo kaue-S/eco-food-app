@@ -9,16 +9,32 @@ import {
 } from "react-native";
 import arrayProdutos from "../api/arrayDeProdutos";
 import Produto from "../components/Produto";
+// importação dos recursos de importação
+
+import { auth } from "../../firebase.config";
+import { signOut } from "firebase/auth";
 
 export default function Home({ navigation }) {
+  /*  recuperando e-mail e displayName: apelido para uso  */
+  const { email, displayName: nome } = auth.currentUser;
+  console.log(email);
+
+  // Função logout para sair da conta
+  const logout = async () => {
+    try {
+      /* Utilizamos a função signOut para remover os dados do auth 
+        no momento e enviamos para a tela inicial */
+      await signOut(auth);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.text}>Bem-vindo à página Home!</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.goBack()}
-        >
+        <TouchableOpacity style={styles.button} onPress={logout}>
           <Text style={styles.buttonText}>Sair</Text>
         </TouchableOpacity>
         <View>

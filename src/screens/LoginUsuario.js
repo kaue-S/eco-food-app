@@ -27,7 +27,6 @@ export default function LoginUsuario({ navigation }) {
 
       const authInstance = getAuth();
       await signInWithEmailAndPassword(authInstance, email, senha);
-      navigation.navigate("Home");
     } catch (error) {
       let errorMessage = "O e-mail ou a senha está incorreto.";
       if (
