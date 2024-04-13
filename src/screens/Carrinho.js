@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,11 +8,12 @@ import {
   Alert,
   Vibration,
 } from "react-native";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ItemNoCarrinho from "../components/ItemNoCarrinho";
 import { formataPreco } from "../functions/funcoes";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { set } from "firebase/database";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Carrinho({ navigation }) {
   /* Criando lista de produtos no carrinho para poder 
@@ -20,29 +21,31 @@ export default function Carrinho({ navigation }) {
 
   const [listaProdutosNoCarrinho, setListaProdutosNoCarrinho] = useState([]);
   const [totalNoCarrinho, setTotalNoCarrinho] = useState(0);
+  /* Função produtos_no_carrinho para fazer um fetch no AsynStorage */
+  const produtos_no_carrinho = useCallback(async () => {
+    try {
+      const dados = await AsyncStorage.getItem("@listacarrinho");
 
-  /* Quando o usuário entrar nesta tela o useEffect() será acionado
-  apenas uma vez */
-  useEffect(() => {
-    async function produtos_no_carrinho() {
-      try {
-        const dados = await AsyncStorage.getItem("@listacarrinho");
-
-        if (dados) {
-          setListaProdutosNoCarrinho(JSON.parse(dados));
-          // console.log(dados);
-        }
-      } catch (error) {
-        console.log("Erro ao carregar os dados:  " + error);
-        Alert.alert(
-          "Erro",
-          "Erro ao carregar os dados tente novamente mais tarde"
-        );
+      if (dados) {
+        setListaProdutosNoCarrinho(JSON.parse(dados));
+        // console.log(dados);
       }
+    } catch (error) {
+      console.log("Erro ao carregar os dados:  " + error);
+      Alert.alert(
+        "Erro",
+        "Erro ao carregar os dados tente novamente mais tarde"
+      );
     }
-
-    produtos_no_carrinho();
   }, []);
+
+  /* Usando o useFocusEffect para sempre que usuario entrar
+  nesta tela acionar a função produto_no_carrinho */
+  useFocusEffect(
+    useCallback(() => {
+      produtos_no_carrinho();
+    }, [produtos_no_carrinho])
+  );
 
   useEffect(() => {
     async function calculartoltal() {
