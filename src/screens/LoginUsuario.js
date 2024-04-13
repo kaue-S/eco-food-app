@@ -45,19 +45,29 @@ export default function LoginUsuario({ navigation }) {
   return (
     <SafeContainer>
       <View style={styles.formulario}>
-        <TextInput
-          placeholder="E-mail"
-          style={styles.input}
-          keyboardType="email-address"
-          onChangeText={(valor) => setEmail(valor)}
-        />
-        <TextInput
-          placeholder="Senha"
-          style={styles.input}
-          keyboardType="default"
-          secureTextEntry
-          onChangeText={(valor) => setSenha(valor)}
-        />
+        <View>
+        <Text style={styles.tituloInput}>E-mail:</Text>
+        <View style={styles.campoLogin}>
+          <TextInput
+           placeholder="E-mail"
+            style={styles.input}
+            keyboardType="email-address"
+            onChangeText={(valor) => setEmail(valor)}
+         />
+        </View>
+        <View>
+        <Text style={styles.tituloInput}>Senha:</Text>
+        <View style={styles.campoLogin}>
+         <TextInput
+           placeholder="Senha"
+           style={styles.input}
+           keyboardType="default"
+           secureTextEntry
+           onChangeText={(valor) => setSenha(valor)}
+         />
+        </View>
+        </View>
+        </View>
         <Pressable
           style={styles.botaoLogin}
           onPress={Logar}
@@ -65,7 +75,7 @@ export default function LoginUsuario({ navigation }) {
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator size="small" color="#fff" />
+            <ActivityIndicator size="small" color="#466060" />
           ) : (
             <Text style={styles.textoBotao}>Login</Text>
           )}
@@ -87,11 +97,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  tituloInput: {
+    marginLeft: 10,
+    fontSize: 18,
+    color: "#466060",
+    marginTop: 20,
+  },
+
+  campoLogin: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderWidth: 2,
+    borderColor: "#eca457",
+    shadowColor: "black",
+    borderRadius: 10,
+  },
+
   input: {
-    borderWidth: 1,
     height: 50,
     padding: 8,
-    borderRadius: 10,
     width: "80%",
   },
 

@@ -11,7 +11,7 @@ import {
 import SafeContainer from "../components/SafeContainer";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {getDatabase, ref, set } from "firebase/database";
-import { auth, db } from "../../firebase.config";
+import { auth} from "../../firebase.config";
 
 export default function CadastroUsuario({ navigation }) {
   const [cpf, setCpf] = useState("");
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     borderWidth: 2,
-    borderColor: "green",
+    borderColor: "#a8cf45",
     shadowColor: "black",
     borderRadius: 10,
   },
@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
   tituloInput: {
     marginLeft: 10,
     fontSize: 18,
+    color: "#466060",
   },
 
   iconeInput: {
@@ -227,7 +228,6 @@ const styles = StyleSheet.create({
     color: "#466060",
     fontFamily: "Comfortaa",
     fontWeight: "500",
-    
     paddingBottom: 5,
   },
 });
