@@ -23,7 +23,6 @@ export default function Produto({ produto }) {
     setAparecerModal(false);
     return;
   };
-
   return (
     <>
       <Pressable key={produto.id} onPress={verProduto}>
