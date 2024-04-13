@@ -12,6 +12,8 @@ import AddCarrinho from "./src/screens/AddCarrinho";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+import EsqueciSenha from "./src/screens/EsqueciSenha";
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -47,21 +49,37 @@ const AuthStack = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="LoginUsuario"
-        component={LoginUsuario}
+        name="Cadastro"
+        component={CadastroUsuario}
         options={{
-          title: "Faça seu Login",
-          headerStyle: { backgroundColor: "green" },
-          headerTintColor: "#fff",
+          title: "Cadastro",
+          headerStyle: { backgroundColor: "#a8cf45" },
+          headerTintColor: "#466060",
+          fontFamily: "Comfortaa",
+          headerTitleAlign: "center",
         }}
       />
       <Stack.Screen
-        name="CadastroUsuario"
-        component={CadastroUsuario}
+        name="LoginUsuario"
+        component={LoginUsuario}
         options={{
-          title: "Crie sua conta",
-          headerStyle: { backgroundColor: "green" },
-          headerTintColor: "#fff",
+          title: "Login",
+          headerStyle: { backgroundColor: "#eca457" },
+          headerTintColor: "#466060",
+          fontFamily: "Comfortaa",
+          headerTitleAlign: "center",
+        }}
+      />
+
+      <Stack.Screen
+        name="EsqueciSenha"
+        component={EsqueciSenha}
+        options={{
+          title: "Redefinir Senha",
+          headerStyle: { backgroundColor: "#eca457" },
+          headerTintColor: "#466060",
+          fontFamily: "Comfortaa",
+          headerTitleAlign: "center",
         }}
       />
     </Stack.Navigator>

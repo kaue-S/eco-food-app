@@ -4,9 +4,9 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
@@ -44,31 +44,47 @@ export default function LoginUsuario({ navigation }) {
   return (
     <SafeContainer>
       <View style={styles.formulario}>
-        <TextInput
-          placeholder="E-mail"
-          style={styles.input}
-          keyboardType="email-address"
-          onChangeText={(valor) => setEmail(valor)}
-        />
-        <TextInput
-          placeholder="Senha"
-          style={styles.input}
-          keyboardType="default"
-          secureTextEntry
-          onChangeText={(valor) => setSenha(valor)}
-        />
-        <TouchableOpacity
+        <View>
+        <Text style={styles.tituloInput}>E-mail:</Text>
+        <View style={styles.campoLogin}>
+          <TextInput
+           placeholder="E-mail"
+            style={styles.input}
+            keyboardType="email-address"
+            onChangeText={(valor) => setEmail(valor)}
+         />
+        </View>
+        <View>
+        <Text style={styles.tituloInput}>Senha:</Text>
+        <View style={styles.campoLogin}>
+         <TextInput
+           placeholder="Senha"
+           style={styles.input}
+           keyboardType="default"
+           secureTextEntry
+           onChangeText={(valor) => setSenha(valor)}
+         />
+        </View>
+        </View>
+        </View>
+        <Pressable
           style={styles.botaoLogin}
           onPress={Logar}
           activeOpacity={0.8}
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator size="small" color="#fff" />
+            <ActivityIndicator size="small" color="#466060" />
           ) : (
             <Text style={styles.textoBotao}>Login</Text>
           )}
-        </TouchableOpacity>
+        </Pressable>
+        <Pressable
+          style={styles.esqueciSenha}
+          onPress={() => navigation.navigate("EsqueciSenha")}
+        >
+          <Text style={styles.textoSenha}>Esqueci minha senha!</Text>
+        </Pressable>
       </View>
     </SafeContainer>
   );
@@ -76,28 +92,58 @@ export default function LoginUsuario({ navigation }) {
 
 const styles = StyleSheet.create({
   formulario: {
-    gap: 15,
+    gap: 30,
+    alignItems: "center",
+  },
+
+  tituloInput: {
+    marginLeft: 10,
+    fontSize: 18,
+    color: "#466060",
+    marginTop: 20,
+  },
+
+  campoLogin: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderWidth: 2,
+    borderColor: "#eca457",
+    shadowColor: "black",
+    borderRadius: 10,
   },
 
   input: {
-    borderWidth: 1,
     height: 50,
     padding: 8,
-    borderRadius: 10,
+    width: "80%",
   },
 
   botaoLogin: {
+    height: 50,
+    width: "65%",
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "blue",
-    borderRadius: 10,
-    height: 50,
+    backgroundColor: "#eca457",
   },
 
   textoBotao: {
-    fontSize: 16,
-    textTransform: "uppercase",
-    fontWeight: "bold",
-    color: "#fff",
+    fontSize: 14,
+    color: "#466060",
+    fontFamily: "Comfortaa",
+  },
+  textoSenha: {
+    fontSize: 14,
+    color: "#466060",
+    fontFamily: "Comfortaa",
+    textDecorationLine: "underline",
+  },
+  esqueciSenha: {
+    height: 30,
+    width: "65%",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
