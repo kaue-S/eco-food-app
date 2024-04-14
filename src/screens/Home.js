@@ -7,52 +7,68 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  Vibration,
+  Alert,
 } from "react-native";
 import arrayProdutos from "../api/arrayDeProdutos";
 import Produto from "../components/Produto";
+
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function Home({ navigation }) {
   const [pesquisar, setPesquisar] = useState("");
   const [produtoFiltrado, setProdutoFiltrado] = useState([]);
 
-  const pesquisarItem = (produto) => {
+  const produtoDigitado = (produto) => {
     setPesquisar(produto);
-    const filtro = arrayProdutos.filter(
-      (Itemproduto) => Itemproduto.nome == produto
-    );
+  };
 
-    setProdutoFiltrado(filtro);
+  const buscarProduto = () => {
+    if (!pesquisar) {
+      Vibration.vibrate(300);
+      Alert.alert("Opa", "você precisa digitar o produto primeiro!!!");
+      return;
+    }
+    Vibration.vibrate(300);
+    navigation.navigate("Resultados", { pesquisar });
   };
 
   return (
-    <View style={styles.container}>
+    <View style={estilosHome.container}>
       <ScrollView>
-        <Text style={styles.text}>Bem-vindo à página Home!</Text>
+        <Text style={estilosHome.text}>Bem-vindo à página Home!</Text>
 
-        <TextInput
-          placeholder="Pesquisar"
-          onSubmitEditing={pesquisarItem}
-          onChangeText={pesquisarItem}
-          value={pesquisar}
-        />
+        <View style={estilosHome.areaPesquisar}>
+          <TextInput
+            placeholder="Pesquisar"
+            onSubmitEditing={buscarProduto}
+            onChangeText={produtoDigitado}
+            value={pesquisar}
+            enterKeyHint="search"
+          />
 
-        <View>
+          <Pressable style={estilosHome.botaoPesquisar} onPress={buscarProduto}>
+            <FontAwesome name="search" color="#a8c458" size={24} />
+          </Pressable>
+        </View>
+
+        {/* <View>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.viewProdutos}
+            contentContainerStyle={estilosHome.viewProdutos}
           >
             {arrayProdutos.map((itemProduto) => {
               return <Produto key={itemProduto.id} produto={itemProduto} />;
             })}
           </ScrollView>
-        </View>
-        <View>
-          <Text style={styles.text}>Destaques</Text>
+        </View> */}
+        {/* <View>
+          <Text style={estilosHome.text}>Destaques</Text>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.viewProdutos}
+            contentContainerStyle={estilosHome.viewProdutos}
           >
             {arrayProdutos
               .filter((itemProduto) => {
@@ -62,24 +78,24 @@ export default function Home({ navigation }) {
                 return <Produto key={itemProduto.id} produto={itemProduto} />;
               })}
           </ScrollView>
-        </View>
-        <Pressable
-          style={styles.button}
+        </View> */}
+        {/* <Pressable
+          style={estilosHome.button}
           onPress={() => navigation.navigate("Carrinho")}
         >
-          <Text style={styles.buttonText}>Carrinho</Text>
-        </Pressable>
+          <Text style={estilosHome.buttonText}>Carrinho</Text>
+        </Pressable> */}
       </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const estilosHome = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     backgroundColor: "#f0f0f0",
     marginTop: 10,
+    marginHorizontal: 15,
     padding: 12,
   },
   text: {
@@ -100,5 +116,15 @@ const styles = StyleSheet.create({
     gap: 20,
     marginBottom: 18,
     padding: 30,
+  },
+  areaPesquisar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 4,
+    padding: 16,
+    borderRadius: 30,
+    borderColor: "#a8c458",
+    marginVertical: 8,
   },
 });
