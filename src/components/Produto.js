@@ -100,7 +100,8 @@ const estilosProdutos = StyleSheet.create({
   viewModal: {
     backgroundColor: "#f7f7f7",
     padding: 15,
-    borderRadius: 20,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
     justifyContent: "center",
     elevation: 5,
     marginTop: 100,
