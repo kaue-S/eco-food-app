@@ -15,6 +15,15 @@ import { formataPreco } from "../functions/funcoes";
 
 export default function Produto({ produto }) {
   const [aparecerModal, setAparecerModal] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handlePressIn = () => {
+    setIsPressed(true);
+  };
+
+  const handlePressOut = () => {
+    setIsPressed(false);
+  };
 
   const verProduto = () => {
     setAparecerModal(true);
@@ -26,26 +35,47 @@ export default function Produto({ produto }) {
 
   return (
     <>
-      <Pressable key={produto.id} onPress={verProduto}>
-        <Image
-          style={estilos.imagemProduto}
-          source={{ uri: `${produto.foto}` }}
-        />
-        <Text>{produto.nome}</Text>
-        <Text>Preço: {formataPreco(produto.preco)} </Text>
+      <Pressable
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        style={({ pressed }) => [
+          !pressed
+            ? estilosProdutos.cardProduto
+            : estilosProdutos.cardProdutoPressionado,
+        ]}
+        key={produto.id}
+        onPress={verProduto}
+      >
+        <View style={estilosProdutos.areaImg}>
+          <Image
+            resizeMode="cover"
+            accessibilityLabel={produto.nome}
+            style={estilosProdutos.imagemProduto}
+            source={{ uri: `${produto.foto}` }}
+          />
+        </View>
+        <View style={estilosProdutos.areaInfos}>
+          <Text style={estilosProdutos.nomeProduto}>{produto.nome}</Text>
+          <Text style={estilosProdutos.nomePreco}>
+            Preço: {formataPreco(produto.preco)}{" "}
+          </Text>
+        </View>
       </Pressable>
       <Modal
-        style={estilos.modal}
+        style={estilosProdutos.modal}
         animationType="slide"
         visible={aparecerModal}
         transparent={true}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={estilos.viewModal}>
-            <Pressable onPress={cancelar} style={estilos.BtnFecharModal}>
-              <View style={estilos.fecharModal}>
-                <AntDesign name="closecircle" size={24} color="black" />
-                <Text style={estilos.tituloModal}>Produto</Text>
+          <View style={estilosProdutos.viewModal}>
+            <Pressable
+              onPress={cancelar}
+              style={estilosProdutos.BtnFecharModal}
+            >
+              <View style={estilosProdutos.fecharModal}>
+                <AntDesign name="closecircle" size={24} color="#466060" />
+                <Text style={estilosProdutos.tituloModal}>Produto</Text>
               </View>
             </Pressable>
             <VerProduto produto={produto} />
@@ -56,10 +86,11 @@ export default function Produto({ produto }) {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilosProdutos = StyleSheet.create({
   imagemProduto: {
-    width: 100,
-    height: 100,
+    width: 95,
+    height: 95,
+    borderRadius: 20,
   },
   botaoCancelar: {
     backgroundColor: "red",
@@ -67,9 +98,9 @@ const estilos = StyleSheet.create({
     margin: 12,
   },
   viewModal: {
-    backgroundColor: "#F29199",
-    padding: 20,
-    borderRadius: 10,
+    backgroundColor: "#f7f7f7",
+    padding: 15,
+    borderRadius: 20,
     justifyContent: "center",
     elevation: 5,
     marginTop: 100,
@@ -89,10 +120,59 @@ const estilos = StyleSheet.create({
   },
   BtnFecharModal: {
     borderBottomWidth: 1,
+    borderColor: "#466060",
     marginBottom: 18,
   },
   tituloModal: {
     textAlign: "center",
     fontWeight: "bold",
+    color: "#466060",
+    fontFamily: "Comfortaa",
+    fontSize: 16,
+  },
+  cardProduto: {
+    width: 160,
+    padding: 18,
+    justifyContent: "space-around",
+    borderRadius: 20,
+    //backgroundColor: "#a8c458",
+    alignItems: "center",
+  },
+  cardProdutoPressionado: {
+    width: 160,
+    //backgroundColor: "#ECA457",
+    backgroundColor: "#A8C458",
+    padding: 18,
+    justifyContent: "space-around",
+    borderRadius: 20,
+    alignItems: "center",
+  },
+  areaImg: {
+    backgroundColor: "#a8c458",
+    width: "100%",
+    padding: 12,
+    borderRadius: 20,
+    alignItems: "center",
+  },
+  areaInfos: {
+    //backgroundColor: "#f7f7f7",
+    padding: 12,
+    borderRadius: 12,
+    marginVertical: 8,
+    alignItems: "center",
+  },
+  nomeProduto: {
+    fontFamily: "Barlow",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#466060",
+    textAlign: "center",
+    marginRight: 4,
+  },
+  nomePreco: {
+    fontFamily: "Barlow",
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#466060",
   },
 });

@@ -55,7 +55,7 @@ export default function Home({ navigation }) {
           </Pressable>
         </View>
 
-        {/* <View>
+        <View>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -65,7 +65,7 @@ export default function Home({ navigation }) {
               return <Produto key={itemProduto.id} produto={itemProduto} />;
             })}
           </ScrollView>
-        </View> */}
+        </View>
         {/* <View>
           <Text style={estilosHome.text}>Destaques</Text>
           <ScrollView

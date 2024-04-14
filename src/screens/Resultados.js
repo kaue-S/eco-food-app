@@ -131,10 +131,9 @@ const estilosPesquisar = StyleSheet.create({
     padding: 12,
   },
   viewProdutos: {
-    justifyContent: "space-between",
-    gap: 20,
+    justifyContent: "space-around",
+    gap: 5,
     marginBottom: 18,
-    padding: 30,
   },
   areaPesquisar: {
     flexDirection: "row",
