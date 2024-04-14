@@ -40,6 +40,7 @@ export default function Home({ navigation }) {
 
         <View style={estilosHome.areaPesquisar}>
           <TextInput
+            style={estilosHome.inputPesquisa}
             placeholder="Pesquisar"
             onSubmitEditing={buscarProduto}
             onChangeText={produtoDigitado}
@@ -48,7 +49,9 @@ export default function Home({ navigation }) {
           />
 
           <Pressable style={estilosHome.botaoPesquisar} onPress={buscarProduto}>
-            <FontAwesome name="search" color="#a8c458" size={24} />
+            <Text style={estilosHome.iconePesquisar}>
+              <FontAwesome name="search" color="#466060" size={18} />
+            </Text>
           </Pressable>
         </View>
 
@@ -122,9 +125,21 @@ const estilosHome = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 4,
-    padding: 16,
+    padding: 12,
     borderRadius: 30,
-    borderColor: "#a8c458",
+    borderColor: "#ECA457",
     marginVertical: 8,
+  },
+  inputPesquisa: {
+    padding: 8,
+    width: "85%",
+    marginRight: 8,
+    fontSize: 18,
+    fontFamily: "Comfortaa",
+    fontWeight: "500",
+  },
+  iconePesquisar: {
+    padding: 4,
+    marginRight: 18,
   },
 });
