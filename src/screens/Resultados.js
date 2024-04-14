@@ -77,7 +77,7 @@ export default function Resultados({ route }) {
               </Text>
             </Pressable>
           </View>
-          {loading && <ActivityIndicator size="large" color="#a471f9" />}
+          {loading && <ActivityIndicator size="large" color="#466060" />}
           {!loading && (
             <>
               {route.params ? (
@@ -90,11 +90,24 @@ export default function Resultados({ route }) {
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={estilosPesquisar.viewProdutos}
                   >
-                    {resultados.map((itemProduto) => {
-                      return (
-                        <Produto key={itemProduto.id} produto={itemProduto} />
-                      );
-                    })}
+                    {resultados.length >= 1 ? (
+                      <>
+                        {resultados.map((itemProduto) => {
+                          return (
+                            <Produto
+                              key={itemProduto.id}
+                              produto={itemProduto}
+                            />
+                          );
+                        })}
+                      </>
+                    ) : (
+                      <>
+                        <Text style={estilosPesquisar.titulo}>
+                          Produtos não encontrados
+                        </Text>
+                      </>
+                    )}
                   </ScrollView>
                 </>
               ) : (
