@@ -72,7 +72,7 @@ const estilos = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     elevation: 5,
-    marginTop: 200,
+    marginTop: 100,
   },
   modal: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, StatusBar } from "react-native";
+import { StyleSheet, SafeAreaView, StatusBar, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -13,6 +13,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import EsqueciSenha from "./src/screens/EsqueciSenha";
+import PerfilUsuario from "./src/screens/PerfilUsuario";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,12 +26,11 @@ export default function App() {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUserLoggedIn(!!user);
-      console.log(isUserLoggedIn);
     });
 
     return unsubscribe;
   }, []);
-
+  // console.log(isUserLoggedIn);
   return (
     <>
       <StatusBar barStyle={"light-content"} />
@@ -87,17 +88,56 @@ const AuthStack = () => {
 };
 
 const MainTabNavigator = () => {
+  const esconderTab = false;
+
   return (
-    <Tab.Navigator initialRouteName="Home">
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor: route.name === route.name ? "#a8c458" : "#0000",
+        tabBarInactiveTintColor: "#f7f7f7",
+        tabBarActiveBackgroundColor:
+          route.name === route.name ? "#f7f7f7" : null,
+        tabBarStyle: {
+          backgroundColor: "#a8c458",
+          elevation: 5,
+        },
+      })}
+    >
       <Tab.Screen
         name="Home"
         component={Home}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Inicio",
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="home" color={color} size={size} />
+          ),
+        }}
       />
+
       <Tab.Screen
         name="Carrinho"
         component={Carrinho}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Carrinho",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="shopping-basket" color={color} size={size} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="PerfilUsuario"
+        component={PerfilUsuario}
+        options={{
+          title: "Perfil",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="user-circle-o" color={color} size={size} />
+          ),
+        }}
       />
     </Tab.Navigator>
   );
