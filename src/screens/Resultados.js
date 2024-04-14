@@ -86,8 +86,9 @@ export default function Resultados({ route }) {
                     Pesquisando Por: {nomeDaBusca}
                   </Text>
                   <ScrollView
-                    horizontal={true}
+                    horizontal={resultados.length >= 2 ? true : false}
                     showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
                     contentContainerStyle={estilosPesquisar.viewProdutos}
                   >
                     {resultados.length >= 1 ? (
