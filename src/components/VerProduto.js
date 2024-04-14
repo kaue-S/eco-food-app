@@ -88,84 +88,163 @@ export default function VerProduto({ produto }) {
   };
 
   return (
-    <View style={estilos.viewModal}>
-      <Image
-        style={estilos.imagemProduto}
-        source={{ uri: `${produto.foto}` }}
-      />
-      <Text>{produto.nome}</Text>
-      <Text>
-        Preço:
-        {formataPreco(produto.preco)}
+    <View style={estilosAddProdutos.viewModal}>
+      <Text
+        style={[estilosAddProdutos.subTitulo, estilosAddProdutos.nomeProduto]}
+      >
+        {produto.nome}
       </Text>
-      <Text>fornecedor: {comerciante[0].nome}</Text>
-      <Text>estabelecimento: {comerciante[0].tipoComercio}</Text>
+      <View
+        style={[
+          estilosAddProdutos.viewBotoes,
+          estilosAddProdutos.areaPrecoEqtd,
+        ]}
+      >
+        <Text style={[estilosAddProdutos.subTitulo]}>
+          Preço: {formataPreco(produto.preco)}
+        </Text>
+        <Text
+          style={[
+            estilosAddProdutos.subTitulo,
+            estilosAddProdutos.mostrarQtdEstoque,
+          ]}
+        >
+          Estoque: {produto.quantidade}
+        </Text>
+      </View>
+      <View style={estilosAddProdutos.viewBotoes}>
+        <Image
+          style={estilosAddProdutos.imagemProduto}
+          source={{ uri: `${produto.foto}` }}
+        />
+        <View>
+          <View
+            style={[estilosAddProdutos.viewBotoes, estilosAddProdutos.areaQtd]}
+          >
+            <Text style={estilosAddProdutos.tituloInfos}>Qtde:</Text>
+            <View style={[estilosAddProdutos.viewBotoes]}>
+              <Pressable
+                style={[estilosAddProdutos.btnQuantidade]}
+                onPress={tirarQuantidade}
+              >
+                <Text style={estilosAddProdutos.txtQuantidade}>-</Text>
+              </Pressable>
+
+              <Text style={estilosAddProdutos.txtQuantidade}>
+                {quantidadeNoCarrinho}
+              </Text>
+
+              <Pressable
+                style={[estilosAddProdutos.btnQuantidade]}
+                onPress={addQuantidade}
+              >
+                <Text style={estilosAddProdutos.txtQuantidade}>+</Text>
+              </Pressable>
+            </View>
+          </View>
+          <View style={estilosAddProdutos.viewBotoes}>
+            <Text style={estilosAddProdutos.tituloInfos}>Total:</Text>
+            <Text style={estilosAddProdutos.totalPreco}>
+              {formataPreco(totalCompra)}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <Text style={estilosAddProdutos.tituloInfos}>
+        fornecedor: {comerciante[0].nome}
+      </Text>
 
       {/* Area mais detalhes */}
       {verDetalhes && (
-        <Pressable style={estilos.botaoCancelar} onPress={esconderInformascoes}>
-          <Text>Menos Detalhes</Text>
+        <Pressable
+          style={estilosAddProdutos.btnInfos}
+          onPress={esconderInformascoes}
+        >
+          <Text style={estilosAddProdutos.txtDetalhes}>Menos Detalhes</Text>
         </Pressable>
       )}
 
       {!verDetalhes && (
-        <Pressable style={estilos.botaoCancelar} onPress={verInformascoes}>
-          <Text>Mais Detalhes</Text>
+        <Pressable
+          style={estilosAddProdutos.btnInfos}
+          onPress={verInformascoes}
+        >
+          <Text style={estilosAddProdutos.txtDetalhes}>Mais Detalhes</Text>
         </Pressable>
       )}
 
       {verDetalhes && (
-        <View style={estilos.maisDetalhes}>
+        <View style={estilosAddProdutos.maisDetalhes}>
           <ScrollView>
-            <Text>Contém: {produto.descricao}</Text>
+            <Text style={estilosAddProdutos.textoDescricao}>
+              Contém: {produto.descricao}
+            </Text>
             <TabelaNutricional tabela={produto.tabelaNutricional} />
           </ScrollView>
         </View>
       )}
       {/*fim da Area mais detalhes */}
 
-      <View style={estilos.viewBotoes}>
-        <Text>quantidade:</Text>
-        <View style={estilos.viewBotoes}>
-          <Pressable style={[estilos.botaoCancelar]} onPress={tirarQuantidade}>
-            <Text>-</Text>
-          </Pressable>
-
-          <Text>{quantidadeNoCarrinho}</Text>
-
-          <Pressable style={[estilos.botaoCancelar]} onPress={addQuantidade}>
-            <Text>+</Text>
-          </Pressable>
-        </View>
-      </View>
       <View>
-        <Text>estoque: {produto.quantidade}</Text>
-        <Text>
-          Total:
-          {formataPreco(totalCompra)}
-        </Text>
-      </View>
-      <View>
-        <Pressable onPress={adicionarAoCarrinho} style={estilos.botaoCancelar}>
-          <Text>Adicionar ao Carrinho</Text>
+        <Pressable
+          onPress={adicionarAoCarrinho}
+          style={estilosAddProdutos.btnAddCarrinho}
+        >
+          <Text style={estilosAddProdutos.txtAddCarrino}>
+            Adicionar ao Carrinho
+          </Text>
         </Pressable>
       </View>
     </View>
   );
 }
 
-const estilos = StyleSheet.create({
+const estilosAddProdutos = StyleSheet.create({
   imagemProduto: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
+    borderRadius: 15,
   },
-  botaoCancelar: {
-    backgroundColor: "red",
+  btnAddCarrinho: {
+    backgroundColor: "#ECA457",
     padding: 18,
     margin: 12,
+    marginVertical: 32,
+    borderRadius: 10,
+  },
+  txtAddCarrino: {
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Comfortaa",
+    fontWeight: "400",
+    color: "#466060",
+  },
+  btnInfos: {
+    backgroundColor: "#466060",
+    padding: 18,
+    margin: 16,
+    borderRadius: 10,
+  },
+  txtDetalhes: {
+    color: "#A8C458",
+    fontFamily: "Barlow",
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  btnQuantidade: {
+    backgroundColor: "#A8C458",
+    padding: 16,
+    margin: 12,
+    borderRadius: 20,
+  },
+  txtQuantidade: {
+    color: "#466060",
+    fontFamily: "Barlow",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   viewModal: {
-    backgroundColor: "#F29199",
     justifyContent: "center",
   },
   modal: {
@@ -174,7 +253,7 @@ const estilos = StyleSheet.create({
   viewBotoes: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
   },
   fecharModal: {
     margin: 12,
@@ -182,5 +261,54 @@ const estilos = StyleSheet.create({
   },
   maisDetalhes: {
     flex: 1,
+    marginVertical: 8,
+  },
+  tituloInfos: {
+    fontFamily: "Comfortaa",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#466060",
+    marginVertical: 8,
+  },
+  subTitulo: {
+    fontFamily: "Comfortaa",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#466060",
+    marginVertical: 4,
+  },
+  totalPreco: {
+    backgroundColor: "#a8c458",
+    padding: 10,
+    fontFamily: "Comfortaa",
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#466060",
+    marginVertical: 4,
+    borderRadius: 15,
+  },
+
+  nomeProduto: {
+    margin: 8,
+    backgroundColor: "#A8C458",
+    padding: 20,
+    borderRadius: 15,
+    textAlign: "center",
+  },
+  areaPrecoEqtd: {
+    marginVertical: 18,
+    justifyContent: "space-between",
+
+    borderWidth: 4,
+    padding: 15,
+    borderColor: "#ECA457",
+    borderRadius: 15,
+  },
+  mostrarQtdEstoque: {
+    color: "#a8c458",
+  },
+  textoDescricao: {
+    fontFamily: "Barlow",
+    fontSize: 16,
   },
 });

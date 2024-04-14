@@ -19,7 +19,11 @@ export default function TabelaNutricional({ tabela }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+    paddingVertical: 20,
+    borderWidth: 2,
+    borderRadius: 15,
+    margin: 12,
+    borderColor: "#ECA457",
   },
   row: {
     flexDirection: "row",
@@ -32,10 +36,14 @@ const styles = StyleSheet.create({
   cell: {
     flex: 1,
     textAlign: "center",
+    fontFamily: "Barlow",
+    fontSize: 16,
   },
   titulo: {
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "600",
+    fontFamily: "Comfortaa",
+    color: "#EF7E06",
   },
 });

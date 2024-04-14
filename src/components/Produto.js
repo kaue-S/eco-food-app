@@ -119,8 +119,6 @@ const estilosProdutos = StyleSheet.create({
     justifyContent: "space-around",
   },
   BtnFecharModal: {
-    borderBottomWidth: 1,
-    borderColor: "#466060",
     marginBottom: 18,
   },
   tituloModal: {
@@ -128,7 +126,7 @@ const estilosProdutos = StyleSheet.create({
     fontWeight: "bold",
     color: "#466060",
     fontFamily: "Comfortaa",
-    fontSize: 16,
+    fontSize: 24,
   },
   cardProduto: {
     width: 160,
