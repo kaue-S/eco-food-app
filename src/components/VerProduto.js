@@ -19,24 +19,39 @@ export default function VerProduto({ produto }) {
   const [quantidadeNoCarrinho, setQuantidadeNoCarrinho] = useState(0);
   const [totalCompra, setTotalCompra] = useState(0);
   const [verDetalhes, setVerDetalhes] = useState(false);
+  const [btnAddQtd, setBtnaddQtd] = useState(false);
+  const [btntirarQtd, setBtntirarQtd] = useState(true);
+  const [btnPressionado, setBtnPressionado] = useState(false);
+
+  const estaPressionado = () => {
+    setBtnPressionado(true);
+  };
+
+  const naoEstaPressionado = () => {
+    setBtnPressionado(false);
+  };
 
   const tirarQuantidade = () => {
-    if (quantidadeNoCarrinho < 1) {
+    if (quantidadeNoCarrinho <= 0) {
       setTotalCompra(0);
+      setBtntirarQtd(true);
       return;
     } else {
       let novaQuantidade = quantidadeNoCarrinho - 1;
       setQuantidadeNoCarrinho(novaQuantidade);
       setTotalCompra(novaQuantidade * produto.preco);
+      setBtnaddQtd(false);
     }
   };
   const addQuantidade = () => {
     if (quantidadeNoCarrinho >= produto.quantidade) {
+      setBtnaddQtd(true);
       return;
     } else {
       let novaQuantidade = quantidadeNoCarrinho + 1;
       setQuantidadeNoCarrinho(novaQuantidade);
       setTotalCompra(novaQuantidade * produto.preco);
+      setBtntirarQtd(false);
     }
   };
 
@@ -117,15 +132,25 @@ export default function VerProduto({ produto }) {
           style={estilosAddProdutos.imagemProduto}
           source={{ uri: `${produto.foto}` }}
         />
-        <View>
+        <View style={estilosAddProdutos.areaQtdETotal}>
           <View
             style={[estilosAddProdutos.viewBotoes, estilosAddProdutos.areaQtd]}
           >
             <Text style={estilosAddProdutos.tituloInfos}>Qtde:</Text>
             <View style={[estilosAddProdutos.viewBotoes]}>
               <Pressable
-                style={[estilosAddProdutos.btnQuantidade]}
+                onPressIn={estaPressionado}
+                onPressOut={naoEstaPressionado}
+                style={({ pressed }) => [
+                  estilosAddProdutos.btnQuantidade,
+                  btntirarQtd
+                    ? { opacity: 0.5 }
+                    : {
+                        opacity: pressed ? 0.8 : 1,
+                      },
+                ]}
                 onPress={tirarQuantidade}
+                disabled={btntirarQtd}
               >
                 <Text style={estilosAddProdutos.txtQuantidade}>-</Text>
               </Pressable>
@@ -135,8 +160,18 @@ export default function VerProduto({ produto }) {
               </Text>
 
               <Pressable
-                style={[estilosAddProdutos.btnQuantidade]}
+                onPressIn={estaPressionado}
+                onPressOut={naoEstaPressionado}
+                style={({ pressed }) => [
+                  estilosAddProdutos.btnQuantidade,
+                  btnAddQtd
+                    ? { opacity: 0.5 }
+                    : {
+                        opacity: pressed ? 0.8 : 1,
+                      },
+                ]}
                 onPress={addQuantidade}
+                disabled={btnAddQtd}
               >
                 <Text style={estilosAddProdutos.txtQuantidade}>+</Text>
               </Pressable>
@@ -158,7 +193,14 @@ export default function VerProduto({ produto }) {
       {/* Area mais detalhes */}
       {verDetalhes && (
         <Pressable
-          style={estilosAddProdutos.btnInfos}
+          onPressIn={estaPressionado}
+          onPressOut={naoEstaPressionado}
+          style={({ pressed }) => [
+            estilosAddProdutos.btnInfos,
+            {
+              opacity: pressed ? 0.8 : 1,
+            },
+          ]}
           onPress={esconderInformascoes}
         >
           <Text style={estilosAddProdutos.txtDetalhes}>Menos Detalhes</Text>
@@ -167,7 +209,14 @@ export default function VerProduto({ produto }) {
 
       {!verDetalhes && (
         <Pressable
-          style={estilosAddProdutos.btnInfos}
+          onPressIn={estaPressionado}
+          onPressOut={naoEstaPressionado}
+          style={({ pressed }) => [
+            estilosAddProdutos.btnInfos,
+            {
+              opacity: pressed ? 0.8 : 1,
+            },
+          ]}
           onPress={verInformascoes}
         >
           <Text style={estilosAddProdutos.txtDetalhes}>Mais Detalhes</Text>
@@ -189,7 +238,14 @@ export default function VerProduto({ produto }) {
       <View>
         <Pressable
           onPress={adicionarAoCarrinho}
-          style={estilosAddProdutos.btnAddCarrinho}
+          onPressIn={estaPressionado}
+          onPressOut={naoEstaPressionado}
+          style={({ pressed }) => [
+            estilosAddProdutos.btnAddCarrinho,
+            {
+              opacity: pressed ? 0.8 : 1,
+            },
+          ]}
         >
           <Text style={estilosAddProdutos.txtAddCarrino}>
             Adicionar ao Carrinho
@@ -246,6 +302,7 @@ const estilosAddProdutos = StyleSheet.create({
   },
   viewModal: {
     justifyContent: "center",
+    backgroundColor: "#f7f7f7",
   },
   modal: {
     flex: 1,
@@ -254,6 +311,7 @@ const estilosAddProdutos = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
+    gap: 2.5,
   },
   fecharModal: {
     margin: 12,
@@ -310,5 +368,8 @@ const estilosAddProdutos = StyleSheet.create({
   textoDescricao: {
     fontFamily: "Barlow",
     fontSize: 16,
+  },
+  areaQtdETotal: {
+    alignItems: "center",
   },
 });
