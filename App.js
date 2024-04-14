@@ -8,7 +8,7 @@ import Inicial from "./src/screens/Inicial";
 import LoginUsuario from "./src/screens/LoginUsuario";
 import Home from "./src/screens/Home";
 import Carrinho from "./src/screens/Carrinho";
-import AddCarrinho from "./src/screens/AddCarrinho";
+import Resultados from "./src/screens/Resultados";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -88,8 +88,6 @@ const AuthStack = () => {
 };
 
 const MainTabNavigator = () => {
-  const esconderTab = false;
-
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -124,6 +122,17 @@ const MainTabNavigator = () => {
           tabBarLabel: "Carrinho",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="shopping-basket" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Resultados"
+        component={Resultados}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Pesquisar",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="search" color={color} size={size} />
           ),
         }}
       />

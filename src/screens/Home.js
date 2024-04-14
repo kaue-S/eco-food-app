@@ -6,18 +6,37 @@ import {
   TouchableOpacity,
   Pressable,
   ScrollView,
+  TextInput,
 } from "react-native";
 import arrayProdutos from "../api/arrayDeProdutos";
 import Produto from "../components/Produto";
 
 export default function Home({ navigation }) {
+  const [pesquisar, setPesquisar] = useState("");
+  const [produtoFiltrado, setProdutoFiltrado] = useState([]);
+
+  const pesquisarItem = (produto) => {
+    setPesquisar(produto);
+    const filtro = arrayProdutos.filter(
+      (Itemproduto) => Itemproduto.nome == produto
+    );
+
+    setProdutoFiltrado(filtro);
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.text}>Bem-vindo à página Home!</Text>
 
+        <TextInput
+          placeholder="Pesquisar"
+          onSubmitEditing={pesquisarItem}
+          onChangeText={pesquisarItem}
+          value={pesquisar}
+        />
+
         <View>
-          <Text style={styles.text}>Tudo</Text>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}

@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-export default function AddCarrinho() {
+export default function Resultados() {
   return (
     <View>
-      <Text>AddCarrinho</Text>
+      <Text>Pesquisar</Text>
     </View>
   );
 }
