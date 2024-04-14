@@ -43,9 +43,23 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
             source={{ uri: `${produto.foto}` }}
           />
           <View style={estilosItemProduto.infosCardProduto}>
-            <Text>{comerciante[0].nome}</Text>
-            <Text>quantidade: {quantidade} </Text>
-            <Text>total: {formataPreco(valor)} </Text>
+            <Text style={estilosItemProduto.textoCard}>
+              quantidade: {quantidade}{" "}
+            </Text>
+            <View
+              style={{ flexDirection: "row", gap: 5, alignItems: "center" }}
+            >
+              <Text style={estilosItemProduto.textoCard}>total:</Text>
+
+              <Text
+                style={[
+                  estilosItemProduto.textoCard,
+                  estilosItemProduto.txtCardDestaque,
+                ]}
+              >
+                {formataPreco(valor)}
+              </Text>
+            </View>
           </View>
         </View>
       </Pressable>
@@ -62,51 +76,75 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
               style={estilosItemProduto.BtnFecharModal}
             >
               <View style={estilosItemProduto.fecharModal}>
-                <AntDesign name="closecircle" size={24} color="black" />
+                <AntDesign name="closecircle" size={24} color="#466060" />
                 <Text style={estilosItemProduto.tituloModal}>
                   Produto No Carrinho
                 </Text>
               </View>
             </Pressable>
             <View>
-              <Text style={estilosItemProduto.tituloProduto}>
-                {produto.nome}
-              </Text>
-              <View style={estilosItemProduto.infos}>
-                <Image
-                  style={estilosItemProduto.imagemProduto}
-                  source={{ uri: `${produto.foto}` }}
-                />
-                <View style={estilosItemProduto.infoProduto}>
-                  <Text style={estilosItemProduto.textoValores}>
-                    Valor: {formataPreco(produto.preco)}
-                  </Text>
-                  <Text style={estilosItemProduto.textoValores}>
-                    Quantidade: {quantidade}
-                  </Text>
-                  <Text style={estilosItemProduto.textoValores}>
-                    Total: {formataPreco(valor)}
-                  </Text>
+              <View style={estilosItemProduto.areaProduto}>
+                <Text
+                  style={[
+                    estilosItemProduto.subTitulo,
+                    estilosItemProduto.nomeProduto,
+                  ]}
+                >
+                  {produto.nome}
+                </Text>
+                <View style={estilosItemProduto.infos}>
+                  <Image
+                    style={estilosItemProduto.imagemProduto}
+                    source={{ uri: `${produto.foto}` }}
+                  />
+                  <View style={estilosItemProduto.infoProduto}>
+                    <Text style={estilosItemProduto.textoValores}>
+                      Valor: {formataPreco(produto.preco)}
+                    </Text>
+                    <Text style={estilosItemProduto.textoValores}>
+                      Quantidade: {quantidade}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      gap: 5,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text style={estilosItemProduto.textoCard}>Total:</Text>
+
+                    <Text
+                      style={[
+                        estilosItemProduto.textoCard,
+                        estilosItemProduto.txtCardDestaque,
+                      ]}
+                    >
+                      {formataPreco(valor)}
+                    </Text>
+                  </View>
                 </View>
               </View>
 
-              <Text style={estilosItemProduto.tituloProduto}>Fornecedor</Text>
+              <View style={estilosItemProduto.fornecedor}>
+                <Text style={estilosItemProduto.tituloProduto}>Fornecedor</Text>
 
-              <View style={estilosItemProduto.infos}>
-                <Image
-                  style={estilosItemProduto.imagemComerciante}
-                  source={{ uri: `${comerciante[0].logo}` }}
-                />
-                <View>
-                  <Text style={estilosItemProduto.textoValores}>
-                    Nome: {comerciante[0].nome}
-                  </Text>
-                  <Text style={estilosItemProduto.textoValores}>
-                    Estabelecimento: {comerciante[0].filtro}
-                  </Text>
-                  <Text style={estilosItemProduto.textoValores}>
-                    Local: {comerciante[0].local}
-                  </Text>
+                <View style={estilosItemProduto.infos}>
+                  <Image
+                    style={estilosItemProduto.imagemComerciante}
+                    source={{ uri: `${comerciante[0].logo}` }}
+                  />
+                  <View>
+                    <Text style={estilosItemProduto.textoValores}>
+                      Nome: {comerciante[0].nome}
+                    </Text>
+                    <Text style={estilosItemProduto.textoValores}>
+                      Estabelecimento: {comerciante[0].filtro}
+                    </Text>
+                    <Text style={estilosItemProduto.textoValores}>
+                      Local: {comerciante[0].local}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -121,6 +159,7 @@ const estilosItemProduto = StyleSheet.create({
   imagemProduto: {
     width: 100,
     height: 100,
+    borderRadius: 15,
   },
   imagemComerciante: {
     width: 45,
@@ -132,12 +171,13 @@ const estilosItemProduto = StyleSheet.create({
     margin: 12,
   },
   viewModal: {
-    backgroundColor: "#F29199",
+    backgroundColor: "#f7f7f7",
     padding: 20,
-    borderRadius: 10,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
     justifyContent: "center",
     elevation: 5,
-    marginTop: 200,
+    marginTop: 100,
   },
   modal: {
     flex: 1,
@@ -153,20 +193,23 @@ const estilosItemProduto = StyleSheet.create({
     justifyContent: "space-around",
   },
   BtnFecharModal: {
-    borderBottomWidth: 1,
     marginBottom: 18,
   },
   tituloModal: {
+    fontFamily: "Comfortaa",
     textAlign: "center",
     fontWeight: "bold",
+    fontSize: 24,
+    color: "#466060",
   },
   tituloProduto: {
-    fontWeight: "bold",
+    fontWeight: "600",
     fontSize: 24,
     fontFamily: "Comfortaa",
+    textAlign: "center",
+    color: "#EF7E06",
   },
   infos: {
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
     marginVertical: 16,
@@ -181,24 +224,75 @@ const estilosItemProduto = StyleSheet.create({
     width: 250,
   },
   textoValores: {
+    fontFamily: "Barlow",
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: "500",
     marginVertical: 4,
   },
-  infosCardProduto: {},
+  infosCardProduto: {
+    padding: 8,
+  },
   cardProduto: {
     flexDirection: "row",
-    backgroundColor: "#F29",
     padding: 24,
-    marginVertical: 12,
+    marginBottom: 12,
     justifyContent: "space-evenly",
-    alignItems: "flex-start",
     gap: 12,
     alignItems: "center",
   },
   tituloCard: {
-    fontWeight: "bold",
+    fontWeight: "600",
     fontFamily: "Comfortaa",
+    fontSize: 18,
+    color: "#A8C458",
+    textAlign: "center",
+    borderWidth: 4,
+    padding: 4,
+    borderRadius: 15,
+    borderColor: "#A8C458",
+  },
+  cardCarrinho: {
+    marginVertical: 12,
+    padding: 4,
+  },
+  textoCard: {
+    fontFamily: "Barlow",
     fontSize: 16,
+    fontWeight: "400",
+    marginVertical: 4,
+  },
+  txtCardDestaque: {
+    fontSize: 20,
+    backgroundColor: "#A8C458",
+    padding: 8,
+    borderRadius: 15,
+    fontWeight: "600",
+  },
+  subTitulo: {
+    fontFamily: "Comfortaa",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#466060",
+    marginVertical: 4,
+  },
+  nomeProduto: {
+    margin: 8,
+    backgroundColor: "#A8C458",
+    padding: 20,
+    borderRadius: 15,
+    textAlign: "center",
+  },
+  fornecedor: {
+    borderWidth: 4,
+    padding: 8,
+    borderRadius: 15,
+    borderColor: "#EF7E06",
+    marginVertical: 8,
+  },
+  areaProduto: {
+    padding: 8,
+    borderWidth: 4,
+    borderColor: "#7FA324",
+    borderRadius: 15,
   },
 });

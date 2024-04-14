@@ -12,7 +12,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ItemNoCarrinho from "../components/ItemNoCarrinho";
 import { formataPreco } from "../functions/funcoes";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6, FontAwesome } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function Carrinho({ navigation }) {
@@ -126,6 +126,9 @@ export default function Carrinho({ navigation }) {
         ]}
       >
         Carrinho
+        {listaProdutosNoCarrinho.length >= 1 && (
+          <FontAwesome name="shopping-basket" color="#466060" size={24} />
+        )}
       </Text>
       {listaProdutosNoCarrinho.length <= 0 && (
         <>
@@ -145,7 +148,7 @@ export default function Carrinho({ navigation }) {
       {listaProdutosNoCarrinho.length >= 1 && (
         <>
           {listaProdutosNoCarrinho && (
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
               {listaProdutosNoCarrinho.map((itemProduto) => {
                 return (
                   <View
@@ -166,7 +169,7 @@ export default function Carrinho({ navigation }) {
                       style={estilosCarrinho.btnExcluir}
                     >
                       <Text>
-                        <FontAwesome6 name="trash" size={16} color="#f7f7f7" />
+                        <FontAwesome6 name="trash" size={16} color="red" />
                       </Text>
                     </Pressable>
                   </View>
@@ -175,8 +178,31 @@ export default function Carrinho({ navigation }) {
             </ScrollView>
           )}
           <View style={estilosCarrinho.areaComprar}>
-            <Text>Quantidade: {listaProdutosNoCarrinho.length} </Text>
-            <Text>Total: {formataPreco(totalNoCarrinho)}</Text>
+            <View style={estilosCarrinho.areaInfos}>
+              <View style={[estilosCarrinho.areaInfos, { gap: 5 }]}>
+                <Text style={estilosCarrinho.txtInfos}>Quantidade:</Text>
+                <Text
+                  style={[
+                    estilosCarrinho.txtInfos,
+                    estilosCarrinho.txtDestaque,
+                  ]}
+                >
+                  {listaProdutosNoCarrinho.length}
+                </Text>
+              </View>
+              <View style={[estilosCarrinho.areaInfos, { gap: 5 }]}>
+                <Text style={estilosCarrinho.txtInfos}>Total:</Text>
+                <Text
+                  style={[
+                    estilosCarrinho.txtInfos,
+                    estilosCarrinho.txtDestaque,
+                  ]}
+                >
+                  {formataPreco(totalNoCarrinho)}
+                </Text>
+              </View>
+            </View>
+
             <Pressable onPress={comprarProdutos} style={estilosCarrinho.button}>
               <Text style={estilosCarrinho.buttonText}>Comprar</Text>
             </Pressable>
@@ -195,35 +221,61 @@ const estilosCarrinho = StyleSheet.create({
     marginHorizontal: 15,
   },
   text: {
-    fontSize: 20,
-    marginBottom: 20,
+    fontSize: 24,
+    marginVertical: 8,
+    fontFamily: "Comfortaa",
+    fontWeight: "600",
+    textAlign: "center",
   },
   button: {
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: "#466060",
+    padding: 12,
+    borderRadius: 50,
     marginVertical: 18,
   },
   buttonText: {
-    color: "white",
-    fontSize: 16,
+    color: "#ECA457",
+    fontSize: 18,
+    fontFamily: "Comfortaa",
+    fontWeight: "600",
+    textAlign: "center",
   },
   cardDoCarrinho: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-    marginHorizontal: 12,
+    marginVertical: 4,
+    padding: 8,
   },
   areaComprar: {
     padding: 18,
     elevation: 5,
   },
   btnExcluir: {
-    backgroundColor: "red",
+    borderWidth: 4,
+    borderColor: "red",
     padding: 16,
     borderRadius: 50,
   },
   titulo: {
     textAlign: "center",
+  },
+  areaInfos: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  txtInfos: {
+    fontFamily: "Barlow",
+    fontWeight: "600",
+    fontSize: 16,
+    color: "#466060",
+  },
+  txtDestaque: {
+    backgroundColor: "#A8Cf45",
+    padding: 10,
+    borderRadius: 15,
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
