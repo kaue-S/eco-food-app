@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     width: "45%", // Ajuste conforme necessário
     borderRadius: 10,
     alignItems: "center",
+    color: "#eca457",
   },
   buttonTextS: {
     color: "#eca457",
