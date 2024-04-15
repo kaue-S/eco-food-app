@@ -69,6 +69,7 @@ const AuthStack = () => {
           headerTintColor: "#466060",
           fontFamily: "Comfortaa",
           headerTitleAlign: "center",
+          fontSize: 20,
         }}
       />
 
@@ -142,10 +143,13 @@ const MainTabNavigator = () => {
         component={PerfilUsuario}
         options={{
           title: "Perfil",
-          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="user-circle-o" color={color} size={size} />
           ),
+          headerStyle: { backgroundColor: "#a8cf45" },
+          headerTintColor: "#466060",
+          fontFamily: "Comfortaa",
+          headerTitleAlign: "center",
         }}
       />
     </Tab.Navigator>
