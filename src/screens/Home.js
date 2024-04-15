@@ -17,6 +17,7 @@ import arrayFiltros from "../api/arrayDeFiltros";
 
 export default function Home({ navigation }) {
   const [pesquisar, setPesquisar] = useState("");
+  console.log(pesquisar);
 
   const produtoDigitado = (produto) => {
     setPesquisar(produto);
@@ -33,8 +34,9 @@ export default function Home({ navigation }) {
   };
 
   const buscarPorFiltro = (nomeFiltro) => {
-    setPesquisar(nomeFiltro);
-    navigation.navigate("Resultados", { pesquisar });
+    if (pesquisar === nomeFiltro) {
+      navigation.navigate("Resultados", { pesquisar });
+    }
   };
 
   return (
@@ -67,7 +69,8 @@ export default function Home({ navigation }) {
                 return (
                   <Pressable
                     key={itemProduto.id}
-                    onPress={() => buscarPorFiltro(itemProduto.nome)}
+                    onPressIn={() => setPesquisar(itemProduto.nome)}
+                    onPressOut={() => buscarPorFiltro(itemProduto.nome)}
                   >
                     <View style={{ alignItems: "center", padding: 4 }}>
                       <Image
