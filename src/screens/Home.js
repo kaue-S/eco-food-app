@@ -34,7 +34,6 @@ export default function Home({ navigation }) {
 
   const buscarPorFiltro = (nomeFiltro) => {
     setPesquisar(nomeFiltro);
-
     navigation.navigate("Resultados", { pesquisar });
   };
 
