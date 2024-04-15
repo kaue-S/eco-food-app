@@ -7,6 +7,7 @@ import {
   View,
   ActivityIndicator,
   Pressable,
+  Image,
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
@@ -43,29 +44,35 @@ export default function LoginUsuario({ navigation }) {
 
   return (
     <SafeContainer>
+      <View style={styles.imagem}>
+        <Image
+          style={styles.logo}
+          source={require("../../assets/images/LogoECOFOOD.png")}
+        />
+      </View>
       <View style={styles.formulario}>
         <View>
-        <Text style={styles.tituloInput}>E-mail:</Text>
-        <View style={styles.campoLogin}>
-          <TextInput
-           placeholder="E-mail"
-            style={styles.input}
-            keyboardType="email-address"
-            onChangeText={(valor) => setEmail(valor)}
-         />
-        </View>
-        <View>
-        <Text style={styles.tituloInput}>Senha:</Text>
-        <View style={styles.campoLogin}>
-         <TextInput
-           placeholder="Senha"
-           style={styles.input}
-           keyboardType="default"
-           secureTextEntry
-           onChangeText={(valor) => setSenha(valor)}
-         />
-        </View>
-        </View>
+          <Text style={styles.tituloInput}>E-mail:</Text>
+          <View style={styles.campoLogin}>
+            <TextInput
+              placeholder="E-mail"
+              style={styles.input}
+              keyboardType="email-address"
+              onChangeText={(valor) => setEmail(valor)}
+            />
+          </View>
+          <View>
+            <Text style={styles.tituloInput}>Senha:</Text>
+            <View style={styles.campoLogin}>
+              <TextInput
+                placeholder="Senha"
+                style={styles.input}
+                keyboardType="default"
+                secureTextEntry
+                onChangeText={(valor) => setSenha(valor)}
+              />
+            </View>
+          </View>
         </View>
         <Pressable
           style={styles.botaoLogin}
@@ -93,6 +100,16 @@ export default function LoginUsuario({ navigation }) {
 const styles = StyleSheet.create({
   formulario: {
     gap: 30,
+    alignItems: "center",
+  },
+
+  logo: {
+    width: 300,
+    height: 300,
+    resizeMode: "contain",
+  },
+
+  imagem: {
     alignItems: "center",
   },
 

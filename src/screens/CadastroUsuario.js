@@ -86,7 +86,6 @@ export default function CadastroUsuario({ navigation }) {
 
   return (
     <SafeContainer>
-      <ScrollView />
       <View style={styles.formulario}>
         <View>
           <Text style={styles.tituloInput}>Nome:</Text>
