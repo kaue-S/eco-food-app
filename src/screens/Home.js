@@ -70,7 +70,7 @@ export default function Home({ navigation }) {
                   <Pressable
                     key={itemProduto.id}
                     onPressIn={() => setPesquisar(itemProduto.nome)}
-                    onPressOut={() => buscarPorFiltro(itemProduto.nome)}
+                    onPress={() => buscarPorFiltro(itemProduto.nome)}
                   >
                     <View style={{ alignItems: "center", padding: 4 }}>
                       <Image
