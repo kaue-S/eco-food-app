@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  Vibration,
   View,
 } from "react-native";
 import React, { useEffect, useState, useCallback } from "react";
@@ -14,22 +15,24 @@ import arrayProdutos from "../api/arrayDeProdutos";
 import Produto from "../components/Produto";
 import { FontAwesome } from "@expo/vector-icons";
 
-export default function Resultados({ route }) {
+export default function Resultados({ route, navigation }) {
   const [loading, setLoading] = useState(true);
   const [resultados, setResultados] = useState([]);
   const [nomeDaBusca, setNomedaBusca] = useState("");
+  const [pesquisar, setPesquisar] = useState("");
+
   if (route.params) {
-    const { pesquisar } = route.params;
-    console.log(pesquisar);
+    const { pesquisar: letraPesquisada } = route.params;
+    console.log(letraPesquisada);
     useEffect(() => {
       async function buscarProduto() {
         try {
           const filtro = arrayProdutos.filter((produto) =>
-            produto.nome.toLowerCase().includes(pesquisar.toLowerCase())
+            produto.nome.toLowerCase().includes(letraPesquisada.toLowerCase())
           );
           console.log(filtro);
           setResultados(filtro);
-          setNomedaBusca(pesquisar);
+          setNomedaBusca(letraPesquisada);
           setLoading(false);
         } catch (error) {
           confirm.error(error);
@@ -41,7 +44,7 @@ export default function Resultados({ route }) {
       }
 
       buscarProduto();
-    }, [pesquisar]);
+    }, [letraPesquisada]);
   } else {
     console.log("vazio");
     useEffect(() => {
@@ -54,6 +57,20 @@ export default function Resultados({ route }) {
     }, []);
   }
 
+  const produtoDigitado = (produto) => {
+    setPesquisar(produto);
+  };
+
+  const buscarProduto = () => {
+    if (!pesquisar) {
+      Vibration.vibrate(300);
+      Alert.alert("Opa", "você precisa digitar o produto primeiro!!!");
+      return;
+    }
+    Vibration.vibrate(300);
+    navigation.navigate("Resultados", { pesquisar });
+  };
+
   return (
     <View style={estilosPesquisar.container}>
       <ScrollView>
@@ -63,8 +80,9 @@ export default function Resultados({ route }) {
             <TextInput
               style={estilosPesquisar.inputPesquisa}
               placeholder="Pesquisar"
-              onSubmitEditing={() => {}}
-              onChangeText={() => {}}
+              onSubmitEditing={buscarProduto}
+              onChangeText={produtoDigitado}
+              value={pesquisar}
               enterKeyHint="search"
             />
 

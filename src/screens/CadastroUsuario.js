@@ -86,94 +86,96 @@ export default function CadastroUsuario({ navigation }) {
 
   return (
     <SafeContainer>
-      <View style={styles.formulario}>
-        <View>
-          <Text style={styles.tituloInput}>Nome:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Nome Completo"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="default"
-              onChangeText={(valor) => setNome(valor)}
-            />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.formulario}>
+          <View>
+            <Text style={styles.tituloInput}>Nome:</Text>
+            <View style={styles.campoCadastro}>
+              <TextInput
+                placeholder="Nome Completo"
+                placeholderTextColor={"#a0a0a0"}
+                style={styles.input}
+                keyboardType="default"
+                onChangeText={(valor) => setNome(valor)}
+              />
+            </View>
           </View>
-        </View>
-        <View>
-          <Text style={styles.tituloInput}>CPF:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Numeros aleatórios"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="numeric"
-              onChangeText={(valor) => setCpf(valor)}
-            />
+          <View>
+            <Text style={styles.tituloInput}>CPF:</Text>
+            <View style={styles.campoCadastro}>
+              <TextInput
+                placeholder="Numeros aleatórios"
+                placeholderTextColor={"#a0a0a0"}
+                style={styles.input}
+                keyboardType="numeric"
+                onChangeText={(valor) => setCpf(valor)}
+              />
+            </View>
           </View>
-        </View>
-        <View>
-          <Text style={styles.tituloInput}>Endereço:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Ex: Rua coatá"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="default"
-              onChangeText={(valor) => setRua(valor)}
-            />
+          <View>
+            <Text style={styles.tituloInput}>Endereço:</Text>
+            <View style={styles.campoCadastro}>
+              <TextInput
+                placeholder="Ex: Rua coatá"
+                placeholderTextColor={"#a0a0a0"}
+                style={styles.input}
+                keyboardType="default"
+                onChangeText={(valor) => setRua(valor)}
+              />
+            </View>
           </View>
-        </View>
-        <View>
-          <Text style={styles.tituloInput}>Numero:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Ex: 123 casa 3"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="numeric"
-              onChangeText={(valor) => setNumero(valor)}
-            />
+          <View>
+            <Text style={styles.tituloInput}>Numero:</Text>
+            <View style={styles.campoCadastro}>
+              <TextInput
+                placeholder="Ex: 123 casa 3"
+                placeholderTextColor={"#a0a0a0"}
+                style={styles.input}
+                keyboardType="numeric"
+                onChangeText={(valor) => setNumero(valor)}
+              />
+            </View>
           </View>
-        </View>
-        <View>
-          <Text style={styles.tituloInput}>E-mail:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="E-mail"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="email-address"
-              onChangeText={(valor) => setEmail(valor)}
-            />
+          <View>
+            <Text style={styles.tituloInput}>E-mail:</Text>
+            <View style={styles.campoCadastro}>
+              <TextInput
+                placeholder="E-mail"
+                placeholderTextColor={"#a0a0a0"}
+                style={styles.input}
+                keyboardType="email-address"
+                onChangeText={(valor) => setEmail(valor)}
+              />
+            </View>
           </View>
-        </View>
 
-        <View>
-          <Text style={styles.tituloInput}>Senha:</Text>
-          <View style={styles.campoCadastro}>
-            <TextInput
-              placeholder="Senha"
-              placeholderTextColor={"#a0a0a0"}
-              style={styles.input}
-              keyboardType="default"
-              secureTextEntry
-              onChangeText={(valor) => setSenha(valor)}
-            />
+          <View>
+            <Text style={styles.tituloInput}>Senha:</Text>
+            <View style={styles.campoCadastro}>
+              <TextInput
+                placeholder="Senha"
+                placeholderTextColor={"#a0a0a0"}
+                style={styles.input}
+                keyboardType="default"
+                secureTextEntry
+                onChangeText={(valor) => setSenha(valor)}
+              />
+            </View>
           </View>
-        </View>
 
-        <Pressable
-          style={styles.botaoCadastro}
-          onPress={cadastrar}
-          activeOpacity={0.8}
-        >
-          {loading ? (
-            <ActivityIndicator size="small" color="#fff" />
-          ) : (
-            <Text style={styles.textoBotao}>cadastrar</Text>
-          )}
-        </Pressable>
-      </View>
+          <Pressable
+            style={styles.botaoCadastro}
+            onPress={cadastrar}
+            activeOpacity={0.8}
+          >
+            {loading ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Text style={styles.textoBotao}>cadastrar</Text>
+            )}
+          </Pressable>
+        </View>
+      </ScrollView>
     </SafeContainer>
   );
 }

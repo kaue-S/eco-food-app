@@ -17,7 +17,6 @@ import { FontAwesome } from "@expo/vector-icons";
 
 export default function Home({ navigation }) {
   const [pesquisar, setPesquisar] = useState("");
-  const [produtoFiltrado, setProdutoFiltrado] = useState([]);
 
   const produtoDigitado = (produto) => {
     setPesquisar(produto);
