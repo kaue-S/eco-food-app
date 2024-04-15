@@ -28,35 +28,33 @@ export default function Inicial({ navigation }) {
 
   return (
     <SafeContainer onLayout={onLayoutRootView}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/images/LogoECOFOOD.png")}
-          />
-          <View style={styles.frase}>
-            <Text style={styles.textofrase}>Que bom ter você conosco</Text>
-            <Text style={styles.textofrase}> Vamos poupar alimentos!</Text>
-          </View>
-
-          <Pressable
-            style={styles.botaoCadastrar}
-            onPress={() => {
-              navigation.navigate("Cadastro");
-            }}
-          >
-            <Text style={styles.textoBotao}>Cadastrar</Text>
-          </Pressable>
-          <Pressable
-            style={styles.botaoLogin}
-            onPress={() => {
-              navigation.navigate("LoginUsuario");
-            }}
-          >
-            <Text style={styles.textoBotao}>Entrar</Text>
-          </Pressable>
+      <View style={styles.container}>
+        <Image
+          style={styles.logo}
+          source={require("../../assets/images/LogoECOFOOD.png")}
+        />
+        <View style={styles.frase}>
+          <Text style={styles.textofrase}>Que bom ter você conosco</Text>
+          <Text style={styles.textofrase}> Vamos poupar alimentos!</Text>
         </View>
-      </ScrollView>
+
+        <Pressable
+          style={styles.botaoCadastrar}
+          onPress={() => {
+            navigation.navigate("Cadastro");
+          }}
+        >
+          <Text style={styles.textoBotao}>Cadastrar</Text>
+        </Pressable>
+        <Pressable
+          style={styles.botaoLogin}
+          onPress={() => {
+            navigation.navigate("LoginUsuario");
+          }}
+        >
+          <Text style={styles.textoBotao}>Entrar</Text>
+        </Pressable>
+      </View>
     </SafeContainer>
   );
 }
@@ -65,8 +63,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    gap: 25,
+    justifyContent: "center",
+    height: "100%",
   },
+
   frase: {
     marginBottom: "15%",
   },
@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    marginTop: "30%",
     width: 300,
     height: 300,
     resizeMode: "contain",

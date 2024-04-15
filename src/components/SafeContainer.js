@@ -37,5 +37,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: "center",
     width: "100%",
+    height: "100%",
   },
 });
