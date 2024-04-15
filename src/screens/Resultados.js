@@ -27,8 +27,12 @@ export default function Resultados({ route, navigation }) {
     useEffect(() => {
       async function buscarProduto() {
         try {
-          const filtro = arrayProdutos.filter((produto) =>
-            produto.nome.toLowerCase().includes(letraPesquisada.toLowerCase())
+          const filtro = arrayProdutos.filter(
+            (produto) =>
+              produto.categoria
+                .toLowerCase()
+                .includes(letraPesquisada.toLowerCase()) ||
+              produto.nome.toLowerCase().includes(letraPesquisada.toLowerCase())
           );
           console.log(filtro);
           setResultados(filtro);

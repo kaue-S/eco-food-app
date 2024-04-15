@@ -9,11 +9,11 @@ import {
   TextInput,
   Vibration,
   Alert,
+  Image,
 } from "react-native";
-import arrayProdutos from "../api/arrayDeProdutos";
-import Produto from "../components/Produto";
 
 import { FontAwesome } from "@expo/vector-icons";
+import arrayFiltros from "../api/arrayDeFiltros";
 
 export default function Home({ navigation }) {
   const [pesquisar, setPesquisar] = useState("");
@@ -32,9 +32,15 @@ export default function Home({ navigation }) {
     navigation.navigate("Resultados", { pesquisar });
   };
 
+  const buscarPorFiltro = (nomeFiltro) => {
+    setPesquisar(nomeFiltro);
+
+    navigation.navigate("Resultados", { pesquisar });
+  };
+
   return (
     <View style={estilosHome.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={estilosHome.text}>Bem-vindo à página Home!</Text>
 
         <View style={estilosHome.areaPesquisar}>
@@ -55,14 +61,27 @@ export default function Home({ navigation }) {
         </View>
 
         <View>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={estilosHome.viewProdutos}
-          >
-            {arrayProdutos.map((itemProduto) => {
-              return <Produto key={itemProduto.id} produto={itemProduto} />;
-            })}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Text style={estilosHome.text}>Buscar por:</Text>
+            <View style={estilosHome.viewProdutos}>
+              {arrayFiltros.map((itemProduto) => {
+                return (
+                  <Pressable
+                    key={itemProduto.id}
+                    onPress={() => buscarPorFiltro(itemProduto.nome)}
+                  >
+                    <View style={{ alignItems: "center", padding: 4 }}>
+                      <Image
+                        resizeMode="contain"
+                        source={itemProduto.foto}
+                        style={{ width: 70, height: 70 }}
+                      />
+                      <Text>{itemProduto.nome}</Text>
+                    </View>
+                  </Pressable>
+                );
+              })}
+            </View>
           </ScrollView>
         </View>
         {/* <View>
@@ -114,10 +133,12 @@ const estilosHome = StyleSheet.create({
     fontSize: 16,
   },
   viewProdutos: {
+    flexDirection: "row",
     justifyContent: "space-between",
-    gap: 20,
-    marginBottom: 18,
+    gap: 10,
+    marginVertical: 18,
     padding: 30,
+    flexWrap: "wrap",
   },
   areaPesquisar: {
     flexDirection: "row",
