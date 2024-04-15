@@ -1,5 +1,12 @@
 import React, { useCallback } from "react";
-import { View, StyleSheet, Text, Image, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -21,33 +28,35 @@ export default function Inicial({ navigation }) {
 
   return (
     <SafeContainer onLayout={onLayoutRootView}>
-      <View style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/images/LogoECOFOOD.png")}
-        />
-        <View style={styles.frase}>
-          <Text style={styles.textofrase}>Que bom ter você conosco</Text>
-          <Text style={styles.textofrase}> Vamos poupar alimentos!</Text>
-        </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <Image
+            style={styles.logo}
+            source={require("../../assets/images/LogoECOFOOD.png")}
+          />
+          <View style={styles.frase}>
+            <Text style={styles.textofrase}>Que bom ter você conosco</Text>
+            <Text style={styles.textofrase}> Vamos poupar alimentos!</Text>
+          </View>
 
-        <Pressable
-          style={styles.botaoCadastrar}
-          onPress={() => {
-            navigation.navigate("Cadastro");
-          }}
-        >
-          <Text style={styles.textoBotao}>Cadastrar</Text>
-        </Pressable>
-        <Pressable
-          style={styles.botaoLogin}
-          onPress={() => {
-            navigation.navigate("LoginUsuario");
-          }}
-        >
-          <Text style={styles.textoBotao}>Entrar</Text>
-        </Pressable>
-      </View>
+          <Pressable
+            style={styles.botaoCadastrar}
+            onPress={() => {
+              navigation.navigate("Cadastro");
+            }}
+          >
+            <Text style={styles.textoBotao}>Cadastrar</Text>
+          </Pressable>
+          <Pressable
+            style={styles.botaoLogin}
+            onPress={() => {
+              navigation.navigate("LoginUsuario");
+            }}
+          >
+            <Text style={styles.textoBotao}>Entrar</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
     </SafeContainer>
   );
 }
