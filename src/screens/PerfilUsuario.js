@@ -57,7 +57,7 @@ export default function PerfilUsuario() {
       </View>
 
       <View style={styles.footer}>
-        <Pressable style={styles.button} onPress={logout}>
+        <Pressable style={styles.button}>
           <Text style={styles.buttonText}>Editar Perfil</Text>
         </Pressable>
         <Pressable style={styles.buttonSair} onPress={logout}>
