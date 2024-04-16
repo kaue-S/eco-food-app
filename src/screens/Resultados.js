@@ -22,6 +22,7 @@ export default function Resultados({ route, navigation }) {
   const [loading, setLoading] = useState(true);
   const [resultados, setResultados] = useState([]);
   const [nomeDaBusca, setNomedaBusca] = useState("");
+  const [filtroPesquisa, setFiltroPesquisa] = useState([]);
   const [pesquisar, setPesquisar] = useState("");
   const [listaDeComerciantes, setListaDeComerciantes] = useState([]);
 
@@ -31,16 +32,32 @@ export default function Resultados({ route, navigation }) {
     useEffect(() => {
       async function buscarProduto() {
         try {
-          const filtro = arrayProdutos.filter(
+          const produtosApi = await api.get("/produtos.json");
+
+          //console.log("****************************");
+          //console.log(listaDeProdutos.data);
+
+          const listaDeProdutos = Object.keys(produtosApi.data).map(
+            (produtoNaLista) => {
+              return {
+                ...produtosApi.data[produtoNaLista],
+
+                id: produtoNaLista,
+              };
+            }
+          );
+
+          const filtro = listaDeProdutos.filter(
             (produto) =>
               produto.categoria
                 .toLowerCase()
                 .includes(letraPesquisada.toLowerCase()) ||
               produto.nome.toLowerCase().includes(letraPesquisada.toLowerCase())
           );
-          console.log(filtro);
+          //console.log(filtro);
 
-          setResultados(filtro);
+          setResultados(filtro.length <= 0 ? listaDeProdutos : filtro);
+          setFiltroPesquisa(filtro);
           setNomedaBusca(letraPesquisada);
           setLoading(false);
         } catch (error) {
@@ -54,7 +71,7 @@ export default function Resultados({ route, navigation }) {
 
       buscarProduto();
     }, [route.params]);
-    console.log(resultados);
+    //console.log(resultados);
     const carregandoComerciantes = useCallback(async () => {
       setLoading(true);
       try {
@@ -72,7 +89,24 @@ export default function Resultados({ route, navigation }) {
         console.log("Comerciantes: ");
         console.log(comerciantes);
 
-        setListaDeComerciantes(comerciantes);
+        const comerciantesFiltrados = comerciantes.filter(
+          (comercio) =>
+            comercio.filtro
+              .toLowerCase()
+              .includes(letraPesquisada.toLowerCase()) ||
+            comercio.nome
+              .toLowerCase()
+              .includes(letraPesquisada.toLowerCase()) ||
+            comercio.tipoComercio
+              .toLowerCase()
+              .includes(letraPesquisada.toLowerCase())
+        );
+
+        setListaDeComerciantes(
+          comerciantesFiltrados.length <= 0
+            ? comerciantes
+            : comerciantesFiltrados
+        );
         setLoading(false);
       } catch (error) {
         console.log("Erro ao carregar os dados:  " + error);
@@ -81,7 +115,7 @@ export default function Resultados({ route, navigation }) {
           "Erro ao carregar os dados tente novamente mais tarde"
         );
       }
-    }, []);
+    }, [route.params]);
 
     useFocusEffect(
       useCallback(() => {
@@ -149,9 +183,9 @@ export default function Resultados({ route, navigation }) {
   };
 
   return (
-    <View style={estilosPesquisar.container}>
-      <ScrollView>
-        <View>
+    <View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={estilosPesquisar.container}>
           <Text style={estilosPesquisar.titulo}>Pesquisar</Text>
           <View style={estilosPesquisar.areaPesquisar}>
             <TextInput
@@ -177,9 +211,32 @@ export default function Resultados({ route, navigation }) {
             <>
               {route.params ? (
                 <>
-                  <Text style={estilosPesquisar.titulo}>
-                    Pesquisando por: {nomeDaBusca}
-                  </Text>
+                  {filtroPesquisa.length >= 1 ? (
+                    <Text style={estilosPesquisar.titulo}>
+                      Pesquisando por: {nomeDaBusca}
+                    </Text>
+                  ) : (
+                    <>
+                      <Text
+                        style={[estilosPesquisar.titulo, { marginVertical: 8 }]}
+                      >
+                        Não achamos resultado para:{" "}
+                        <Text
+                          style={{
+                            marginHorizontal: 8,
+                            color: "#7FA324",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {nomeDaBusca}
+                        </Text>
+                      </Text>
+                      <Text style={estilosPesquisar.titulo}>
+                        Aqui algumas sugestões
+                      </Text>
+                    </>
+                  )}
+
                   <ScrollView
                     horizontal={resultados.length >= 2 ? true : false}
                     showsHorizontalScrollIndicator={false}
@@ -205,27 +262,19 @@ export default function Resultados({ route, navigation }) {
                       </>
                     )}
                   </ScrollView>
-                  <Text style={estilosPesquisar.titulo}>Comércios parceiros</Text>
+                  <Text
+                    style={[estilosPesquisar.titulo, { marginVertical: 8 }]}
+                  >
+                    Alguns Comercios:
+                  </Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View style={estilosPesquisar.menu}>
                       {listaDeComerciantes.map((itemComercio) => {
                         return (
-                          <Pressable
+                          <CardComercio
                             key={itemComercio.id}
-                            style={{ width: 100, height: 100, margin: 12 }}
-                          >
-                            <Image
-                              resizeMode="contain"
-                              source={{ uri: `${itemComercio.icone}` }}
-                              style={{
-                                width: 50,
-                                height: 50,
-                                backgroundColor: "#a8cf45",
-                                borderRadius: 15,
-                              }}
-                            />
-                            <Text>{itemComercio.nome}</Text>
-                          </Pressable>
+                            comerciante={itemComercio}
+                          />
                         );
                       })}
                     </View>
@@ -261,13 +310,14 @@ const estilosPesquisar = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f0f0f0",
     marginTop: 10,
-    marginHorizontal: 15,
     padding: 12,
+    width: "100%",
   },
   viewProdutos: {
     justifyContent: "space-around",
     gap: 5,
     marginBottom: 18,
+    marginHorizontal: 15,
   },
   areaPesquisar: {
     flexDirection: "row",
