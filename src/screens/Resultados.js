@@ -323,8 +323,8 @@ const estilosPesquisar = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderWidth: 4,
-    borderRadius: 30,
+    borderWidth: 3,
+    borderRadius: 20,
     borderColor: "#ECA457",
     marginHorizontal: 16,
   },
@@ -343,6 +343,8 @@ const estilosPesquisar = StyleSheet.create({
   titulo: {
     fontSize: 20,
     marginBottom: 20,
+    fontFamily: "Comfortaa",
+    color: "#466060",
   },
   menu: {
     flexDirection: "row",

@@ -148,7 +148,7 @@ export default function Carrinho({ navigation }) {
           {listaProdutosNoCarrinho.length <= 0 && (
             <>
               <Text style={[estilosCarrinho.text, estilosCarrinho.titulo]}>
-                Está Vazia
+                está vazia
               </Text>
               <Image
                 style={{ width: 200, height: 300, alignSelf: "center" }}

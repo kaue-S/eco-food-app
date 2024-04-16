@@ -112,7 +112,7 @@ const MainTabNavigator = () => {
         component={Home}
         options={{
           headerShown: false,
-          tabBarLabel: "Inicio",
+          tabBarLabel: "Início",
           tabBarIcon: ({ color, size }) => (
             <Entypo name="home" color={color} size={size} />
           ),

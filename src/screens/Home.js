@@ -82,7 +82,7 @@ export default function Home({ navigation }) {
   return (
     <View style={estilosHome.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <Text style={estilosHome.text}>Bem-vindo à página Home!</Text> */}
+        {/* <Text style={estilosHome.text}>Bem-vindo a página Home!</Text> */}
         <View style={estilosHome.barraInicial}>
           <FontAwesome name="user" size={34} color="#1E3939" />
           <Text style={estilosHome.titulo}>
@@ -94,7 +94,7 @@ export default function Home({ navigation }) {
         <View style={estilosHome.areaPesquisar}>
           <TextInput
             style={estilosHome.inputPesquisa}
-            placeholder="Pesquisar"
+            placeholder="Quer comprar o que hoje?"
             onSubmitEditing={buscarProduto}
             onChangeText={produtoDigitado}
             value={pesquisar}
@@ -138,7 +138,7 @@ export default function Home({ navigation }) {
 
         {!loading && (
           <>
-            <Text style={estilosHome.text}>Buscar por:</Text>
+            <Text style={estilosHome.text}>Pesquise nas categorias:</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={estilosHome.menu}>
                 {arrayFiltros.map((itemProduto) => {
@@ -167,7 +167,7 @@ export default function Home({ navigation }) {
                 })}
               </View>
             </ScrollView>
-            <Text style={estilosHome.text}>Veja comercios:</Text>
+            <Text style={estilosHome.text}>Pesquise nos comércios:</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={estilosHome.menuComercio}>
                 {listaDeComerciantes.map((itemComercio) => {
@@ -219,14 +219,21 @@ const estilosHome = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     width: 610,
-    gap: 8,
+    gap: 12,
     marginHorizontal: 8,
     marginVertical: 12,
+    marginLeft: 20,
+    marginTop: 2,
+    
+    
   },
   text: {
-    fontSize: 20,
+    fontSize: 19,
     marginHorizontal: 16,
     marginVertical: 16,
+    color: "#466060",
+    fontFamily: "Comfortaa",
+    
   },
   button: {
     backgroundColor: "blue",
@@ -249,8 +256,8 @@ const estilosHome = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderWidth: 4,
-    borderRadius: 30,
+    borderWidth: 3,
+    borderRadius: 20,
     borderColor: "#ECA457",
     marginHorizontal: 16,
   },
@@ -258,7 +265,7 @@ const estilosHome = StyleSheet.create({
     padding: 8,
     width: "85%",
     marginRight: 8,
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: "Comfortaa",
     fontWeight: "500",
   },
