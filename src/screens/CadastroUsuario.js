@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
   formulario: {
     gap: 20,
     alignItems: "center",
+    marginVertical: 24,
   },
 
   campoCadastro: {
@@ -219,6 +220,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#a8cf45",
+    marginVertical: 18,
   },
 
   textoBotao: {
