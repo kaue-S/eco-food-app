@@ -6,7 +6,7 @@ const arrayProdutos = [
     preco: 2.25,
     quantidade: 10,
     foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmbQ-Wow9xHOqs0lTuSQ7KfOxkd386tIFZuadiQ4Bvag&s",
-    categoria: "frutas",
+    categoria: "hortifruti",
     mercado_id: 1,
     tabelaNutricional: {
       calorias: {
@@ -59,7 +59,7 @@ const arrayProdutos = [
     preco: 2.25,
     quantidade: 5,
     foto: "https://upload.wikimedia.org/wikipedia/commons/3/31/Banana_Icon.png",
-    categoria: "frutas",
+    categoria: "hortifruti",
     mercado_id: 2,
     tabelaNutricional: {
       calorias: {
@@ -165,7 +165,7 @@ const arrayProdutos = [
     preco: 2.5,
     quantidade: 3,
     foto: "https://upload.wikimedia.org/wikipedia/commons/8/81/Goiaba-fruta.jpg",
-    categoria: "frutas",
+    categoria: "hortifruti",
     mercado_id: 4,
     tabelaNutricional: {
       calorias: {

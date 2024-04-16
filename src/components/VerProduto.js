@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import arrayComerciante from "../api/arrayDeComerciante";
-import TabelaNutricional from "./TabelaNutricional";
+
 import { formataPreco } from "../functions/funcoes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -229,7 +229,6 @@ export default function VerProduto({ produto }) {
             <Text style={estilosAddProdutos.textoDescricao}>
               Contém: {produto.descricao}
             </Text>
-            <TabelaNutricional tabela={produto.tabelaNutricional} />
           </ScrollView>
         </View>
       )}

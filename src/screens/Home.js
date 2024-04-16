@@ -19,8 +19,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import arrayFiltros from "../api/arrayDeFiltros";
 
 export default function Home({ navigation }) {
-  const { displayName: nome, } = auth.currentUser;
-
+  const { displayName: nome } = auth.currentUser;
 
   const [pesquisar, setPesquisar] = useState("");
   console.log(pesquisar);
@@ -51,7 +50,14 @@ export default function Home({ navigation }) {
         {/* <Text style={estilosHome.text}>Bem-vindo à página Home!</Text> */}
         <View style={estilosHome.barraInicial}>
           <FontAwesome name="user" size={34} color="#1E3939" />
-          <Text style={estilosHome.titulo}>  Olá, <Text style={{fontWeight: "bold", color: "#1E3939"}}> {nome}</Text></Text>
+          <Text style={estilosHome.titulo}>
+            {" "}
+            Olá,{" "}
+            <Text style={{ fontWeight: "bold", color: "#1E3939" }}>
+              {" "}
+              {nome}
+            </Text>
+          </Text>
         </View>
 
         <View style={estilosHome.areaPesquisar}>
@@ -71,31 +77,31 @@ export default function Home({ navigation }) {
           </Pressable>
         </View>
 
-    <Text style={estilosHome.text}>Buscar por:</Text>
-  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-    <View style={estilosHome.menu}>
-      {arrayFiltros.map((itemProduto) => {
-        return (
-          <Pressable
-            key={itemProduto.id}
-            onPressIn={() => setPesquisar(itemProduto.nome)}
-            onPress={() => buscarPorFiltro(itemProduto.nome)}
-            
-          >
-            <View style={{ alignItems: "center", width: 100, padding: 10}}>
-              <Image
-                resizeMode="contain"
-                source={itemProduto.foto}
-                style={{ width: 70, height: 70 }}
-              />
-              <Text>{itemProduto.nome}</Text>
-            </View>
-          </Pressable>
-        );
-      })}
-    </View>
-</ScrollView>
-
+        <Text style={estilosHome.text}>Buscar por:</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View style={estilosHome.menu}>
+            {arrayFiltros.map((itemProduto) => {
+              return (
+                <Pressable
+                  key={itemProduto.id}
+                  onPressIn={() => setPesquisar(itemProduto.nome)}
+                  onPress={() => buscarPorFiltro(itemProduto.nome)}
+                >
+                  <View
+                    style={{ alignItems: "center", width: 100, padding: 10 }}
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={itemProduto.foto}
+                      style={{ width: 70, height: 70 }}
+                    />
+                    <Text>{itemProduto.nome}</Text>
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -115,7 +121,7 @@ const estilosHome = StyleSheet.create({
     flexDirection: "row",
     height: 60,
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     marginBottom: 30,
   },
 
@@ -123,7 +129,7 @@ const estilosHome = StyleSheet.create({
     fontSize: 20,
   },
 
-  menu:{
+  menu: {
     flexDirection: "row",
     flexWrap: "wrap",
     height: 230,
@@ -172,5 +178,4 @@ const estilosHome = StyleSheet.create({
     padding: 4,
     marginRight: 18,
   },
-
 });
