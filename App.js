@@ -105,10 +105,7 @@ const MainTabNavigator = () => {
         tabBarLabelStyle: {
           fontSize: 14, // Ajuste o tamanho da fonte conforme necessário
         },
-        
-
       })}
-
     >
       <Tab.Screen
         name="Home"
