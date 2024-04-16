@@ -22,6 +22,7 @@ export default function Resultados({ route, navigation }) {
   const [loading, setLoading] = useState(true);
   const [resultados, setResultados] = useState([]);
   const [nomeDaBusca, setNomedaBusca] = useState("");
+  const [filtroPesquisa, setFiltroPesquisa] = useState([]);
   const [pesquisar, setPesquisar] = useState("");
   const [listaDeComerciantes, setListaDeComerciantes] = useState([]);
 
@@ -55,7 +56,8 @@ export default function Resultados({ route, navigation }) {
           );
           //console.log(filtro);
 
-          setResultados(filtro);
+          setResultados(filtro.length <= 0 ? listaDeProdutos : filtro);
+          setFiltroPesquisa(filtro);
           setNomedaBusca(letraPesquisada);
           setLoading(false);
         } catch (error) {
@@ -209,9 +211,32 @@ export default function Resultados({ route, navigation }) {
             <>
               {route.params ? (
                 <>
-                  <Text style={estilosPesquisar.titulo}>
-                    Pesquisando Por: {nomeDaBusca}
-                  </Text>
+                  {filtroPesquisa.length >= 1 ? (
+                    <Text style={estilosPesquisar.titulo}>
+                      Pesquisando por: {nomeDaBusca}
+                    </Text>
+                  ) : (
+                    <>
+                      <Text
+                        style={[estilosPesquisar.titulo, { marginVertical: 8 }]}
+                      >
+                        Não achamos resultado para:{" "}
+                        <Text
+                          style={{
+                            marginHorizontal: 8,
+                            color: "#7FA324",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {nomeDaBusca}
+                        </Text>
+                      </Text>
+                      <Text style={estilosPesquisar.titulo}>
+                        Aqui algumas sugestões
+                      </Text>
+                    </>
+                  )}
+
                   <ScrollView
                     horizontal={resultados.length >= 2 ? true : false}
                     showsHorizontalScrollIndicator={false}
@@ -237,7 +262,11 @@ export default function Resultados({ route, navigation }) {
                       </>
                     )}
                   </ScrollView>
-                  <Text style={estilosPesquisar.titulo}>Alguns Comercios</Text>
+                  <Text
+                    style={[estilosPesquisar.titulo, { marginVertical: 8 }]}
+                  >
+                    Alguns Comercios:
+                  </Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View style={estilosPesquisar.menu}>
                       {listaDeComerciantes.map((itemComercio) => {
