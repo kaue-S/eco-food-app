@@ -97,7 +97,7 @@ const arrayFiltros = [
   },
   {
     id: 16,
-    nome: "Iorgurtes",
+    nome: "Iorgutes",
     foto: iogurtes,
   },
   {

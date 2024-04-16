@@ -87,7 +87,24 @@ export default function Resultados({ route, navigation }) {
         console.log("Comerciantes: ");
         console.log(comerciantes);
 
-        setListaDeComerciantes(comerciantes);
+        const comerciantesFiltrados = comerciantes.filter(
+          (comercio) =>
+            comercio.filtro
+              .toLowerCase()
+              .includes(letraPesquisada.toLowerCase()) ||
+            comercio.nome
+              .toLowerCase()
+              .includes(letraPesquisada.toLowerCase()) ||
+            comercio.tipoComercio
+              .toLowerCase()
+              .includes(letraPesquisada.toLowerCase())
+        );
+
+        setListaDeComerciantes(
+          comerciantesFiltrados.length <= 0
+            ? comerciantes
+            : comerciantesFiltrados
+        );
         setLoading(false);
       } catch (error) {
         console.log("Erro ao carregar os dados:  " + error);
@@ -96,7 +113,7 @@ export default function Resultados({ route, navigation }) {
           "Erro ao carregar os dados tente novamente mais tarde"
         );
       }
-    }, []);
+    }, [route.params]);
 
     useFocusEffect(
       useCallback(() => {
