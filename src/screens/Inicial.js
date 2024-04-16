@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#eca457",
     marginBottom: 10,
+    marginBottom: 24,
   },
 
   textoBotao: {
