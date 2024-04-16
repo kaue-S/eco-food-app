@@ -17,9 +17,10 @@ import { auth } from "../../firebase.config";
 import PerfilUsuario from "./PerfilUsuario";
 import { FontAwesome } from "@expo/vector-icons";
 import arrayFiltros from "../api/arrayDeFiltros";
+import { Database, getDatabase, ref, set } from "firebase/database";
 
 export default function Home({ navigation }) {
-  const { displayName: nome } = auth.currentUser;
+  const { displayName: nomeUsuario } = auth.currentUser;
 
   const [pesquisar, setPesquisar] = useState("");
   console.log(pesquisar);
@@ -55,7 +56,7 @@ export default function Home({ navigation }) {
             Olá,{" "}
             <Text style={{ fontWeight: "bold", color: "#1E3939" }}>
               {" "}
-              {nome}
+              {nomeUsuario}
             </Text>
           </Text>
         </View>
@@ -102,6 +103,11 @@ export default function Home({ navigation }) {
             })}
           </View>
         </ScrollView>
+
+        <View>
+          <Text style={estilosHome.text}>Destaques: </Text>
+          <Text></Text>
+        </View>
       </ScrollView>
     </View>
   );
