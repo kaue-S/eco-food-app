@@ -10,12 +10,18 @@ import {
   Vibration,
   Alert,
   Image,
+  FlatList,
 } from "react-native";
 
+import { auth } from "../../firebase.config";
+import PerfilUsuario from "./PerfilUsuario";
 import { FontAwesome } from "@expo/vector-icons";
 import arrayFiltros from "../api/arrayDeFiltros";
 
 export default function Home({ navigation }) {
+  const { displayName: nome, } = auth.currentUser;
+
+
   const [pesquisar, setPesquisar] = useState("");
   console.log(pesquisar);
 
@@ -42,7 +48,11 @@ export default function Home({ navigation }) {
   return (
     <View style={estilosHome.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={estilosHome.text}>Bem-vindo à página Home!</Text>
+        {/* <Text style={estilosHome.text}>Bem-vindo à página Home!</Text> */}
+        <View style={estilosHome.barraInicial}>
+          <FontAwesome name="user" size={34} color="#1E3939" />
+          <Text style={estilosHome.titulo}>  Olá, <Text style={{fontWeight: "bold", color: "#1E3939"}}> {nome}</Text></Text>
+        </View>
 
         <View style={estilosHome.areaPesquisar}>
           <TextInput
@@ -61,53 +71,31 @@ export default function Home({ navigation }) {
           </Pressable>
         </View>
 
-        <View>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={estilosHome.text}>Buscar por:</Text>
-            <View style={estilosHome.viewProdutos}>
-              {arrayFiltros.map((itemProduto) => {
-                return (
-                  <Pressable
-                    key={itemProduto.id}
-                    onPressIn={() => setPesquisar(itemProduto.nome)}
-                    onPress={() => buscarPorFiltro(itemProduto.nome)}
-                  >
-                    <View style={{ alignItems: "center", padding: 4 }}>
-                      <Image
-                        resizeMode="contain"
-                        source={itemProduto.foto}
-                        style={{ width: 70, height: 70 }}
-                      />
-                      <Text>{itemProduto.nome}</Text>
-                    </View>
-                  </Pressable>
-                );
-              })}
-            </View>
-          </ScrollView>
-        </View>
-        {/* <View>
-          <Text style={estilosHome.text}>Destaques</Text>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={estilosHome.viewProdutos}
+    <Text style={estilosHome.text}>Buscar por:</Text>
+  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+    <View style={estilosHome.menu}>
+      {arrayFiltros.map((itemProduto) => {
+        return (
+          <Pressable
+            key={itemProduto.id}
+            onPressIn={() => setPesquisar(itemProduto.nome)}
+            onPress={() => buscarPorFiltro(itemProduto.nome)}
+            
           >
-            {arrayProdutos
-              .filter((itemProduto) => {
-                return itemProduto.destaque == "sim";
-              })
-              .map((itemProduto) => {
-                return <Produto key={itemProduto.id} produto={itemProduto} />;
-              })}
-          </ScrollView>
-        </View> */}
-        {/* <Pressable
-          style={estilosHome.button}
-          onPress={() => navigation.navigate("Carrinho")}
-        >
-          <Text style={estilosHome.buttonText}>Carrinho</Text>
-        </Pressable> */}
+            <View style={{ alignItems: "center", width: 100, padding: 10}}>
+              <Image
+                resizeMode="contain"
+                source={itemProduto.foto}
+                style={{ width: 70, height: 70 }}
+              />
+              <Text>{itemProduto.nome}</Text>
+            </View>
+          </Pressable>
+        );
+      })}
+    </View>
+</ScrollView>
+
       </ScrollView>
     </View>
   );
@@ -117,13 +105,34 @@ const estilosHome = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f0f0f0",
-    marginTop: 10,
-    marginHorizontal: 15,
-    padding: 12,
+    // marginHorizontal: 15,
+    // paddingHorizontal: 8,
+  },
+
+  barraInicial: {
+    backgroundColor: "#a8cf45",
+    padding: 10,
+    flexDirection: "row",
+    height: 60,
+    alignItems: "center",
+    justifyContent: 'center',
+    marginBottom: 30,
+  },
+
+  titulo: {
+    fontSize: 20,
+  },
+
+  menu:{
+    flexDirection: "row",
+    flexWrap: "wrap",
+    height: 230,
+    width: 610,
   },
   text: {
     fontSize: 20,
-    marginBottom: 20,
+    marginHorizontal: 16,
+    marginVertical: 16,
   },
   button: {
     backgroundColor: "blue",
@@ -147,10 +156,9 @@ const estilosHome = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 4,
-    padding: 12,
     borderRadius: 30,
     borderColor: "#ECA457",
-    marginVertical: 8,
+    marginHorizontal: 16,
   },
   inputPesquisa: {
     padding: 8,
@@ -164,4 +172,5 @@ const estilosHome = StyleSheet.create({
     padding: 4,
     marginRight: 18,
   },
+
 });

@@ -22,24 +22,24 @@ import semGlutem from "../../assets/images/fotoCategorias/filtroSemGlutem.png";
 const arrayFiltros = [
   {
     id: 1,
-    nome: "Bovinos",
+    nome: "Carnes",
     foto: bovino,
   },
   {
     id: 2,
-    nome: "Leites",
+    nome: "Laticínios",
     foto: leite,
   },
-  {
-    id: 3,
-    nome: "Pão",
-    foto: pao,
-  },
-  {
-    id: 4,
-    nome: "Sobremesas",
-    foto: sobremesas,
-  },
+  // {
+  //   id: 3,
+  //   nome: "Pão",
+  //   foto: pao,
+  // },
+  // {
+  //   id: 4,
+  //   nome: "Sobremesas",
+  //   foto: sobremesas,
+  // },
   {
     id: 5,
     nome: "Doces",
@@ -52,19 +52,19 @@ const arrayFiltros = [
   },
   {
     id: 7,
-    nome: "Legumes",
+    nome: "Hortifruti",
     foto: legumes,
   },
-  {
-    id: 8,
-    nome: "Cafés",
-    foto: cafe,
-  },
-  {
-    id: 9,
-    nome: "Frutas",
-    foto: frutas,
-  },
+  // {
+  //   id: 8,
+  //   nome: "Cafés",
+  //   foto: cafe,
+  // },
+  // {
+  //   id: 9,
+  //   nome: "Frutas",
+  //   foto: frutas,
+  // },
   {
     id: 10,
     nome: "Queijos",
@@ -85,11 +85,11 @@ const arrayFiltros = [
     nome: "Massas",
     foto: massas,
   },
-  {
-    id: 14,
-    nome: "Manteigas",
-    foto: manteigas,
-  },
+  // {
+  //   id: 14,
+  //   nome: "Manteigas",
+  //   foto: manteigas,
+  // },
   {
     id: 15,
     nome: "Lanches",
@@ -105,21 +105,21 @@ const arrayFiltros = [
     nome: "Bebidas",
     foto: bebidas,
   },
-  {
-    id: 18,
-    nome: "Chás",
-    foto: chas,
-  },
-  {
-    id: 19,
-    nome: "Saladas",
-    foto: salada,
-  },
-  {
-    id: 20,
-    nome: "Sem Glutem",
-    foto: semGlutem,
-  },
+  // {
+  //   id: 18,
+  //   nome: "Chás",
+  //   foto: chas,
+  // },
+  // {
+  //   id: 19,
+  //   nome: "Saladas",
+  //   foto: salada,
+  // },
+  // {
+  //   id: 20,
+  //   nome: "Sem Glutem",
+  //   foto: semGlutem,
+  // },
 ];
 
 export default arrayFiltros;

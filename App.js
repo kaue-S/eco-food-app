@@ -93,15 +93,22 @@ const MainTabNavigator = () => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: route.name === route.name ? "#a8c458" : "#0000",
-        tabBarInactiveTintColor: "#f7f7f7",
+        tabBarActiveTintColor: route.name === route.name ? "#1E3939" : "#0000",
+        tabBarInactiveTintColor: "#1E3939",
         tabBarActiveBackgroundColor:
           route.name === route.name ? "#f7f7f7" : null,
         tabBarStyle: {
           backgroundColor: "#a8c458",
           elevation: 5,
+          height: 55,
         },
+        tabBarLabelStyle: {
+          fontSize: 14, // Ajuste o tamanho da fonte conforme necessário
+        },
+        
+
       })}
+
     >
       <Tab.Screen
         name="Home"
