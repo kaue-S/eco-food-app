@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   Image,
   Pressable,
@@ -9,9 +10,9 @@ import {
   Vibration,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import arrayComerciante from "../api/arrayDeComerciante";
-
+import { api } from "../api/api_firebase";
 import { formataPreco } from "../functions/funcoes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -22,6 +23,42 @@ export default function VerProduto({ produto }) {
   const [btnAddQtd, setBtnaddQtd] = useState(false);
   const [btntirarQtd, setBtntirarQtd] = useState(true);
   const [btnPressionado, setBtnPressionado] = useState(false);
+  const [comercianteDoProduto, setComercianteDoProduto] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function buscarComerciante() {
+      try {
+        const respostaApi = await api.get("/comerciantes.json");
+
+        // console.log("Data:");
+        // console.log(respostaApi.data);
+        const comerciantes = Object.keys(respostaApi.data).map((comercio) => {
+          return {
+            ...respostaApi.data[comercio],
+            id: comercio,
+          };
+        });
+
+        // console.log("Comerciantes: ");
+        // console.log(comerciantes);
+
+        const filtrandoComercio = comerciantes.filter(
+          (comerciante) => produto.mercado_id === comerciante.id
+        );
+
+        setComercianteDoProduto(filtrandoComercio);
+        setLoading(false);
+      } catch (error) {
+        console.error("Deu Ruim: " + error.message);
+      }
+    }
+
+    buscarComerciante();
+  }, []);
+
+  console.log("Filtrado:");
+  console.log(comercianteDoProduto);
 
   const estaPressionado = () => {
     setBtnPressionado(true);
@@ -55,10 +92,12 @@ export default function VerProduto({ produto }) {
     }
   };
 
-  const comerciante = arrayComerciante.filter((comercio) => {
+  // console.log(comercianteDoProduto);
+
+  /*   const comerciante = arrayComerciante.filter((comercio) => {
     return comercio.id === produto.mercado_id;
   });
-
+ */
   /* Analisando o que vem do filter */
   // console.log(comerciante);
 
@@ -104,153 +143,171 @@ export default function VerProduto({ produto }) {
 
   return (
     <View style={estilosAddProdutos.viewModal}>
-      <Text
-        style={[estilosAddProdutos.subTitulo, estilosAddProdutos.nomeProduto]}
-      >
-        {produto.nome}
-      </Text>
-      <View
-        style={[
-          estilosAddProdutos.viewBotoes,
-          estilosAddProdutos.areaPrecoEqtd,
-        ]}
-      >
-        <Text style={[estilosAddProdutos.subTitulo]}>
-          Preço: {formataPreco(produto.preco)}
-        </Text>
-        <Text
-          style={[
-            estilosAddProdutos.subTitulo,
-            estilosAddProdutos.mostrarQtdEstoque,
-          ]}
+      {loading && (
+        <View
+          style={{ alignItems: "center", justifyContent: "center", flex: 2 }}
         >
-          Estoque: {produto.quantidade}
-        </Text>
-      </View>
-      <View style={estilosAddProdutos.viewBotoes}>
-        <Image
-          style={estilosAddProdutos.imagemProduto}
-          source={{ uri: `${produto.foto}` }}
-        />
-        <View style={estilosAddProdutos.areaQtdETotal}>
-          <View
-            style={[estilosAddProdutos.viewBotoes, estilosAddProdutos.areaQtd]}
+          <ActivityIndicator size="large" color="#a8cf45" />
+        </View>
+      )}
+
+      {!loading && (
+        <>
+          <Text
+            style={[
+              estilosAddProdutos.subTitulo,
+              estilosAddProdutos.nomeProduto,
+            ]}
           >
-            <Text style={estilosAddProdutos.tituloInfos}>Qtde:</Text>
-            <View style={[estilosAddProdutos.viewBotoes]}>
-              <Pressable
-                onPressIn={estaPressionado}
-                onPressOut={naoEstaPressionado}
-                style={({ pressed }) => [
-                  estilosAddProdutos.btnQuantidade,
-                  btntirarQtd
-                    ? { opacity: 0.5 }
-                    : {
-                        opacity: pressed ? 0.8 : 1,
-                      },
-                ]}
-                onPress={tirarQuantidade}
-                disabled={btntirarQtd}
-              >
-                <Text style={estilosAddProdutos.txtQuantidade}>-</Text>
-              </Pressable>
-
-              <Text style={estilosAddProdutos.txtQuantidade}>
-                {quantidadeNoCarrinho}
-              </Text>
-
-              <Pressable
-                onPressIn={estaPressionado}
-                onPressOut={naoEstaPressionado}
-                style={({ pressed }) => [
-                  estilosAddProdutos.btnQuantidade,
-                  btnAddQtd
-                    ? { opacity: 0.5 }
-                    : {
-                        opacity: pressed ? 0.8 : 1,
-                      },
-                ]}
-                onPress={addQuantidade}
-                disabled={btnAddQtd}
-              >
-                <Text style={estilosAddProdutos.txtQuantidade}>+</Text>
-              </Pressable>
-            </View>
+            {produto.nome}
+          </Text>
+          <View
+            style={[
+              estilosAddProdutos.viewBotoes,
+              estilosAddProdutos.areaPrecoEqtd,
+            ]}
+          >
+            <Text style={[estilosAddProdutos.subTitulo]}>
+              Preço: {formataPreco(produto.preco)}
+            </Text>
+            <Text
+              style={[
+                estilosAddProdutos.subTitulo,
+                estilosAddProdutos.mostrarQtdEstoque,
+              ]}
+            >
+              Estoque: {produto.quantidade}
+            </Text>
           </View>
           <View style={estilosAddProdutos.viewBotoes}>
-            <Text style={estilosAddProdutos.tituloInfos}>Total:</Text>
-            <Text style={estilosAddProdutos.totalPreco}>
-              {formataPreco(totalCompra)}
-            </Text>
+            <Image
+              style={estilosAddProdutos.imagemProduto}
+              source={{ uri: `${produto.foto}` }}
+            />
+            <View style={estilosAddProdutos.areaQtdETotal}>
+              <View
+                style={[
+                  estilosAddProdutos.viewBotoes,
+                  estilosAddProdutos.areaQtd,
+                ]}
+              >
+                <Text style={estilosAddProdutos.tituloInfos}>Qtde:</Text>
+                <View style={[estilosAddProdutos.viewBotoes]}>
+                  <Pressable
+                    onPressIn={estaPressionado}
+                    onPressOut={naoEstaPressionado}
+                    style={({ pressed }) => [
+                      estilosAddProdutos.btnQuantidade,
+                      btntirarQtd
+                        ? { opacity: 0.5 }
+                        : {
+                            opacity: pressed ? 0.8 : 1,
+                          },
+                    ]}
+                    onPress={tirarQuantidade}
+                    disabled={btntirarQtd}
+                  >
+                    <Text style={estilosAddProdutos.txtQuantidade}>-</Text>
+                  </Pressable>
+
+                  <Text style={estilosAddProdutos.txtQuantidade}>
+                    {quantidadeNoCarrinho}
+                  </Text>
+
+                  <Pressable
+                    onPressIn={estaPressionado}
+                    onPressOut={naoEstaPressionado}
+                    style={({ pressed }) => [
+                      estilosAddProdutos.btnQuantidade,
+                      btnAddQtd
+                        ? { opacity: 0.5 }
+                        : {
+                            opacity: pressed ? 0.8 : 1,
+                          },
+                    ]}
+                    onPress={addQuantidade}
+                    disabled={btnAddQtd}
+                  >
+                    <Text style={estilosAddProdutos.txtQuantidade}>+</Text>
+                  </Pressable>
+                </View>
+              </View>
+              <View style={estilosAddProdutos.viewBotoes}>
+                <Text style={estilosAddProdutos.tituloInfos}>Total:</Text>
+                <Text style={estilosAddProdutos.totalPreco}>
+                  {formataPreco(totalCompra)}
+                </Text>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
 
-      <Text style={estilosAddProdutos.tituloInfos}>
-        fornecedor: {comerciante[0].nome}
-      </Text>
-
-      {/* Area mais detalhes */}
-      {verDetalhes && (
-        <Pressable
-          onPressIn={estaPressionado}
-          onPressOut={naoEstaPressionado}
-          style={({ pressed }) => [
-            estilosAddProdutos.btnInfos,
-            {
-              opacity: pressed ? 0.8 : 1,
-            },
-          ]}
-          onPress={esconderInformascoes}
-        >
-          <Text style={estilosAddProdutos.txtDetalhes}>Menos Detalhes</Text>
-        </Pressable>
-      )}
-
-      {!verDetalhes && (
-        <Pressable
-          onPressIn={estaPressionado}
-          onPressOut={naoEstaPressionado}
-          style={({ pressed }) => [
-            estilosAddProdutos.btnInfos,
-            {
-              opacity: pressed ? 0.8 : 1,
-            },
-          ]}
-          onPress={verInformascoes}
-        >
-          <Text style={estilosAddProdutos.txtDetalhes}>Mais Detalhes</Text>
-        </Pressable>
-      )}
-
-      {verDetalhes && (
-        <View style={estilosAddProdutos.maisDetalhes}>
-          <ScrollView>
-            <Text style={estilosAddProdutos.textoDescricao}>
-              Contém: {produto.descricao}
-            </Text>
-          </ScrollView>
-        </View>
-      )}
-      {/*fim da Area mais detalhes */}
-
-      <View>
-        <Pressable
-          onPress={adicionarAoCarrinho}
-          onPressIn={estaPressionado}
-          onPressOut={naoEstaPressionado}
-          style={({ pressed }) => [
-            estilosAddProdutos.btnAddCarrinho,
-            {
-              opacity: pressed ? 0.8 : 1,
-            },
-          ]}
-        >
-          <Text style={estilosAddProdutos.txtAddCarrino}>
-            Adicionar ao Carrinho
+          <Text style={estilosAddProdutos.tituloInfos}>
+            fornecedor: {comercianteDoProduto && comercianteDoProduto[0].nome}
           </Text>
-        </Pressable>
-      </View>
+
+          {/* Area mais detalhes */}
+          {verDetalhes && (
+            <Pressable
+              onPressIn={estaPressionado}
+              onPressOut={naoEstaPressionado}
+              style={({ pressed }) => [
+                estilosAddProdutos.btnInfos,
+                {
+                  opacity: pressed ? 0.8 : 1,
+                },
+              ]}
+              onPress={esconderInformascoes}
+            >
+              <Text style={estilosAddProdutos.txtDetalhes}>Menos Detalhes</Text>
+            </Pressable>
+          )}
+
+          {!verDetalhes && (
+            <Pressable
+              onPressIn={estaPressionado}
+              onPressOut={naoEstaPressionado}
+              style={({ pressed }) => [
+                estilosAddProdutos.btnInfos,
+                {
+                  opacity: pressed ? 0.8 : 1,
+                },
+              ]}
+              onPress={verInformascoes}
+            >
+              <Text style={estilosAddProdutos.txtDetalhes}>Mais Detalhes</Text>
+            </Pressable>
+          )}
+
+          {verDetalhes && (
+            <View style={estilosAddProdutos.maisDetalhes}>
+              <ScrollView>
+                <Text style={estilosAddProdutos.textoDescricao}>
+                  Contém: {produto.descricao}
+                </Text>
+              </ScrollView>
+            </View>
+          )}
+          {/*fim da Area mais detalhes */}
+
+          <View>
+            <Pressable
+              onPress={adicionarAoCarrinho}
+              onPressIn={estaPressionado}
+              onPressOut={naoEstaPressionado}
+              style={({ pressed }) => [
+                estilosAddProdutos.btnAddCarrinho,
+                {
+                  opacity: pressed ? 0.8 : 1,
+                },
+              ]}
+            >
+              <Text style={estilosAddProdutos.txtAddCarrino}>
+                Adicionar ao Carrinho
+              </Text>
+            </Pressable>
+          </View>
+        </>
+      )}
     </View>
   );
 }
