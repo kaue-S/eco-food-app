@@ -112,7 +112,6 @@ export default function Home({ navigation }) {
 
         <View>
           <Text style={estilosHome.text}>Destaques: </Text>
-          <Text></Text>
         </View>
       </ScrollView>
     </View>
