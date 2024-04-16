@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -14,12 +15,14 @@ import { useFocusEffect } from "@react-navigation/native";
 import arrayProdutos from "../api/arrayDeProdutos";
 import Produto from "../components/Produto";
 import { FontAwesome } from "@expo/vector-icons";
+import { api } from "../api/api_firebase";
 
 export default function Resultados({ route, navigation }) {
   const [loading, setLoading] = useState(true);
   const [resultados, setResultados] = useState([]);
   const [nomeDaBusca, setNomedaBusca] = useState("");
   const [pesquisar, setPesquisar] = useState("");
+  const [listaDeComerciantes, setListaDeComerciantes] = useState([]);
 
   if (route.params) {
     const { pesquisar: letraPesquisada } = route.params;
@@ -35,6 +38,22 @@ export default function Resultados({ route, navigation }) {
               produto.nome.toLowerCase().includes(letraPesquisada.toLowerCase())
           );
           console.log(filtro);
+
+          const respostaApi = await api.get("/comerciantes.json");
+
+          // console.log("Data:");
+          // console.log(respostaApi.data);
+          const comerciantes = Object.keys(respostaApi.data).map((comercio) => {
+            return {
+              ...respostaApi.data[comercio],
+              id: comercio,
+            };
+          });
+
+          // console.log("Comerciantes: ");
+          // console.log(comerciantes);
+
+          setListaDeComerciantes(comerciantes);
           setResultados(filtro);
           setNomedaBusca(letraPesquisada);
           setLoading(false);
@@ -49,16 +68,50 @@ export default function Resultados({ route, navigation }) {
 
       buscarProduto();
     }, [letraPesquisada]);
+
+    console.log(listaDeComerciantes);
   } else {
-    console.log("vazio");
     useEffect(() => {
       async function buscarProduto() {
-        setResultados([]);
-        setLoading(false);
+        console.log("vazio");
       }
 
       buscarProduto();
     }, []);
+
+    const carregandoComerciantes = useCallback(async () => {
+      try {
+        const respostaApi = await api.get("/comerciantes.json");
+
+        // console.log("Data:");
+        // console.log(respostaApi.data);
+        const comerciantes = Object.keys(respostaApi.data).map((comercio) => {
+          return {
+            ...respostaApi.data[comercio],
+            id: comercio,
+          };
+        });
+
+        console.log("Comerciantes: ");
+        console.log(comerciantes);
+
+        setListaDeComerciantes(comerciantes);
+        setResultados([]);
+        setLoading(false);
+      } catch (error) {
+        console.log("Erro ao carregar os dados:  " + error);
+        Alert.alert(
+          "Erro",
+          "Erro ao carregar os dados tente novamente mais tarde"
+        );
+      }
+    }, []);
+
+    useFocusEffect(
+      useCallback(() => {
+        carregandoComerciantes();
+      }, [carregandoComerciantes])
+    );
   }
 
   const produtoDigitado = (produto) => {
@@ -132,9 +185,59 @@ export default function Resultados({ route, navigation }) {
                       </>
                     )}
                   </ScrollView>
+                  <Text style={estilosPesquisar.titulo}>Alguns Comercios</Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={estilosPesquisar.menu}>
+                      {listaDeComerciantes.map((itemComercio) => {
+                        return (
+                          <Pressable
+                            key={itemComercio.id}
+                            style={{ width: 100, height: 100, margin: 12 }}
+                          >
+                            <Image
+                              resizeMode="contain"
+                              source={{ uri: `${itemComercio.icone}` }}
+                              style={{
+                                width: 50,
+                                height: 50,
+                                backgroundColor: "#a8cf45",
+                                borderRadius: 15,
+                              }}
+                            />
+                            <Text>{itemComercio.nome}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                  </ScrollView>
                 </>
               ) : (
-                <Text>Vazio</Text>
+                <>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={estilosPesquisar.menu}>
+                      {listaDeComerciantes.map((itemComercio) => {
+                        return (
+                          <Pressable
+                            key={itemComercio.id}
+                            style={{ width: 100, height: 100, margin: 12 }}
+                          >
+                            <Image
+                              resizeMode="contain"
+                              source={{ uri: `${itemComercio.icone}` }}
+                              style={{
+                                width: 50,
+                                height: 50,
+                                backgroundColor: "#a8cf45",
+                                borderRadius: 15,
+                              }}
+                            />
+                            <Text>{itemComercio.nome}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                  </ScrollView>
+                </>
               )}
             </>
           )}
@@ -182,5 +285,11 @@ const estilosPesquisar = StyleSheet.create({
   titulo: {
     fontSize: 20,
     marginBottom: 20,
+  },
+  menu: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    height: 230,
+    width: 610,
   },
 });
