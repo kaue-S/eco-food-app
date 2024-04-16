@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   Modal,
   Pressable,
@@ -7,13 +8,50 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { formataPreco } from "../functions/funcoes";
 import arrayComerciante from "../api/arrayDeComerciante";
+import { api } from "../api/api_firebase";
 
 export default function ItemNoCarrinho({ produto, valor, quantidade }) {
   const [aparecerModal, setAparecerModal] = useState(false);
+  const [comercianteDoProduto, setComercianteDoProduto] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function buscarComerciante() {
+      try {
+        const respostaApi = await api.get("/comerciantes.json");
+
+        // console.log("Data:");
+        // console.log(respostaApi.data);
+        const comerciantes = Object.keys(respostaApi.data).map((comercio) => {
+          return {
+            ...respostaApi.data[comercio],
+            id: comercio,
+          };
+        });
+
+        // console.log("Comerciantes: ");
+        // console.log(comerciantes);
+
+        const filtrandoComercio = comerciantes.filter(
+          (comerciante) => produto.mercado_id === comerciante.id
+        );
+
+        setComercianteDoProduto(filtrandoComercio);
+        setLoading(false);
+      } catch (error) {
+        console.error("Deu Ruim: " + error.message);
+      }
+    }
+
+    buscarComerciante();
+  }, []);
+
+  console.log("Filtrado:");
+  console.log(comercianteDoProduto);
 
   const verProduto = () => {
     setAparecerModal(true);
@@ -63,6 +101,7 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
           </View>
         </View>
       </Pressable>
+
       <Modal
         style={estilosItemProduto.modal}
         animationType="slide"
@@ -82,72 +121,93 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
                 </Text>
               </View>
             </Pressable>
-            <View>
-              <View style={estilosItemProduto.areaProduto}>
-                <Text
-                  style={[
-                    estilosItemProduto.subTitulo,
-                    estilosItemProduto.nomeProduto,
-                  ]}
-                >
-                  {produto.nome}
+            {loading && (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flex: 2,
+                }}
+              >
+                <Text>
+                  <ActivityIndicator size="large" color="#a8cf45" />
                 </Text>
-                <View style={estilosItemProduto.infos}>
-                  <Image
-                    style={estilosItemProduto.imagemProduto}
-                    source={{ uri: `${produto.foto}` }}
-                  />
-                  <View style={estilosItemProduto.infoProduto}>
-                    <Text style={estilosItemProduto.textoValores}>
-                      Valor: {formataPreco(produto.preco)}
-                    </Text>
-                    <Text style={estilosItemProduto.textoValores}>
-                      Quantidade: {quantidade}
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      gap: 5,
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text style={estilosItemProduto.textoCard}>Total:</Text>
+              </View>
+            )}
 
+            {!loading && (
+              <>
+                <View>
+                  <View style={estilosItemProduto.areaProduto}>
                     <Text
                       style={[
-                        estilosItemProduto.textoCard,
-                        estilosItemProduto.txtCardDestaque,
+                        estilosItemProduto.subTitulo,
+                        estilosItemProduto.nomeProduto,
                       ]}
                     >
-                      {formataPreco(valor)}
+                      {produto.nome}
                     </Text>
+                    <View style={estilosItemProduto.infos}>
+                      <Image
+                        style={estilosItemProduto.imagemProduto}
+                        source={{ uri: `${produto.foto}` }}
+                      />
+                      <View style={estilosItemProduto.infoProduto}>
+                        <Text style={estilosItemProduto.textoValores}>
+                          Valor: {formataPreco(produto.preco)}
+                        </Text>
+                        <Text style={estilosItemProduto.textoValores}>
+                          Quantidade: {quantidade}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          gap: 5,
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text style={estilosItemProduto.textoCard}>Total:</Text>
+
+                        <Text
+                          style={[
+                            estilosItemProduto.textoCard,
+                            estilosItemProduto.txtCardDestaque,
+                          ]}
+                        >
+                          {formataPreco(valor)}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+
+                  <View style={estilosItemProduto.fornecedor}>
+                    <Text style={estilosItemProduto.tituloProduto}>
+                      Fornecedor
+                    </Text>
+
+                    <View style={estilosItemProduto.infos}>
+                      <Image
+                        resizeMode="contain"
+                        style={estilosItemProduto.imagemComerciante}
+                        source={{ uri: `${comercianteDoProduto[0].imagemUrl}` }}
+                      />
+                      <View>
+                        <Text style={estilosItemProduto.textoValores}>
+                          Nome: {comercianteDoProduto[0].nome}
+                        </Text>
+                        <Text style={estilosItemProduto.textoValores}>
+                          Estabelecimento: {comercianteDoProduto[0].filtro}
+                        </Text>
+                        <Text style={estilosItemProduto.textoValores}>
+                          Local: {comercianteDoProduto[0].local}
+                        </Text>
+                      </View>
+                    </View>
                   </View>
                 </View>
-              </View>
-
-              <View style={estilosItemProduto.fornecedor}>
-                <Text style={estilosItemProduto.tituloProduto}>Fornecedor</Text>
-
-                <View style={estilosItemProduto.infos}>
-                  <Image
-                    style={estilosItemProduto.imagemComerciante}
-                    source={{ uri: `${comerciante[0].logo}` }}
-                  />
-                  <View>
-                    <Text style={estilosItemProduto.textoValores}>
-                      Nome: {comerciante[0].nome}
-                    </Text>
-                    <Text style={estilosItemProduto.textoValores}>
-                      Estabelecimento: {comerciante[0].filtro}
-                    </Text>
-                    <Text style={estilosItemProduto.textoValores}>
-                      Local: {comerciante[0].local}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
+              </>
+            )}
           </View>
         </ScrollView>
       </Modal>
@@ -162,8 +222,8 @@ const estilosItemProduto = StyleSheet.create({
     borderRadius: 15,
   },
   imagemComerciante: {
-    width: 45,
-    height: 45,
+    width: 150,
+    height: 150,
   },
   botaoCancelar: {
     backgroundColor: "red",
