@@ -135,7 +135,7 @@ export default function VerProduto({ produto }) {
       );
 
       console.log(ListaCarrinho);
-      Alert.alert("Parabens", "Produto adicionado com sucesso", [
+      Alert.alert("Parabéns", "Produto adicionado com sucesso!", [
         {
           text: "Poupei",
           style: "default",
@@ -267,7 +267,7 @@ export default function VerProduto({ produto }) {
               ]}
               onPress={esconderInformascoes}
             >
-              <Text style={estilosAddProdutos.txtDetalhes}>Menos Detalhes</Text>
+              <Text style={estilosAddProdutos.txtDetalhes}>menos detalhes</Text>
             </Pressable>
           )}
 
@@ -283,7 +283,7 @@ export default function VerProduto({ produto }) {
               ]}
               onPress={verInformascoes}
             >
-              <Text style={estilosAddProdutos.txtDetalhes}>Mais Detalhes</Text>
+              <Text style={estilosAddProdutos.txtDetalhes}>mais detalhes</Text>
             </Pressable>
           )}
 
@@ -311,7 +311,7 @@ export default function VerProduto({ produto }) {
               ]}
             >
               <Text style={estilosAddProdutos.txtAddCarrino}>
-                Adicionar ao Carrinho
+                adicionar na cesta
               </Text>
             </Pressable>
           </View>
@@ -350,7 +350,7 @@ const estilosAddProdutos = StyleSheet.create({
   txtDetalhes: {
     color: "#A8C458",
     fontFamily: "Barlow",
-    fontWeight: "700",
+    fontWeight: "500",
     textAlign: "center",
   },
   btnQuantidade: {

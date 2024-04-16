@@ -178,7 +178,7 @@ export default function Resultados({ route, navigation }) {
               {route.params ? (
                 <>
                   <Text style={estilosPesquisar.titulo}>
-                    Pesquisando Por: {nomeDaBusca}
+                    Pesquisando por: {nomeDaBusca}
                   </Text>
                   <ScrollView
                     horizontal={resultados.length >= 2 ? true : false}
@@ -205,7 +205,7 @@ export default function Resultados({ route, navigation }) {
                       </>
                     )}
                   </ScrollView>
-                  <Text style={estilosPesquisar.titulo}>Alguns Comercios</Text>
+                  <Text style={estilosPesquisar.titulo}>Comércios parceiros</Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View style={estilosPesquisar.menu}>
                       {listaDeComerciantes.map((itemComercio) => {
@@ -273,8 +273,8 @@ const estilosPesquisar = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderWidth: 4,
-    borderRadius: 30,
+    borderWidth: 3,
+    borderRadius: 20,
     borderColor: "#ECA457",
     marginHorizontal: 16,
   },
@@ -293,6 +293,8 @@ const estilosPesquisar = StyleSheet.create({
   titulo: {
     fontSize: 20,
     marginBottom: 20,
+    fontFamily: "Comfortaa",
+    color: "#466060",
   },
   menu: {
     flexDirection: "row",

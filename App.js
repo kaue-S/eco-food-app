@@ -115,7 +115,7 @@ const MainTabNavigator = () => {
         component={Home}
         options={{
           headerShown: false,
-          tabBarLabel: "Inicio",
+          tabBarLabel: "Início",
           tabBarIcon: ({ color, size }) => (
             <Entypo name="home" color={color} size={size} />
           ),
@@ -127,7 +127,7 @@ const MainTabNavigator = () => {
         component={Carrinho}
         options={{
           headerShown: false,
-          tabBarLabel: "Carrinho",
+          tabBarLabel: "Cesta",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="shopping-basket" color={color} size={size} />
           ),
