@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,14 +11,48 @@ import {
   Alert,
   Image,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 
 import { auth } from "../../firebase.config";
 import PerfilUsuario from "./PerfilUsuario";
 import { FontAwesome } from "@expo/vector-icons";
 import arrayFiltros from "../api/arrayDeFiltros";
+import { useFocusEffect } from "@react-navigation/native";
+import { api } from "../api/api_firebase";
+import CardComercio from "../components/CardComercio";
 
 export default function Home({ navigation }) {
+  const [loading, setLoading] = useState(true);
+  const [listaDeComerciantes, setListaDeComerciantes] = useState([]);
+
+  useEffect(() => {
+    async function buscarComerciante() {
+      try {
+        const respostaApi = await api.get("/comerciantes.json");
+
+        // console.log("Data:");
+        // console.log(respostaApi.data);
+        const comerciantes = Object.keys(respostaApi.data).map((comercio) => {
+          return {
+            ...respostaApi.data[comercio],
+            id: comercio,
+          };
+        });
+
+        // console.log("Comerciantes: ");
+        // console.log(comerciantes);
+
+        setListaDeComerciantes(comerciantes);
+        setLoading(false);
+      } catch (error) {
+        console.error("Deu Ruim: " + error.message);
+      }
+    }
+
+    buscarComerciante();
+  }, []);
+
   const { displayName: nome } = auth.currentUser;
 
   const [pesquisar, setPesquisar] = useState("");
@@ -77,31 +111,66 @@ export default function Home({ navigation }) {
           </Pressable>
         </View>
 
-        <Text style={estilosHome.text}>Buscar por:</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={estilosHome.menu}>
-            {arrayFiltros.map((itemProduto) => {
-              return (
-                <Pressable
-                  key={itemProduto.id}
-                  onPressIn={() => setPesquisar(itemProduto.nome)}
-                  onPress={() => buscarPorFiltro(itemProduto.nome)}
-                >
-                  <View
-                    style={{ alignItems: "center", width: 100, padding: 10 }}
-                  >
-                    <Image
-                      resizeMode="contain"
-                      source={itemProduto.foto}
-                      style={{ width: 70, height: 70 }}
-                    />
-                    <Text>{itemProduto.nome}</Text>
-                  </View>
-                </Pressable>
-              );
-            })}
+        {loading && (
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              flex: 2,
+            }}
+          >
+            <Text>
+              <ActivityIndicator size="large" color="#a8cf45" />
+            </Text>
           </View>
-        </ScrollView>
+        )}
+
+        {!loading && (
+          <>
+            <Text style={estilosHome.text}>Buscar por:</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={estilosHome.menu}>
+                {arrayFiltros.map((itemProduto) => {
+                  return (
+                    <Pressable
+                      key={itemProduto.id}
+                      onPressIn={() => setPesquisar(itemProduto.nome)}
+                      onPress={() => buscarPorFiltro(itemProduto.nome)}
+                    >
+                      <View
+                        style={{
+                          alignItems: "center",
+                          width: 100,
+                          padding: 10,
+                        }}
+                      >
+                        <Image
+                          resizeMode="contain"
+                          source={itemProduto.foto}
+                          style={{ width: 70, height: 70 }}
+                        />
+                        <Text>{itemProduto.nome}</Text>
+                      </View>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </ScrollView>
+            <Text style={estilosHome.text}>Veja comercios:</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={estilosHome.menuComercio}>
+                {listaDeComerciantes.map((itemComercio) => {
+                  return (
+                    <CardComercio
+                      key={itemComercio.id}
+                      comerciante={itemComercio}
+                    />
+                  );
+                })}
+              </View>
+            </ScrollView>
+          </>
+        )}
       </ScrollView>
     </View>
   );
@@ -134,6 +203,14 @@ const estilosHome = StyleSheet.create({
     flexWrap: "wrap",
     height: 230,
     width: 610,
+  },
+  menuComercio: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: 610,
+    gap: 8,
+    marginHorizontal: 8,
+    marginVertical: 12,
   },
   text: {
     fontSize: 20,

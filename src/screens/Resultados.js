@@ -16,6 +16,7 @@ import arrayProdutos from "../api/arrayDeProdutos";
 import Produto from "../components/Produto";
 import { FontAwesome } from "@expo/vector-icons";
 import { api } from "../api/api_firebase";
+import CardComercio from "../components/CardComercio";
 
 export default function Resultados({ route, navigation }) {
   const [loading, setLoading] = useState(true);
@@ -52,7 +53,7 @@ export default function Resultados({ route, navigation }) {
       }
 
       buscarProduto();
-    }, [letraPesquisada]);
+    }, [route.params]);
     console.log(resultados);
     const carregandoComerciantes = useCallback(async () => {
       setLoading(true);
@@ -232,26 +233,15 @@ export default function Resultados({ route, navigation }) {
                 </>
               ) : (
                 <>
+                  <Text style={estilosPesquisar.titulo}>Alguns Comercios</Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View style={estilosPesquisar.menu}>
                       {listaDeComerciantes.map((itemComercio) => {
                         return (
-                          <Pressable
+                          <CardComercio
                             key={itemComercio.id}
-                            style={{ width: 100, height: 100, margin: 12 }}
-                          >
-                            <Image
-                              resizeMode="contain"
-                              source={{ uri: `${itemComercio.icone}` }}
-                              style={{
-                                width: 50,
-                                height: 50,
-                                backgroundColor: "#a8cf45",
-                                borderRadius: 15,
-                              }}
-                            />
-                            <Text>{itemComercio.nome}</Text>
-                          </Pressable>
+                            comerciante={itemComercio}
+                          />
                         );
                       })}
                     </View>
@@ -307,7 +297,9 @@ const estilosPesquisar = StyleSheet.create({
   menu: {
     flexDirection: "row",
     flexWrap: "wrap",
-    height: 230,
     width: 610,
+    gap: 8,
+    marginHorizontal: 8,
+    marginVertical: 12,
   },
 });
