@@ -50,7 +50,7 @@ export default function Carrinho({ navigation }) {
     }
   }, []);
 
-  /* Usando o useFocusEffect para sempre que usuario entrar
+  /* Usando o useFocusEffect para sempre que usuário entrar
   nesta tela acionar a função produto_no_carrinho */
   useFocusEffect(
     useCallback(() => {
@@ -79,10 +79,10 @@ export default function Carrinho({ navigation }) {
   }, [listaProdutosNoCarrinho]);
 
   const excluirProduto = async (produtoIndex) => {
-    Alert.alert("Excluir", "Tem certeza que deseja excluir esse prodtudo", [
+    Alert.alert("Excluir", "Tem certeza que deseja excluir esse produto?", [
       { text: "cancelar", style: "cancel" },
       {
-        text: "excluir produto",
+        text: "Sim, excluir!",
         onPress: async () => {
           try {
             const novaListaDeProdutos = listaProdutosNoCarrinho.filter(
@@ -111,20 +111,27 @@ export default function Carrinho({ navigation }) {
   };
 
   const comprarProdutos = async () => {
-    Alert.alert("Finalizar Compra", "Uhul você está salvando o mundo ", [
-      { text: "cancelar", style: "cancel" },
-      {
-        text: "comprar",
-        style: "destructive",
-        onPress: async () => {
-          await AsyncStorage.removeItem("@listacarrinho");
+    Alert.alert(
+      "Finalizar Compra",
+      "Você vai impedir que este alimento vá para o lixo!",
+      [
+        { text: "cancelar", style: "cancel" },
+        {
+          text: "comprar",
+          style: "destructive",
+          onPress: async () => {
+            await AsyncStorage.removeItem("@listacarrinho");
 
-          setListaProdutosNoCarrinho([]);
-          Vibration.vibrate(300);
-          Alert.alert("Eco legado", "Uhul agora você é um combatente");
+            setListaProdutosNoCarrinho([]);
+            Vibration.vibrate(300);
+            Alert.alert(
+              "EcoFood Legado",
+              "Nosso muito obrigado por você ajudar a combater o desperdício."
+            );
+          },
         },
-      },
-    ]);
+      ]
+    );
     Vibration.vibrate(300);
   };
 
