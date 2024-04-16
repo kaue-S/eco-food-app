@@ -105,10 +105,7 @@ const MainTabNavigator = () => {
         tabBarLabelStyle: {
           fontSize: 14, // Ajuste o tamanho da fonte conforme necessário
         },
-        
-
       })}
-
     >
       <Tab.Screen
         name="Home"
@@ -127,7 +124,7 @@ const MainTabNavigator = () => {
         component={Carrinho}
         options={{
           headerShown: false,
-          tabBarLabel: "Carrinho",
+          tabBarLabel: "Cesta",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="shopping-basket" color={color} size={size} />
           ),

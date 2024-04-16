@@ -213,7 +213,7 @@ const estilosItemProduto = StyleSheet.create({
   tituloModal: {
     fontFamily: "Comfortaa",
     textAlign: "center",
-    fontWeight: "bold",
+    fontWeight: "600",
     fontSize: 24,
     color: "#466060",
   },

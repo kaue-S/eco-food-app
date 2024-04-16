@@ -85,12 +85,8 @@ export default function Home({ navigation }) {
         <View style={estilosHome.barraInicial}>
           <FontAwesome name="user" size={34} color="#1E3939" />
           <Text style={estilosHome.titulo}>
-            {" "}
-            Olá,{" "}
-            <Text style={{ fontWeight: "bold", color: "#1E3939" }}>
-              {" "}
-              {nome}
-            </Text>
+            Olá,
+            <Text style={{ fontWeight: "bold", color: "#1E3939" }}>{nome}</Text>
           </Text>
         </View>
 
