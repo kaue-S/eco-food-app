@@ -150,7 +150,6 @@ const estilosPesquisar = StyleSheet.create({
     backgroundColor: "#f0f0f0",
     marginTop: 10,
     marginHorizontal: 15,
-    padding: 12,
   },
   viewProdutos: {
     justifyContent: "space-around",
@@ -162,7 +161,7 @@ const estilosPesquisar = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 4,
-    padding: 12,
+
     borderRadius: 30,
     borderColor: "#ECA457",
     marginVertical: 8,

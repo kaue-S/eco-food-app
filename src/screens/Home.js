@@ -77,6 +77,12 @@ export default function Home({ navigation }) {
             </Text>
           </Pressable>
         </View>
+        <View>
+          <Image
+            style={estilosHome.banner}
+            source={require("../../assets/images/banner_HOME.png")}
+          />
+        </View>
 
         <Text style={estilosHome.text}>Buscar por:</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -129,6 +135,12 @@ const estilosHome = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 30,
+  },
+
+  banner: {
+    marginLeft: 50,
+    marginVertical: 20,
+    borderRadius: 10,
   },
 
   titulo: {
