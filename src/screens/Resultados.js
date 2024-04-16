@@ -39,21 +39,6 @@ export default function Resultados({ route, navigation }) {
           );
           console.log(filtro);
 
-          const respostaApi = await api.get("/comerciantes.json");
-
-          // console.log("Data:");
-          // console.log(respostaApi.data);
-          const comerciantes = Object.keys(respostaApi.data).map((comercio) => {
-            return {
-              ...respostaApi.data[comercio],
-              id: comercio,
-            };
-          });
-
-          // console.log("Comerciantes: ");
-          // console.log(comerciantes);
-
-          setListaDeComerciantes(comerciantes);
           setResultados(filtro);
           setNomedaBusca(letraPesquisada);
           setLoading(false);
@@ -68,6 +53,40 @@ export default function Resultados({ route, navigation }) {
 
       buscarProduto();
     }, [letraPesquisada]);
+    console.log(resultados);
+    const carregandoComerciantes = useCallback(async () => {
+      setLoading(true);
+      try {
+        const respostaApi = await api.get("/comerciantes.json");
+
+        // console.log("Data:");
+        // console.log(respostaApi.data);
+        const comerciantes = Object.keys(respostaApi.data).map((comercio) => {
+          return {
+            ...respostaApi.data[comercio],
+            id: comercio,
+          };
+        });
+
+        console.log("Comerciantes: ");
+        console.log(comerciantes);
+
+        setListaDeComerciantes(comerciantes);
+        setLoading(false);
+      } catch (error) {
+        console.log("Erro ao carregar os dados:  " + error);
+        Alert.alert(
+          "Erro",
+          "Erro ao carregar os dados tente novamente mais tarde"
+        );
+      }
+    }, []);
+
+    useFocusEffect(
+      useCallback(() => {
+        carregandoComerciantes();
+      }, [carregandoComerciantes])
+    );
 
     console.log(listaDeComerciantes);
   } else {
@@ -145,7 +164,7 @@ export default function Resultados({ route, navigation }) {
 
             <Pressable
               style={estilosPesquisar.botaoPesquisar}
-              onPress={() => {}}
+              onPress={buscarProduto}
             >
               <Text style={estilosPesquisar.iconePesquisar}>
                 <FontAwesome name="search" color="#466060" size={18} />
@@ -265,10 +284,9 @@ const estilosPesquisar = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 4,
-    padding: 12,
     borderRadius: 30,
     borderColor: "#ECA457",
-    marginVertical: 8,
+    marginHorizontal: 16,
   },
   inputPesquisa: {
     padding: 8,

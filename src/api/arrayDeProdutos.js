@@ -30,7 +30,7 @@ const arrayProdutos = [
     preco: 2.25,
     quantidade: 7,
     foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGd6tezGGe0bq4ViF3E0Z2yNJsvWpk3hRQz-fZvIpkvw&s",
-    categoria: "Leites",
+    categoria: "Laticínios",
     mercado_id: "-NvWlAUV-rJJRukFC7w0",
 
     descricao: "Glutém, aveia, trigo, cevada,protéina do leite",

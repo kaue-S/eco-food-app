@@ -1,8 +1,6 @@
 import {
   ActivityIndicator,
   Image,
-  Modal,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,10 +12,8 @@ import { formataPreco } from "../functions/funcoes";
 import arrayComerciante from "../api/arrayDeComerciante";
 import { api } from "../api/api_firebase";
 import { useFocusEffect } from "@react-navigation/native";
-import LerProdutoNoCarrinho from "./LerProdutoNoCarrinho";
 
-export default function ItemNoCarrinho({ produto, valor, quantidade }) {
-  const [aparecerModal, setAparecerModal] = useState(false);
+export default function LerProdutoNoCarrinho({ produto, valor, quantidade }) {
   const [comercianteDoProduto, setComercianteDoProduto] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -88,84 +84,95 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
     }, [carregandoComerciantes])
   );
 
-  console.log("Filtrado:");
-  console.log(comercianteDoProduto);
-
-  const verProduto = () => {
-    setAparecerModal(true);
-  };
-  const cancelar = () => {
-    setAparecerModal(false);
-    return;
-  };
-
-  const comerciante = arrayComerciante.filter((comercio) => {
-    return comercio.id === produto.mercado_id;
-  });
-
-  console.log(comerciante);
-
   return (
     <>
-      <Pressable
-        style={estilosItemProduto.cardCarrinho}
-        key={produto.id}
-        onPress={verProduto}
-      >
-        <Text style={estilosItemProduto.tituloCard}>{produto.nome}</Text>
-        <View style={estilosItemProduto.cardProduto}>
-          <Image
-            style={estilosItemProduto.imagemProduto}
-            source={{ uri: `${produto.foto}` }}
-          />
-          <View style={estilosItemProduto.infosCardProduto}>
-            <Text style={estilosItemProduto.textoCard}>
-              quantidade: {quantidade}{" "}
-            </Text>
-            <View
-              style={{ flexDirection: "row", gap: 5, alignItems: "center" }}
-            >
-              <Text style={estilosItemProduto.textoCard}>total:</Text>
+      {loading && (
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 2,
+          }}
+        >
+          <Text>
+            <ActivityIndicator size="large" color="#a8cf45" />
+          </Text>
+        </View>
+      )}
 
+      {!loading && (
+        <>
+          <View>
+            <View style={estilosItemProduto.areaProduto}>
               <Text
                 style={[
-                  estilosItemProduto.textoCard,
-                  estilosItemProduto.txtCardDestaque,
+                  estilosItemProduto.subTitulo,
+                  estilosItemProduto.nomeProduto,
                 ]}
               >
-                {formataPreco(valor)}
+                {produto.nome}
               </Text>
+              <View style={estilosItemProduto.infos}>
+                <Image
+                  style={estilosItemProduto.imagemProduto}
+                  source={{ uri: `${produto.foto}` }}
+                />
+                <View style={estilosItemProduto.infoProduto}>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Valor: {formataPreco(produto.preco)}
+                  </Text>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Quantidade: {quantidade}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 5,
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={estilosItemProduto.textoCard}>Total:</Text>
+
+                  <Text
+                    style={[
+                      estilosItemProduto.textoCard,
+                      estilosItemProduto.txtCardDestaque,
+                    ]}
+                  >
+                    {formataPreco(valor)}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={estilosItemProduto.fornecedor}>
+              <Text style={estilosItemProduto.tituloProduto}>Fornecedor</Text>
+
+              <View style={estilosItemProduto.infos}>
+                <Image
+                  resizeMode="contain"
+                  style={estilosItemProduto.imagemComerciante}
+                  source={{
+                    uri: `${comercianteDoProduto[0].icone}`,
+                  }}
+                />
+                <View>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Nome: {comercianteDoProduto[0].nome}
+                  </Text>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Estabelecimento: {comercianteDoProduto[0].filtro}
+                  </Text>
+                  <Text style={estilosItemProduto.textoValores}>
+                    Local: {comercianteDoProduto[0].local}
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
-        </View>
-      </Pressable>
-      <Modal
-        style={estilosItemProduto.modal}
-        animationType="slide"
-        visible={aparecerModal}
-        transparent={true}
-      >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={estilosItemProduto.viewModal}>
-            <Pressable
-              onPress={cancelar}
-              style={estilosItemProduto.BtnFecharModal}
-            >
-              <View style={estilosItemProduto.fecharModal}>
-                <AntDesign name="closecircle" size={24} color="#466060" />
-                <Text style={estilosItemProduto.tituloModal}>
-                  Produto No Carrinho
-                </Text>
-                <LerProdutoNoCarrinho
-                  produto={produto}
-                  valor={valor}
-                  quantidade={quantidade}
-                />
-              </View>
-            </Pressable>
-          </View>
-        </ScrollView>
-      </Modal>
+        </>
+      )}
     </>
   );
 }

@@ -7,6 +7,7 @@ import {
   Pressable,
   Alert,
   Vibration,
+  ActivityIndicator,
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -14,6 +15,7 @@ import ItemNoCarrinho from "../components/ItemNoCarrinho";
 import { formataPreco } from "../functions/funcoes";
 import { FontAwesome6, FontAwesome } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
+import Produto from "../components/Produto";
 
 export default function Carrinho({ navigation }) {
   /* Criando lista de produtos no carrinho para poder 
@@ -21,6 +23,8 @@ export default function Carrinho({ navigation }) {
 
   const [listaProdutosNoCarrinho, setListaProdutosNoCarrinho] = useState([]);
   const [totalNoCarrinho, setTotalNoCarrinho] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   /* Função produtos_no_carrinho para fazer um fetch no AsynStorage */
   const produtos_no_carrinho = useCallback(async () => {
     try {
@@ -28,8 +32,12 @@ export default function Carrinho({ navigation }) {
 
       if (dados) {
         setListaProdutosNoCarrinho(JSON.parse(dados));
+        setLoading(false);
         // console.log(dados);
+        return;
       }
+
+      setLoading(false);
     } catch (error) {
       console.log("Erro ao carregar os dados:  " + error);
       Alert.alert(
@@ -119,94 +127,106 @@ export default function Carrinho({ navigation }) {
 
   return (
     <View style={estilosCarrinho.container}>
-      <Text
-        style={[
-          estilosCarrinho.text,
-          listaProdutosNoCarrinho.length <= 0 && estilosCarrinho.titulo,
-        ]}
-      >
-        Carrinho
-        {listaProdutosNoCarrinho.length >= 1 && (
-          <FontAwesome name="shopping-basket" color="#466060" size={24} />
-        )}
-      </Text>
-      {listaProdutosNoCarrinho.length <= 0 && (
-        <>
-          <Text style={[estilosCarrinho.text, estilosCarrinho.titulo]}>
-            Está Vazio
-          </Text>
-          <Pressable
-            onPress={() => navigation.navigate("Home")}
-            style={estilosCarrinho.button}
-          >
-            <Text style={[estilosCarrinho.buttonText, estilosCarrinho.titulo]}>
-              Ir comprar
-            </Text>
-          </Pressable>
-        </>
-      )}
-      {listaProdutosNoCarrinho.length >= 1 && (
-        <>
-          {listaProdutosNoCarrinho && (
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {listaProdutosNoCarrinho.map((itemProduto) => {
-                return (
-                  <View
-                    key={listaProdutosNoCarrinho.indexOf(itemProduto)}
-                    style={estilosCarrinho.cardDoCarrinho}
-                  >
-                    <ItemNoCarrinho
-                      produto={itemProduto.produto}
-                      valor={itemProduto.totalCompra}
-                      quantidade={itemProduto.quantidadeNoCarrinho}
-                    />
-                    <Pressable
-                      onPress={() =>
-                        excluirProduto(
-                          listaProdutosNoCarrinho.indexOf(itemProduto)
-                        )
-                      }
-                      style={estilosCarrinho.btnExcluir}
-                    >
-                      <Text>
-                        <FontAwesome6 name="trash" size={16} color="red" />
-                      </Text>
-                    </Pressable>
-                  </View>
-                );
-              })}
-            </ScrollView>
-          )}
-          <View style={estilosCarrinho.areaComprar}>
-            <View style={estilosCarrinho.areaInfos}>
-              <View style={[estilosCarrinho.areaInfos, { gap: 5 }]}>
-                <Text style={estilosCarrinho.txtInfos}>Quantidade:</Text>
-                <Text
-                  style={[
-                    estilosCarrinho.txtInfos,
-                    estilosCarrinho.txtDestaque,
-                  ]}
-                >
-                  {listaProdutosNoCarrinho.length}
-                </Text>
-              </View>
-              <View style={[estilosCarrinho.areaInfos, { gap: 5 }]}>
-                <Text style={estilosCarrinho.txtInfos}>Total:</Text>
-                <Text
-                  style={[
-                    estilosCarrinho.txtInfos,
-                    estilosCarrinho.txtDestaque,
-                  ]}
-                >
-                  {formataPreco(totalNoCarrinho)}
-                </Text>
-              </View>
-            </View>
+      {loading && <ActivityIndicator size="large" color="#466060" />}
 
-            <Pressable onPress={comprarProdutos} style={estilosCarrinho.button}>
-              <Text style={estilosCarrinho.buttonText}>Comprar</Text>
-            </Pressable>
-          </View>
+      {!loading && (
+        <>
+          <Text
+            style={[
+              estilosCarrinho.text,
+              listaProdutosNoCarrinho.length <= 0 && estilosCarrinho.titulo,
+            ]}
+          >
+            Carrinho
+            {listaProdutosNoCarrinho.length >= 1 && (
+              <FontAwesome name="shopping-basket" color="#466060" size={24} />
+            )}
+          </Text>
+          {listaProdutosNoCarrinho.length <= 0 && (
+            <>
+              <Text style={[estilosCarrinho.text, estilosCarrinho.titulo]}>
+                Está Vazio
+              </Text>
+              <Pressable
+                onPress={() => navigation.navigate("Home")}
+                style={estilosCarrinho.button}
+              >
+                <Text
+                  style={[estilosCarrinho.buttonText, estilosCarrinho.titulo]}
+                >
+                  Ir comprar
+                </Text>
+              </Pressable>
+            </>
+          )}
+          {listaProdutosNoCarrinho.length >= 1 && (
+            <>
+              {listaProdutosNoCarrinho && (
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  {listaProdutosNoCarrinho.map((itemProduto) => {
+                    return (
+                      <View
+                        key={listaProdutosNoCarrinho.indexOf(itemProduto)}
+                        style={estilosCarrinho.cardDoCarrinho}
+                      >
+                        <ItemNoCarrinho
+                          produto={itemProduto.produto}
+                          valor={itemProduto.totalCompra}
+                          quantidade={itemProduto.quantidadeNoCarrinho}
+                        />
+
+                        <Pressable
+                          onPress={() =>
+                            excluirProduto(
+                              listaProdutosNoCarrinho.indexOf(itemProduto)
+                            )
+                          }
+                          style={estilosCarrinho.btnExcluir}
+                        >
+                          <Text>
+                            <FontAwesome6 name="trash" size={16} color="red" />
+                          </Text>
+                        </Pressable>
+                      </View>
+                    );
+                  })}
+                </ScrollView>
+              )}
+              <View style={estilosCarrinho.areaComprar}>
+                <View style={estilosCarrinho.areaInfos}>
+                  <View style={[estilosCarrinho.areaInfos, { gap: 5 }]}>
+                    <Text style={estilosCarrinho.txtInfos}>Quantidade:</Text>
+                    <Text
+                      style={[
+                        estilosCarrinho.txtInfos,
+                        estilosCarrinho.txtDestaque,
+                      ]}
+                    >
+                      {listaProdutosNoCarrinho.length}
+                    </Text>
+                  </View>
+                  <View style={[estilosCarrinho.areaInfos, { gap: 5 }]}>
+                    <Text style={estilosCarrinho.txtInfos}>Total:</Text>
+                    <Text
+                      style={[
+                        estilosCarrinho.txtInfos,
+                        estilosCarrinho.txtDestaque,
+                      ]}
+                    >
+                      {formataPreco(totalNoCarrinho)}
+                    </Text>
+                  </View>
+                </View>
+
+                <Pressable
+                  onPress={comprarProdutos}
+                  style={estilosCarrinho.button}
+                >
+                  <Text style={estilosCarrinho.buttonText}>Comprar</Text>
+                </Pressable>
+              </View>
+            </>
+          )}
         </>
       )}
     </View>
