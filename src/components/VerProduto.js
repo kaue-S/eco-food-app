@@ -15,6 +15,7 @@ import arrayComerciante from "../api/arrayDeComerciante";
 import { api } from "../api/api_firebase";
 import { formataPreco } from "../functions/funcoes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 export default function VerProduto({ produto }) {
   const [quantidadeNoCarrinho, setQuantidadeNoCarrinho] = useState(0);
@@ -25,6 +26,8 @@ export default function VerProduto({ produto }) {
   const [btnPressionado, setBtnPressionado] = useState(false);
   const [comercianteDoProduto, setComercianteDoProduto] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function buscarComerciante() {
@@ -132,7 +135,13 @@ export default function VerProduto({ produto }) {
       );
 
       console.log(ListaCarrinho);
-      Alert.alert("Parabens", "Produto adicionado com sucesso");
+      Alert.alert("Parabens", "Produto adicionado com sucesso", [
+        {
+          text: "Poupei",
+          style: "default",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
       Vibration.vibrate(300);
 
       console.log(listaProdutos);

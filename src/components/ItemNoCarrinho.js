@@ -190,7 +190,7 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
                       <Image
                         resizeMode="contain"
                         style={estilosItemProduto.imagemComerciante}
-                        source={{ uri: `${comercianteDoProduto[0].imagemUrl}` }}
+                        source={{ uri: `${comercianteDoProduto[0].icone}` }}
                       />
                       <View>
                         <Text style={estilosItemProduto.textoValores}>
@@ -222,8 +222,8 @@ const estilosItemProduto = StyleSheet.create({
     borderRadius: 15,
   },
   imagemComerciante: {
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
   },
   botaoCancelar: {
     backgroundColor: "red",

@@ -13,7 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import VerProduto from "./VerProduto";
 import { formataPreco } from "../functions/funcoes";
 
-export default function Produto({ produto }) {
+export default function Produto({ produto, pesquisa }) {
   const [aparecerModal, setAparecerModal] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
 
