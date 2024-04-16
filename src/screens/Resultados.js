@@ -31,14 +31,29 @@ export default function Resultados({ route, navigation }) {
     useEffect(() => {
       async function buscarProduto() {
         try {
-          const filtro = arrayProdutos.filter(
+          const produtosApi = await api.get("/produtos.json");
+
+          //console.log("****************************");
+          //console.log(listaDeProdutos.data);
+
+          const listaDeProdutos = Object.keys(produtosApi.data).map(
+            (produtoNaLista) => {
+              return {
+                ...produtosApi.data[produtoNaLista],
+
+                id: produtoNaLista,
+              };
+            }
+          );
+
+          const filtro = listaDeProdutos.filter(
             (produto) =>
               produto.categoria
                 .toLowerCase()
                 .includes(letraPesquisada.toLowerCase()) ||
               produto.nome.toLowerCase().includes(letraPesquisada.toLowerCase())
           );
-          console.log(filtro);
+          //console.log(filtro);
 
           setResultados(filtro);
           setNomedaBusca(letraPesquisada);
@@ -54,7 +69,7 @@ export default function Resultados({ route, navigation }) {
 
       buscarProduto();
     }, [route.params]);
-    console.log(resultados);
+    //console.log(resultados);
     const carregandoComerciantes = useCallback(async () => {
       setLoading(true);
       try {
@@ -149,9 +164,9 @@ export default function Resultados({ route, navigation }) {
   };
 
   return (
-    <View style={estilosPesquisar.container}>
-      <ScrollView>
-        <View>
+    <View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={estilosPesquisar.container}>
           <Text style={estilosPesquisar.titulo}>Pesquisar</Text>
           <View style={estilosPesquisar.areaPesquisar}>
             <TextInput
@@ -210,22 +225,10 @@ export default function Resultados({ route, navigation }) {
                     <View style={estilosPesquisar.menu}>
                       {listaDeComerciantes.map((itemComercio) => {
                         return (
-                          <Pressable
+                          <CardComercio
                             key={itemComercio.id}
-                            style={{ width: 100, height: 100, margin: 12 }}
-                          >
-                            <Image
-                              resizeMode="contain"
-                              source={{ uri: `${itemComercio.icone}` }}
-                              style={{
-                                width: 50,
-                                height: 50,
-                                backgroundColor: "#a8cf45",
-                                borderRadius: 15,
-                              }}
-                            />
-                            <Text>{itemComercio.nome}</Text>
-                          </Pressable>
+                            comerciante={itemComercio}
+                          />
                         );
                       })}
                     </View>
@@ -261,13 +264,14 @@ const estilosPesquisar = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f0f0f0",
     marginTop: 10,
-    marginHorizontal: 15,
     padding: 12,
+    width: "100%",
   },
   viewProdutos: {
     justifyContent: "space-around",
     gap: 5,
     marginBottom: 18,
+    marginHorizontal: 15,
   },
   areaPesquisar: {
     flexDirection: "row",
