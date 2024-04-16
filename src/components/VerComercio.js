@@ -78,7 +78,7 @@ export default function VerComercio({ pgComercio }) {
 
         {!loading && (
           <>
-            <Text>Produtos</Text>
+            <Text style={estilosVerComercio.tituloAreaProdutos}>Produtos</Text>
             <View
               style={[
                 estilosVerComercio.containerProdutos,
@@ -139,5 +139,29 @@ const estilosVerComercio = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexWrap: "wrap",
+  },
+  tituloAreaProdutos: {
+    fontSize: 24,
+    fontFamily: "Comfortaa",
+    fontWeight: "500",
+    marginHorizontal: 15,
+    color: "#466060",
+  },
+  nomeDoLocal: {
+    fontSize: 18,
+    fontFamily: "Comfortaa",
+    fontWeight: "600",
+    color: "#7FA324",
+  },
+  local: {
+    fontFamily: "Barlow",
+    fontSize: 16,
+    fontWeight: "400",
+  },
+  tipo: {
+    color: "#EF7E06",
+    fontFamily: "Barlow",
+    fontSize: 16,
+    fontWeight: "400",
   },
 });

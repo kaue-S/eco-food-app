@@ -8,6 +8,7 @@ import {
   Alert,
   Vibration,
   ActivityIndicator,
+  Image,
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,6 +17,7 @@ import { formataPreco } from "../functions/funcoes";
 import { FontAwesome6, FontAwesome } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import Produto from "../components/Produto";
+import sacola from "../../assets/images/sacolaKraft.png";
 
 export default function Carrinho({ navigation }) {
   /* Criando lista de produtos no carrinho para poder 
@@ -24,6 +26,7 @@ export default function Carrinho({ navigation }) {
   const [listaProdutosNoCarrinho, setListaProdutosNoCarrinho] = useState([]);
   const [totalNoCarrinho, setTotalNoCarrinho] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [verModal, setVerModal] = useState(false);
 
   /* Função produtos_no_carrinho para fazer um fetch no AsynStorage */
   const produtos_no_carrinho = useCallback(async () => {
@@ -137,7 +140,7 @@ export default function Carrinho({ navigation }) {
               listaProdutosNoCarrinho.length <= 0 && estilosCarrinho.titulo,
             ]}
           >
-            Carrinho
+            Cesta
             {listaProdutosNoCarrinho.length >= 1 && (
               <FontAwesome name="shopping-basket" color="#466060" size={24} />
             )}
@@ -145,16 +148,20 @@ export default function Carrinho({ navigation }) {
           {listaProdutosNoCarrinho.length <= 0 && (
             <>
               <Text style={[estilosCarrinho.text, estilosCarrinho.titulo]}>
-                Está Vazio
+                Está Vazia
               </Text>
+              <Image
+                style={{ width: 200, height: 300, alignSelf: "center" }}
+                source={sacola}
+              />
               <Pressable
                 onPress={() => navigation.navigate("Home")}
-                style={estilosCarrinho.button}
+                style={[estilosCarrinho.button, { borderRadius: 15 }]}
               >
                 <Text
                   style={[estilosCarrinho.buttonText, estilosCarrinho.titulo]}
                 >
-                  Ir comprar
+                  Ir poupar
                 </Text>
               </Pressable>
             </>

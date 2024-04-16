@@ -139,7 +139,6 @@ export default function VerProduto({ produto }) {
         {
           text: "Poupei",
           style: "default",
-          onPress: () => navigation.goBack(),
         },
       ]);
       Vibration.vibrate(300);

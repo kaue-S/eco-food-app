@@ -21,6 +21,7 @@ import arrayFiltros from "../api/arrayDeFiltros";
 import { useFocusEffect } from "@react-navigation/native";
 import { api } from "../api/api_firebase";
 import CardComercio from "../components/CardComercio";
+import bannerHome from "../../assets/images/banner_HOME.png";
 
 export default function Home({ navigation }) {
   const [loading, setLoading] = useState(true);
@@ -105,6 +106,20 @@ export default function Home({ navigation }) {
               <FontAwesome name="search" color="#466060" size={18} />
             </Text>
           </Pressable>
+        </View>
+
+        <View>
+          <Image
+            resizeMode="Contain"
+            style={{
+              width: 300,
+              height: 100,
+              alignSelf: "center",
+              marginVertical: 16,
+              borderRadius: 15,
+            }}
+            source={bannerHome}
+          />
         </View>
 
         {loading && (

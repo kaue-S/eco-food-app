@@ -115,7 +115,7 @@ export default function Resultados({ route, navigation }) {
           "Erro ao carregar os dados tente novamente mais tarde"
         );
       }
-    }, [route.params]);
+    }, [resultados]);
 
     useFocusEffect(
       useCallback(() => {

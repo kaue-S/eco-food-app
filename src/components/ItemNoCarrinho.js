@@ -154,7 +154,7 @@ export default function ItemNoCarrinho({ produto, valor, quantidade }) {
               <View style={estilosItemProduto.fecharModal}>
                 <AntDesign name="closecircle" size={24} color="#466060" />
                 <Text style={estilosItemProduto.tituloModal}>
-                  Produto No Carrinho
+                  Produto Na Cesta
                 </Text>
                 <LerProdutoNoCarrinho
                   produto={produto}
@@ -216,6 +216,7 @@ const estilosItemProduto = StyleSheet.create({
     fontWeight: "600",
     fontSize: 24,
     color: "#466060",
+    marginVertical: 8,
   },
   tituloProduto: {
     fontWeight: "600",
