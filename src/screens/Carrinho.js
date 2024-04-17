@@ -9,14 +9,16 @@ import {
   Vibration,
   ActivityIndicator,
   Image,
+  Modal,
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ItemNoCarrinho from "../components/ItemNoCarrinho";
 import { formataPreco } from "../functions/funcoes";
-import { FontAwesome6, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome6, FontAwesome, AntDesign } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
-import Produto from "../components/Produto";
+import fraseCompra from "../../assets/images/tituloComprando.png";
+import lixo from "../../assets/images/lixoSalvandoMundo.png";
 import sacola from "../../assets/images/sacolaKraft.png";
 
 export default function Carrinho({ navigation }) {
@@ -54,6 +56,7 @@ export default function Carrinho({ navigation }) {
   nesta tela acionar a função produto_no_carrinho */
   useFocusEffect(
     useCallback(() => {
+      //setVerModal(false);
       produtos_no_carrinho();
     }, [produtos_no_carrinho])
   );
@@ -111,27 +114,16 @@ export default function Carrinho({ navigation }) {
   };
 
   const comprarProdutos = async () => {
-    Alert.alert(
-      "Finalizar Compra",
-      "Você vai impedir que este alimento vá para o lixo!",
-      [
-        { text: "cancelar", style: "cancel" },
-        {
-          text: "comprar",
-          style: "destructive",
-          onPress: async () => {
-            await AsyncStorage.removeItem("@listacarrinho");
+    setVerModal(!verModal);
+    Vibration.vibrate(100);
+  };
+  const finalizarCompra = async () => {
+    await AsyncStorage.removeItem("@listacarrinho");
 
-            setListaProdutosNoCarrinho([]);
-            Vibration.vibrate(300);
-            Alert.alert(
-              "EcoFood Legado",
-              "Nosso muito obrigado por você ajudar a combater o desperdício."
-            );
-          },
-        },
-      ]
-    );
+    setListaProdutosNoCarrinho([]);
+    navigation.navigate("Home");
+    Vibration.vibrate(300);
+
     Vibration.vibrate(300);
   };
 
@@ -239,6 +231,68 @@ export default function Carrinho({ navigation }) {
                   <Text style={estilosCarrinho.buttonText}>Comprar</Text>
                 </Pressable>
               </View>
+              <Modal visible={verModal}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  <View style={estilosCarrinho.viewModal}>
+                    <Pressable
+                      onPress={comprarProdutos}
+                      style={estilosCarrinho.BtnFecharModal}
+                    >
+                      <View style={estilosCarrinho.fecharModal}>
+                        <AntDesign
+                          name="closecircle"
+                          size={24}
+                          color="#466060"
+                        />
+                      </View>
+                    </Pressable>
+                    <View style={{ justifyContent: "space-evenly", gap: 8 }}>
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: "#f7f7f7",
+                          borderRadius: 15,
+                          marginVertical: 24,
+                        }}
+                      >
+                        <Image
+                          style={{
+                            width: 260,
+                            height: 100,
+                          }}
+                          source={fraseCompra}
+                        />
+
+                        <Image
+                          resizeMode="contain"
+                          style={{
+                            width: 160,
+                            height: 300,
+                          }}
+                          source={lixo}
+                        />
+                        <Text style={estilosCarrinho.tituloModal}>
+                          Você Impediu que esses alimentos fossem para o lixo
+                        </Text>
+                      </View>
+                      <Pressable
+                        onPress={finalizarCompra}
+                        style={[estilosCarrinho.button, { borderRadius: 15 }]}
+                      >
+                        <Text
+                          style={[
+                            estilosCarrinho.buttonText,
+                            { color: "#A8Cf45" },
+                          ]}
+                        >
+                          Quero poupar mais!
+                        </Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                </ScrollView>
+              </Modal>
             </>
           )}
         </>
@@ -311,5 +365,34 @@ const estilosCarrinho = StyleSheet.create({
     borderRadius: 15,
     fontSize: 18,
     fontWeight: "bold",
+  },
+  viewModal: {
+    padding: 15,
+
+    justifyContent: "center",
+  },
+  modal: {
+    flex: 1,
+    backgroundColor: "#f0f0f0",
+  },
+  viewBotoes: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  fecharModal: {
+    marginVertical: 8,
+    padding: 12,
+    justifyContent: "space-around",
+  },
+  BtnFecharModal: {
+    marginBottom: 18,
+  },
+  tituloModal: {
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#466060",
+    fontFamily: "Comfortaa",
+    fontSize: 24,
   },
 });

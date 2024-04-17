@@ -57,7 +57,7 @@ export default function Produto({ produto, pesquisa }) {
         <View style={estilosProdutos.areaInfos}>
           <Text style={estilosProdutos.nomeProduto}>{produto.nome}</Text>
           <Text style={estilosProdutos.nomePreco}>
-            Preço: {formataPreco(produto.preco)}{" "}
+            Preço: {formataPreco(produto.preco)}
           </Text>
         </View>
       </Pressable>

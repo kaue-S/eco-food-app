@@ -127,17 +127,20 @@ export default function PerfilUsuario() {
           flexDirection: "row",
           justifyContent: "space-evenly",
           width: "100%",
+          borderBottomWidth: 0.5,
+          padding: 8,
+          borderColor: "#466060",
         }}
       >
         <Pressable
-          style={[areaTela && { borderBottomWidth: 1, borderColor: "#ECA457" }]}
+          style={[areaTela && { borderBottomWidth: 2, borderColor: "#ECA457" }]}
           onPress={verFavoritos}
         >
           <Text style={styles.buttonTextS}>Favoritos</Text>
         </Pressable>
         <Pressable
           style={[
-            !areaTela && { borderBottomWidth: 1, borderColor: "#ECA457" },
+            !areaTela && { borderBottomWidth: 2, borderColor: "#ECA457" },
           ]}
           onPress={verConfig}
         >
@@ -185,27 +188,32 @@ export default function PerfilUsuario() {
             </>
           ) : (
             <>
+              <View style={styles.header}>
+                <Text style={styles.headerText}>Favoritos</Text>
+              </View>
               {listaDeFavoritos.length >= 1 ? (
-                <View style={styles.menuComercio}>
-                  {listaDeFavoritos.map((itemFavorito) => (
-                    <View key={itemFavorito.id}>
-                      <CardComercio comerciante={itemFavorito} />
-                      <Pressable
-                        style={styles.btnExcluir}
-                        onPress={() =>
-                          excluirFavorito(
-                            listaDeFavoritos.indexOf(itemFavorito)
-                          )
-                        }
-                      >
-                        <View style={styles.areaBtnExcluir}>
-                          <FontAwesome6 name="trash" size={16} color="red" />
-                          <Text style={styles.textoExcluir}>Excluir</Text>
-                        </View>
-                      </Pressable>
-                    </View>
-                  ))}
-                </View>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  <View style={styles.menuComercio}>
+                    {listaDeFavoritos.map((itemFavorito) => (
+                      <View key={itemFavorito.id}>
+                        <CardComercio comerciante={itemFavorito} />
+                        <Pressable
+                          style={styles.btnExcluir}
+                          onPress={() =>
+                            excluirFavorito(
+                              listaDeFavoritos.indexOf(itemFavorito)
+                            )
+                          }
+                        >
+                          <View style={styles.areaBtnExcluir}>
+                            <FontAwesome6 name="trash" size={16} color="red" />
+                            <Text style={styles.textoExcluir}>Excluir</Text>
+                          </View>
+                        </Pressable>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
               ) : (
                 <View
                   style={{

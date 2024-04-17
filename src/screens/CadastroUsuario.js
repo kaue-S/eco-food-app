@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -88,6 +89,12 @@ export default function CadastroUsuario({ navigation }) {
     <SafeContainer>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.formulario}>
+          <View style={styles.imagem}>
+            <Image
+              style={styles.logo}
+              source={require("../../assets/images/banner_CADASTRO.png")}
+            />
+          </View>
           <View>
             <Text style={styles.tituloInput}>Nome:</Text>
             <View style={styles.campoCadastro}>
@@ -229,5 +236,16 @@ const styles = StyleSheet.create({
     fontFamily: "Comfortaa",
     fontWeight: "500",
     paddingBottom: 5,
+  },
+
+  logo: {
+    width: 360,
+    height: 200,
+    resizeMode: "contain",
+    borderRadius: 20,
+  },
+
+  imagem: {
+    alignItems: "center",
   },
 });

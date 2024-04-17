@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Pressable,
   Image,
+  ScrollView,
 } from "react-native";
 import SafeContainer from "../components/SafeContainer";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
@@ -44,55 +45,63 @@ export default function LoginUsuario({ navigation }) {
 
   return (
     <SafeContainer>
-      <View style={styles.imagem}>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/images/LogoECOFOOD.png")}
-        />
-      </View>
-      <View style={styles.formulario}>
-        <View>
-          <Text style={styles.tituloInput}>E-mail:</Text>
-          <View style={styles.campoLogin}>
-            <TextInput
-              placeholder="E-mail"
-              style={styles.input}
-              keyboardType="email-address"
-              onChangeText={(valor) => setEmail(valor)}
-            />
-          </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.imagem}>
+          <Image
+            style={styles.logo}
+            source={require("../../assets/images/banner_PERFIL.png")}
+          />
+        </View>
+        <View style={styles.formulario}>
           <View>
-            <Text style={styles.tituloInput}>Senha:</Text>
+            <Text style={styles.tituloInput}>E-mail:</Text>
             <View style={styles.campoLogin}>
               <TextInput
-                placeholder="Senha"
+                placeholder="E-mail"
                 style={styles.input}
-                keyboardType="default"
-                secureTextEntry
-                onChangeText={(valor) => setSenha(valor)}
+                keyboardType="email-address"
+                onChangeText={(valor) => setEmail(valor)}
               />
             </View>
+            <View>
+              <Text style={styles.tituloInput}>Senha:</Text>
+              <View style={styles.campoLogin}>
+                <TextInput
+                  placeholder="Senha"
+                  style={styles.input}
+                  keyboardType="default"
+                  secureTextEntry
+                  onChangeText={(valor) => setSenha(valor)}
+                />
+              </View>
+            </View>
+          </View>
+          <Pressable
+            style={styles.botaoLogin}
+            onPress={Logar}
+            activeOpacity={0.8}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator size="small" color="#466060" />
+            ) : (
+              <Text style={styles.textoBotao}>Login</Text>
+            )}
+          </Pressable>
+          <Pressable
+            style={styles.esqueciSenha}
+            onPress={() => navigation.navigate("EsqueciSenha")}
+          >
+            <Text style={styles.textoSenha}>Esqueci minha senha!</Text>
+          </Pressable>
+          <View style={styles.imagem}>
+            <Image
+              style={styles.logo}
+              source={require("../../assets/images/banner_PERFIL2.png")}
+            />
           </View>
         </View>
-        <Pressable
-          style={styles.botaoLogin}
-          onPress={Logar}
-          activeOpacity={0.8}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator size="small" color="#466060" />
-          ) : (
-            <Text style={styles.textoBotao}>Login</Text>
-          )}
-        </Pressable>
-        <Pressable
-          style={styles.esqueciSenha}
-          onPress={() => navigation.navigate("EsqueciSenha")}
-        >
-          <Text style={styles.textoSenha}>Esqueci minha senha!</Text>
-        </Pressable>
-      </View>
+      </ScrollView>
     </SafeContainer>
   );
 }
@@ -104,9 +113,10 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 300,
-    height: 300,
+    width: 360,
+    height: 200,
     resizeMode: "contain",
+    borderRadius: 20,
   },
 
   imagem: {
