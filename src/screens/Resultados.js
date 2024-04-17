@@ -124,14 +124,6 @@ export default function Resultados({ route, navigation }) {
 
     console.log(listaDeComerciantes);
   } else {
-    useEffect(() => {
-      async function buscarProduto() {
-        console.log("vazio");
-      }
-
-      buscarProduto();
-    }, []);
-
     const carregandoComerciantes = useCallback(async () => {
       try {
         const respostaApi = await api.get("/comerciantes.json");
