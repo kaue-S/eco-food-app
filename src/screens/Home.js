@@ -110,7 +110,7 @@ export default function Home({ navigation }) {
 
         <View>
           <Image
-            resizeMode="Contain"
+            resizemode="contain"
             style={{
               width: 300,
               height: 100,
@@ -224,8 +224,6 @@ const estilosHome = StyleSheet.create({
     marginVertical: 12,
     marginLeft: 20,
     marginTop: 2,
-    
-    
   },
   text: {
     fontSize: 19,
@@ -233,7 +231,6 @@ const estilosHome = StyleSheet.create({
     marginVertical: 16,
     color: "#466060",
     fontFamily: "Comfortaa",
-    
   },
   button: {
     backgroundColor: "blue",

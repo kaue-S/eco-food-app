@@ -290,6 +290,9 @@ export default function VerProduto({ produto }) {
             <View style={estilosAddProdutos.maisDetalhes}>
               <ScrollView>
                 <Text style={estilosAddProdutos.textoDescricao}>
+                  Cartegoria: {produto.categoria}
+                </Text>
+                <Text style={estilosAddProdutos.textoDescricao}>
                   Contém: {produto.descricao}
                 </Text>
               </ScrollView>

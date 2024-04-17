@@ -58,6 +58,7 @@ const estilosIconeComercio = StyleSheet.create({
   btnComercio: {
     backgroundColor: "#a8cf45",
     borderRadius: 15,
+    elevation: 2,
   },
   conteudoBtn: {
     alignItems: "center",

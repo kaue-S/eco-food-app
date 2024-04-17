@@ -107,7 +107,6 @@ export default function Resultados({ route, navigation }) {
             ? comerciantes
             : comerciantesFiltrados
         );
-        setLoading(false);
       } catch (error) {
         console.log("Erro ao carregar os dados:  " + error);
         Alert.alert(
@@ -265,7 +264,7 @@ export default function Resultados({ route, navigation }) {
                   <Text
                     style={[estilosPesquisar.titulo, { marginVertical: 8 }]}
                   >
-                    Alguns Comercios:
+                    Comércios:
                   </Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View style={estilosPesquisar.menu}>
@@ -281,8 +280,10 @@ export default function Resultados({ route, navigation }) {
                   </ScrollView>
                 </>
               ) : (
-                <>
-                  <Text style={estilosPesquisar.titulo}>Alguns Comercios</Text>
+                <View style={{ alignSelf: "center", justifyContent: "center" }}>
+                  <Text style={estilosPesquisar.titulo}>
+                    Comércios Parceiros:
+                  </Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View style={estilosPesquisar.menu}>
                       {listaDeComerciantes.map((itemComercio) => {
@@ -295,7 +296,7 @@ export default function Resultados({ route, navigation }) {
                       })}
                     </View>
                   </ScrollView>
-                </>
+                </View>
               )}
             </>
           )}

@@ -1,19 +1,25 @@
 import {
   ActivityIndicator,
+  Alert,
   Image,
   ImageBackground,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  Vibration,
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Produto from "./Produto";
 import { api } from "../api/api_firebase";
+import { Entypo } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function VerComercio({ pgComercio }) {
   const [loading, setLoading] = useState(true);
   const [produtosDoComerciante, setProdutosDoComerciante] = useState([]);
+  const [favoritado, setFavoritado] = useState(false);
 
   useEffect(() => {
     async function buscarProduto() {
@@ -36,6 +42,18 @@ export default function VerComercio({ pgComercio }) {
         const verificaProdutos = listaDeProdutos.filter(
           (produto) => produto.mercado_id === pgComercio.id
         );
+        const ListaDeFavorito = await AsyncStorage.getItem("@listafavoritos");
+        console.log(ListaDeFavorito);
+
+        const listaDeFav = ListaDeFavorito ? JSON.parse(ListaDeFavorito) : [];
+
+        const jaFavoritou = listaDeFav.some((comercioNaLista) => {
+          return comercioNaLista.id === pgComercio.id;
+        });
+
+        if (jaFavoritou) {
+          setFavoritado(true);
+        }
 
         setProdutosDoComerciante(verificaProdutos);
         setLoading(false);
@@ -51,6 +69,41 @@ export default function VerComercio({ pgComercio }) {
     buscarProduto();
   }, []);
 
+  const favoritarMercado = async () => {
+    try {
+      const ListaDeFavorito = await AsyncStorage.getItem("@listafavoritos");
+      console.log(ListaDeFavorito);
+
+      const listaDeFav = ListaDeFavorito ? JSON.parse(ListaDeFavorito) : [];
+
+      const jaFavoritou = listaDeFav.some((comercioNaLista) => {
+        return comercioNaLista.id === pgComercio.id;
+      });
+
+      if (jaFavoritou) {
+        Alert.alert("Opa", "Parece que você ja favoritou esse comércio");
+        Vibration.vibrate(300);
+        setFavoritado(true);
+        return;
+      }
+
+      listaDeFav.push(pgComercio);
+
+      await AsyncStorage.setItem("@listafavoritos", JSON.stringify(listaDeFav));
+
+      Alert.alert("Parabéns", "Comerciante Favoritado com sucesso", [
+        {
+          text: "Amei",
+          style: "default",
+        },
+      ]);
+      Vibration.vibrate(300);
+      setFavoritado(true);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={estilosVerComercio.container}>
@@ -58,7 +111,29 @@ export default function VerComercio({ pgComercio }) {
           resizeMode="contain"
           style={estilosVerComercio.banner}
           source={{ uri: `${pgComercio.imagemUrl}` }}
-        />
+        >
+          <View style={estilosVerComercio.areaFavoritar}>
+            <Pressable
+              style={[
+                estilosVerComercio.btnFavoritar,
+                {
+                  borderColor: !favoritado ? "#f7f7f7" : "#A8Cf45",
+                  backgroundColor: favoritado && "#A8Cf45",
+                },
+              ]}
+              onPress={favoritarMercado}
+            >
+              <View style={[estilosVerComercio.areaBtnFavoritar]}>
+                <Entypo
+                  name="heart"
+                  size={24}
+                  color={!favoritado ? "#f7f7f7" : "#EF7E06"}
+                />
+              </View>
+            </Pressable>
+          </View>
+        </ImageBackground>
+
         <View style={estilosVerComercio.containerRow}>
           <Image
             style={estilosVerComercio.icone}
@@ -74,6 +149,7 @@ export default function VerComercio({ pgComercio }) {
             <Text style={estilosVerComercio.local}>{pgComercio.endereco}</Text>
           </View>
         </View>
+
         {loading && <ActivityIndicator size="large" color="#466060" />}
 
         {!loading && (
@@ -160,6 +236,28 @@ const estilosVerComercio = StyleSheet.create({
   },
   tipo: {
     color: "#EF7E06",
+    fontFamily: "Barlow",
+    fontSize: 16,
+    fontWeight: "400",
+  },
+  areaFavoritar: {
+    justifyContent: "center",
+    alignItems: "flex-end",
+    margin: 15,
+  },
+  btnFavoritar: {
+    padding: 8,
+    borderWidth: 3,
+    borderRadius: 15,
+    borderColor: "#466060",
+  },
+  areaBtnFavoritar: {
+    flexDirection: "row",
+    gap: 8,
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  textoBtn: {
     fontFamily: "Barlow",
     fontSize: 16,
     fontWeight: "400",
