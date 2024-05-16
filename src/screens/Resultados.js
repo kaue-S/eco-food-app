@@ -142,7 +142,6 @@ export default function Resultados({ route, navigation }) {
 
         setListaDeComerciantes(comerciantes);
         setResultados([]);
-        setLoading(false);
       } catch (error) {
         console.log("Erro ao carregar os dados:  " + error);
         Alert.alert(
@@ -155,6 +154,7 @@ export default function Resultados({ route, navigation }) {
     useFocusEffect(
       useCallback(() => {
         carregandoComerciantes();
+        setLoading(false);
       }, [carregandoComerciantes])
     );
   }
